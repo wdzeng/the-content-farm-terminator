@@ -1,0 +1,61 @@
+body {
+    font-family: "serif", "Linotype Palatino", "Times New Roman", "sans-serif"
+}
+
+main {
+    margin-bottom: 60px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h2 {
+    color: gainsboro;
+}
+
+#manager {
+    border-collapse: collapse;
+    font-family: "sans-serif";
+    margin-bottom: 15px;
+}
+
+#manager thead {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+#manager tr {
+    height: 36px;
+}
+
+#manager td {
+    border: solid gainsboro 1px;
+    padding: 4px 8px;
+}
+
+#manager input[type=checkbox] {
+    height: 20px;
+    width: 20px;
+}
+
+#manager td:first-child {
+    text-align: center;
+}
+
+#pageBar {
+    width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+span.pageBlock {
+    width: 20px;
+    display: inline-block;
+    font-family: "sans-serif";
+    padding: 2px 4px;
+}
+
+span.pageBlock:hover {
+    background-color: azure;
+}
