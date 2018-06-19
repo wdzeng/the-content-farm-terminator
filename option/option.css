@@ -1,23 +1,38 @@
+input[type=checkbox] {
+    margin: 6px 1px 0px 5px;
+}
+
 body {
-    font-family: "serif", "Linotype Palatino", "Times New Roman", "sans-serif"
+    font-family: "serif", "Linotype Palatino", "Times New Roman", "sans-serif";
+    background-color: #F0F0F0;
+    padding: 10px;
+    font-size: 18px;
 }
 
 main {
-    margin-bottom: 60px;
+    margin: 10px auto 0;
+    background-color: white;
+    width: 650px;
+    padding: 30px;
+    border-radius: 5px;
 }
 
 h1, h2 {
     text-align: center;
+    margin: 0px;
 }
 
 h2 {
     color: gainsboro;
 }
 
+#title {
+    margin-bottom: 20px;
+}
+
 #manager {
     border-collapse: collapse;
-    font-family: "sans-serif";
-    margin-bottom: 15px;
+    font-family: "monospace", "Consolas", "Courier New";
 }
 
 #manager thead {
@@ -26,36 +41,65 @@ h2 {
 }
 
 #manager tr {
-    height: 36px;
+    height: 52px;
 }
 
 #manager td {
     border: solid gainsboro 1px;
-    padding: 4px 8px;
+    padding: 10px 10px;
 }
 
 #manager input[type=checkbox] {
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
 }
 
 #manager td:first-child {
     text-align: center;
 }
 
-#pageBar {
-    width: 400px;
+#bottom {
+    width: 500px;
+    height: 40px;
     margin: auto;
-    text-align: center;
+    margin-top: 30px;
+}
+
+#pageBar {
+    width: 50%;
+    float: left;
+    visibility: hidden;
+}
+
+#selection {
+    width: 50%;
+    float: right;
+    text-align: right;
 }
 
 span.pageBlock {
-    width: 20px;
+    text-align: center;
     display: inline-block;
+    width: 20px;
     font-family: "sans-serif";
-    padding: 2px 4px;
+    padding: 2px 8px;
+    margin: 0px 1px;
+    border-bottom: 6px solid transparent;
 }
 
-span.pageBlock:hover {
-    background-color: azure;
+button.selectionBlock{
+    display: inline-block;
+    font-family: "sans-serif";
+    padding: 2px 8px;
+}
+
+span.pageBlock:hover:not(.currentPage) {
+    border-color: wheat;
+    cursor: pointer;
+}
+
+span.currentPage {
+    border-color: red;
+    font-weight: 1000;
+    cursor: default;
 }
