@@ -5,19 +5,32 @@
     <meta charset="utf-8">
     <title>Content Farm Blocker</title>
     <link rel="stylesheet" type="text/css" href="popup.css">
+    <script src="/js/farm-list.js" defer></script>
     <script src="popup.js" defer></script>
 </head>
 
 <body>
-    <p>
-        <textarea rows="6"></textarea>
-    </p>
-    <p>
-        <button id="add">Add</button>
-        <span style="margin-right: 3px"></span>
-        <button id="delete">Delete</button>
-    </p>
-
+    <div>
+        <textarea rows="6" placeholder="Key in host names here (ex. kknews.cc)"></textarea>
+    </div>
+    <div>
+        <div style="float: left;">
+            <button id="add" class="clickable">Add</button>
+            <span class="space"></span>
+            <button id="delete" class="clickable">Delete</button>
+            <span class="space"></span>
+            <button id="showAll" class="clickable">Show All</button>
+        </div>
+        <div style="float: right">
+            <a href="https://github.com/Paraball/Content-Farm-Blocker" target="_blank">
+                <img src="/images/github.png" class="clickable" title="Github Page" />
+            </a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div>
+        <span id="hint"></span>
+    </div>
 </body>
 
 </html>

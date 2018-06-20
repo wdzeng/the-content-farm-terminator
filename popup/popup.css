@@ -1,11 +1,36 @@
+body {
+    margin: 0px;
+    padding: 6px;
+}
+
 textarea {
-    font-size: 22px;
+    font-size: 18px;
     font-family: "monospace", "Consolas", "Courier new", "sans-serif";
     width: 30em;
+    border-radius: 3px;
+    padding: 0.5em;
 }
 
 button {
     font-size: 16px;
-    padding: 6px 15px;
+    padding: 0 15px;
     font-family: "sans-serif";
+}
+
+.clickable {
+    height: 40px;
+}
+
+span.space {
+    margin-right: 4px;
+}
+
+#hint {
+    font-size: 16px;
+    font-family: "sans-serif";
+    padding-top: 8px;
+}
+
+body > div {
+    margin: 8px;
 }
