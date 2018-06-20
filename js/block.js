@@ -1,42 +1,52 @@
 (function () {
 
-    chrome.storage.sync.get('farmList', function (data) {
+    removeFarmResults();
+    addHints();
 
-        let searchList = document.querySelectorAll('div.g');
-        let farmList = data['farmList'];
-        let removed = deleteFarms(searchList, farmList);
-        if (removed) {
-            checkMargin();
-        }
-    });
+    function addHints() {
+        let $hint = $('<a href="#">Block</a>').css('margin-left', '4px').click(function () {
 
-    //Delete farm reulst from search page
-    function deleteFarms(searchList, farmList) {
+            const host = $('h3 a', $(this).parents('div.g'))[0].hostname;
 
-        let removed = false;
-        const len = searchList.length;
-        let link = null;
-        let host = null;
+            //Hide blocks
+            $('div.g').filter(function (index) {
+                return $('h3 a', this)[0].hostname === host;
+            }).fadeOut(800, function () {
+                checkMargin();
+            });
 
-        for (let i = 0; i < len; i++) {
-            link = searchList[i].querySelector('h3 a');
-            if (!link) {
-                continue;
-            }
-            host = link.hostname;
-            if (farmList.includes(host)) {
-                hide(searchList[i]);
-                removed = true;
-            }
-        }
+            //Add to farm list
+            getFarmList(function (data) {
+                if (!data.includes(host)) {
+                    data.unshift(host);
+                    setFarmList(data);
+                }
+            })
 
-        return removed;
+            return false;
+        });
+        let $locs = $('cite.iUh30:visible').parent();
+        $locs.append($hint);
     }
 
-    //Hide (delete) an element from page
-    function hide(element) {
-        element.style.display = 'none';
-        //element.parentNode.removeChild(element); //This throws an incomprehensible error
+    function removeFarmResults() {
+
+        getFarmList(function (farmList) {
+
+            $('div.g').filter(function (index) {
+                return farmList.includes($('h3 a', this)[0].hostname);
+            }).hide(0, function () {
+                checkMargin();
+            });
+
+            /*
+            let searchList = document.querySelectorAll('div.g');
+            let removed = deleteFarms(searchList, farmList);
+            if (removed) {
+                checkMargin();
+            }
+            */
+        })
     }
 
     //Remove extra margin between image box and the top bar
@@ -48,5 +58,4 @@
         }
         return false;
     }
-
 })();
