@@ -1,6 +1,6 @@
 {
-    "name": "Content Farm Blocker",
-    "version": "1.0",
+    "name": "__MSG_extName__",
+    "version": "0.1",
     "description": "Block the content farms from Google Search.",
     "manifest_version": 2,
     "author": "Paraball",
