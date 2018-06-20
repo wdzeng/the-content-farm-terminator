@@ -1,0 +1,85 @@
+{
+    "extName": {
+        "message": "內容農場終結者"
+    },
+    "areaPlaceHolder": {
+        "message": "輸入內容農場網域（例如 kknews.cc）"
+    },
+    "addButton": {
+        "message": "新增所有網域"
+    },
+    "deleteButton": {
+        "message": "刪除所有網域"
+    },
+    "showAllButton": {
+        "message": "列出所有網域"
+    },
+    "errorHostNames": {
+        "message": "沒有有效網域，沒有任何變更"
+    },
+    "oneAdded": {
+        "message": "已新增 \"$HOST$\"",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlyOneAdded": {
+        "message": "只有新增 \"$HOST$\"",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "allAdded": {
+        "message": "已新增所有網域（$COUNT$ 個）",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlySomeAdded": {
+        "message": "僅新增 $COUNT$ 個網域",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "nothingChanged": {
+        "message": "沒有任何變更"
+    },
+    "oneRemoved": {
+        "message": "已刪除 \"$HOST$\"",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlyOneRemoved": {
+        "message": "只有一個網域被刪除"
+    },
+    "allRemoved": {
+        "message": "已刪除所有網域（$COUNT$ 個）",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlySomeRemoved": {
+        "message": "僅刪除 $COUNT$' 個網域",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "emptyList": {
+        "message": "目前沒有任何網域"
+    }
+}

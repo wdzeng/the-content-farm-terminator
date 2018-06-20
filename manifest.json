@@ -44,5 +44,6 @@
             "64": "/images/icon64.png",
             "128": "/images/icon128.png"
         }
-    }
+    },
+    "default_locale": "en"
 }

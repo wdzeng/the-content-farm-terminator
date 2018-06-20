@@ -1,14 +1,22 @@
 (function () {
 
-    const hint = document.querySelector('#hint');
-    const area = document.querySelector('textarea');
+    const hint = document.getElementById('hint');
+    const area = document.getElementById('area');
+    setAreaPlaceHolderAndButtonHtml();
     setADDListener();
     setDELETEListener();
     setSHOWALLListener();
 
+    function setAreaPlaceHolderAndButtonHtml() {
+        area.placeholder = chrome.i18n.getMessage('areaPlaceHolder');
+        document.getElementById('add').innerHTML = chrome.i18n.getMessage('addButton');
+        document.getElementById('delete').innerHTML = chrome.i18n.getMessage('deleteButton');
+        document.getElementById('showAll').innerHTML = chrome.i18n.getMessage('showAllButton');
+    }
+
     function setADDListener() {
 
-        document.querySelector('#add').onclick = function () {
+        document.getElementById('add').onclick = function () {
 
             let added = getList(getText());
             const len = added.length;
@@ -17,8 +25,9 @@
             if (!len) {
                 if (isAreaEmpty()) {
                     hint.innerHTML = '';
-                } else {
-                    hint.innerHTML = 'Invalid host names. Nothing is changed.';
+                }
+                else {
+                    hint.innerHTML = chrome.i18n.getMessage('errorHostNames');
                 }
                 return;
             }
@@ -38,21 +47,22 @@
 
                     if (count == 1) {
                         if (nRow == 1) {
-                            hint.innerHTML = '"' + origin[0] + '" has been added into farm list.';
-                        } else {
-                            hint.innerHTML = 'Only "' + origin[0] + '" was added into farm list.';
+                            hint.innerHTML = chrome.i18n.getMessage('oneAdded', origin[0]);
+                        }
+                        else {
+                            hint.innerHTML = chrome.i18n.getMessage('onlyOneAdded', origin[0]);
                         }
                     }
                     else if (count == nRow) {
-                        hint.innerHTML = 'All items (' + count + ') have been added into farm list.';
+                        hint.innerHTML = chrome.i18n.getMessage('addAdded', count.toString);
                     }
                     else {
-                        hint.innerHTML = 'Only ' + count + ' items were added into farm list.';
+                        hint.innerHTML = chrome.i18n.getMessage('onlySomeAdded', count.toString());
                     }
 
                 } else {
 
-                    hint.innerHTML = 'Nothing changed.';
+                    hint.innerHTML = chrome.i18n.getMessage('nothingChanged');
                 }
             });
         }
@@ -60,17 +70,18 @@
 
     function setDELETEListener() {
 
-        document.querySelector('#delete').onclick = function () {
+        document.getElementById('delete').onclick = function () {
 
             let removed = getList(getText());
             const len = removed.length;
             const nRow = getRowCount();
-            
+
             if (!len) {
                 if (isAreaEmpty()) {
                     hint.innerHTML = '';
-                } else {
-                    hint.innerHTML = 'Invalid host names. Nothing is changed.';
+                }
+                else {
+                    hint.innerHTML = chrome.i18n.getMessage('errorHostNames');
                 }
                 return;
             }
@@ -90,28 +101,29 @@
 
                     if (count == 1) {
                         if (nRow == 1) {
-                            hint.innerHTML = '"' + removed[0] + '" has been removed from farm list.';
-                        } else {
-                            hint.innerHTML = 'Only 1 item was removed from farm list.';
+                            hint.innerHTML = chrome.i18n.getMessage('oneRemoved', removed[0]);
+                        }
+                        else {
+                            hint.innerHTML = chrome.i18n.getMessage('onlyOneRemoved');
                         }
                     }
                     else if (count == nRow) {
-                        hint.innerHTML = 'All items (' + count + ') have been removed from farm list.';
+                        hint.innerHTML = chrome.i18n.getMessage('allRemoved', count.toString());
                     }
                     else {
-                        hint.innerHTML = 'Only ' + count + ' items were removed from farm list.';
+                        hint.innerHTML = chrome.i18n.getMessage('onlySomeRemoved', count.toString());
                     }
 
-                } else {
-
-                    hint.innerHTML = 'Nothing changed.';
+                }
+                else {
+                    hint.innerHTML = chrome.i18n.getMessage('nothingChanged');
                 }
             });
         }
     }
 
     function setSHOWALLListener() {
-        document.querySelector('#showAll').onclick = function () {
+        document.getElementById('showAll').onclick = function () {
             getFarmList(function (data) {
                 hint.innerHTML = '';
                 if (data.length) {
@@ -119,7 +131,7 @@
                     let text = context + '\n' + data.join('\n') + '\n' + context;
                     area.value = text;
                 } else {
-                    area.value = '---- Empty List ----';
+                    area.value = '---- ' + chrome.i18n.getMessage('emptyList') + ' ----';
                 }
             });
         }
@@ -151,7 +163,7 @@
     //Get the text of text area
     function getText() {
 
-        return document.querySelector('textarea').value;
+        return area.value;
     }
 
     //Get the list of host name from text area
@@ -203,7 +215,7 @@
         return area.value.trim().length == 0;
     }
 
-    function getRowCount(){
+    function getRowCount() {
 
         return area.value.trim().split('\n').length;
     }
