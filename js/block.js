@@ -4,7 +4,7 @@
     addHints();
 
     function addHints() {
-        let $hint = $('<a href="#">Block</a>').css('margin-left', '4px').click(function () {
+        let $hint = $('<a href="#">' + chrome.i18n.getMessage('block') + '</a>').css('margin-left', '4px').click(function () {
 
             const host = $('h3 a', $(this).parents('div.g'))[0].hostname;
 
