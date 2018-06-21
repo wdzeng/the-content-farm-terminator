@@ -10,7 +10,11 @@
 
             //Hide blocks
             $('div.g').filter(function (index) {
-                return $('h3 a', this)[0].hostname === host;
+                let anchors = $('h3 a', this);
+                if (!anchors.length) {
+                    return false;
+                }
+                return anchors[0].hostname === host;
             }).fadeOut(800, function () {
                 checkMargin();
             });
@@ -34,7 +38,11 @@
         getFarmList(function (farmList) {
 
             $('div.g').filter(function (index) {
-                return farmList.includes($('h3 a', this)[0].hostname);
+                let anchors = $('h3 a', this);
+                if (!anchors.length) {
+                    return false;
+                }
+                return farmList.includes(anchors[0].hostname);
             }).hide(0, function () {
                 checkMargin();
             });

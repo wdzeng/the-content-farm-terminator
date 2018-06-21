@@ -84,5 +84,8 @@
     },
     "block": {
         "message": "block"
+    },
+    "description": {
+        "message": "Block the content farms from Google Search."
     }
 }
