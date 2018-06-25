@@ -37,7 +37,7 @@
 
                 let count = 0;
                 for (let i = 0; i < len; i++) {
-                    count += addHost(origin, added[i]);
+                    count += addHostIntoArray(origin, added[i]);
                 }
 
                 if (count) {
@@ -91,7 +91,7 @@
 
                 let count = 0;
                 for (let i = 0; i < len; i++) {
-                    count += removeHost(origin, removed[i]);
+                    count += removeHostFromArray(origin, removed[i]);
                 }
 
                 if (count) {
@@ -138,7 +138,7 @@
     }
 
     //Add a host into array
-    function addHost(array, host) {
+    function addHostIntoArray(array, host) {
 
         if (array.indexOf(host) == -1) {
             array.unshift(host);
@@ -149,7 +149,7 @@
     }
 
     //Remove a host from array
-    function removeHost(array, host) {
+    function removeHostFromArray(array, host) {
 
         let index = array.indexOf(host);
         if (index != -1) {
