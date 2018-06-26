@@ -6,7 +6,7 @@
     addHints();
 
     function addHints() {
-        let $hint = $('<a href="#">' + chrome.i18n.getMessage('block') + '</a>').css('margin-left', '4px').click(function () {
+        let $hint = $('<a class="TbwUpd fl" href="#" style="color: #808080;">' + chrome.i18n.getMessage('block') + '</a>').css('margin-left', '4px').click(function () {
             
             const host = $('h3 a', $(this).parents('div.g'))[0].hostname;
 
@@ -23,7 +23,7 @@
             $sec.fadeOut(800, function () {
                 let $redoText = $('<div class="g s"></div>')
                     .append($('<span>' + chrome.i18n.getMessage('redoText', host) + '</span>'));
-                let $redoBtn = $('<a style="margin-left: 0.5em">' + chrome.i18n.getMessage('redo') + '</a>').click(function () {
+                let $redoBtn = $('<a href="#">' + chrome.i18n.getMessage('redo') + '</a>').click(function () {
                     $redoText.hide(0);
                     $sec.fadeIn(800);
                     removeHost(host);
