@@ -1,3 +1,5 @@
+"use strict";
+
 (function () {
 
     const hint = document.getElementById('hint');

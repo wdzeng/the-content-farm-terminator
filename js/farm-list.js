@@ -1,3 +1,5 @@
+"use strict";
+
 function getDefaultFarmList() {
     return [];
 }
@@ -15,28 +17,28 @@ function setFarmList(array, callback) {
 }
 
 function addHost(host, callback) {
-    return getFarmList(function (data) {
+    getFarmList(function (data) {
         if (!data.includes(host)) {
             data.unshift(host);
-            setFarmList(data, callback);
-            return true;
+            setFarmList(data, function(data){
+                callback && callback(true);
+            });
         } else {
-            callback && callback();
-            return false;
+            callback && callback(false);
         }
     })
 }
 
 function removeHost(host, callback) {
-    return getFarmList(function (data) {
+    getFarmList(function (data) {
         let index = data.indexOf(host);
         if (index != -1) {
             data.splice(index, 1);
-            setFarmList(data, callback);
-            return true;
+            setFarmList(data, function(data){
+                callback && callback(true);
+            });
         } else {
-            callback && callback();
-            return false;
+            callback && callback(false);
         }
     });
 }
