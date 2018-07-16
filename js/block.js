@@ -45,8 +45,7 @@
         if ($hint.length) {
 
             //Reset this hint
-            $hint.off('click')
-                .html(text)
+            $hint.html(text)
                 .one('click', function () {
                     onClick($(this).parents('div.g'));
                     return false;
@@ -56,8 +55,7 @@
 
         //IF no hint exists
         //Create new hint
-        $hint = $('<a class="TbwUpd fl cfb-hint" href="#"></a>')
-            .html(text)
+        $hint = $('<a class="TbwUpd fl cfb-hint" href="#">' + text + '</a>')
             .css({
                 'margin-left': '4px',
                 'color': '#808080'
@@ -82,7 +80,7 @@
 
         //IF this result is visible
         if (type || $results.is(':visible')) {
-            addResultHint($results, '解除封鎖' /*TODO*/, function ($redone) {
+            addResultHint($results, '解除封鎖', function ($redone) {
 
                 let hostName = getHostName($redone);
                 let $unblocked = getResults(hostName);
@@ -103,11 +101,10 @@
 
             //Create redo text
             let $redoText = $('<div class="g s ' + clzName + '"></div>')
-                .append($('<span></span>').html(chrome.i18n.getMessage('redoText', hostName)));
+                .append($('<span>' + chrome.i18n.getMessage('redoText', hostName) + '</span>'));
 
             //Create redo button
-            let $redoBtn = $('<a href="#"></a>')
-                .html(chrome.i18n.getMessage('redo'))
+            let $redoBtn = $('<a href="#">' + chrome.i18n.getMessage('redo') + '</a>')
                 .one('click', function () {
                     $('div.' + clzName).remove();
                     let $unblocked = $('div.g').filter(function () {
@@ -169,15 +166,11 @@
     function addShowAllHint(nHidden) {
 
         let $div = $('<div id="tempShow"></div>');
-
         let $text = $('<p></p>')
             .css('font-style', 'italic')
-            .html(chrome.i18n.getMessage('showAll', nHidden.toString()));
-
-        let $btn = $('<a href="#"></a>')
-            .html(chrome.i18n.getMessage('showAllHint'))
+        let $btn = $('<a href="#">' + chrome.i18n.getMessage('showAllHint') + '</a>')
             .css('text-decoration', 'none')
-            .click(function () {
+            .one('click', function () {
                 templyShowAll();
                 $div.hide(0);
                 return false;
@@ -190,7 +183,9 @@
 
         $('#extrares').append($div);
         $div.append($text);
-        $text.append($btn);
+        $text.append(chrome.i18n.getMessage('showAll1', nHidden.toString()))
+            .append($btn)
+            .append(chrome.i18n.getMessage('showAll2'));
     }
 
     //Show farm results temporarily
