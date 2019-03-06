@@ -1,0 +1,35 @@
+body {
+    margin: 0px;
+    padding: 4px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+body>div {
+    margin: 4px;
+}
+
+textarea {
+    font-family: consolas, sans-serif;
+    width: 30em;
+    border-radius: 3px;
+    padding: 0.5em;
+    line-height: 1.5;
+}
+
+button {
+    font-family: sans-serif;
+    padding: 0 0.5em;
+}
+
+.clickable {
+    height: 24px;
+}
+
+span.space {
+    margin-right: 4px;
+}
+
+#hint {
+    padding-top: 8px;
+}

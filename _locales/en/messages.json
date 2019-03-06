@@ -3,16 +3,16 @@
         "message": "Content Farm Blocker"
     },
     "areaPlaceHolder": {
-        "message": "Key in host names here (ex. kknews.cc)"
+        "message": "Key in host names here (ex. kknews.cc).\nAuthor: Hyperbola"
     },
-    "addButton": {
+    "btnAdd": {
         "message": "Add"
     },
-    "deleteButton": {
+    "btnDelete": {
         "message": "Delete"
     },
-    "showAllButton": {
-        "message": "Show All"
+    "btnView": {
+        "message": "View"
     },
     "errorHostNames": {
         "message": "Invalid host names. Nothing is changed."
@@ -100,7 +100,7 @@
         "message": "Redo"
     },
     "showAll1": {
-        "message": "Content Farm Blocker has hidden $COUNT$ results from this page.<br />You can choose to",
+        "message": "Content Farm Blocker has hidden $COUNT$ results from this page.<br />You can choose to ",
         "placeholders": {
             "COUNT": {
                 "content": "$1"

@@ -1,10 +1,11 @@
 "use strict";
 
-//Set default farm-list on first installed
+// Set default farm list on first installed.
 chrome.runtime.onInstalled.addListener(function () {
-    getFarmList(function (data) {
+    DB.getFarmList(function (data) {
+        // If the user first installed this extension, add default farm list.
         if (data === undefined) {
-            setFarmList(getDefaultFarmList());
+            DB.setFarmList(DB.getDefaultFarmList());
         }
     });
 });
