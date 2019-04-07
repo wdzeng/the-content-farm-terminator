@@ -93,7 +93,7 @@ function onViewAll() {
         }
         else {
             const fix = `# ${list.length}`;
-            msg = `${fix}\n${list.join("\n")}\n${fix}`;
+            msg = `${fix}\n${list.map(h => `${PASS} ${h}`).join("\n")}\n${fix}`;
         }
         eArea.value = msg;
     });
