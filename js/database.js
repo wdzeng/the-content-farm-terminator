@@ -1,7 +1,7 @@
 "use strict";
 
 const VAR_NAME = "farmList";
-const SIZE_NAME = "farmListSize"
+const SIZE_NAME = "farmListSize";
 const MAX_LIST_SIZE = 400;
 const db = chrome.storage.sync;
 const ceil = Math.ceil;
