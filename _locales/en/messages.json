@@ -1,119 +1,62 @@
 {
     "extName": {
-        "message": "Content Farm Blocker"
-    },
-    "areaPlaceHolder": {
-        "message": "Key in host names here (ex. kknews.cc).\nAuthor: Hyperbola"
-    },
-    "btnAdd": {
-        "message": "Add"
-    },
-    "btnDelete": {
-        "message": "Delete"
-    },
-    "btnView": {
-        "message": "View"
-    },
-    "errorHostNames": {
-        "message": "Invalid host names. Nothing is changed."
-    },
-    "oneAdded": {
-        "message": "\"$HOST$\" has been added into the farm list.",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlyOneAdded": {
-        "message": "Only \"$HOST$\" was added into the farm list.",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "allAdded": {
-        "message": "All items ($COUNT$) have been added into the farm list.",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlySomeAdded": {
-        "message": "Only $COUNT$ items were added into the farm list.",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "nothingChanged": {
-        "message": "Nothing changed."
-    },
-    "oneRemoved": {
-        "message": "\"$HOST$\" has been removed from the farm list.",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlyOneRemoved": {
-        "message": "Only 1 item was removed from the farm list."
-    },
-    "allRemoved": {
-        "message": "All items ($COUNT$) have been removed from the farm list.",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlySomeRemoved": {
-        "message": "Only $COUNT$ items were removed from the farm list.",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "emptyList": {
-        "message": "Empty List"
-    },
-    "block": {
-        "message": "Block This Domain"
+        "message": "The Content Farm Terminator!"
     },
     "description": {
-        "message": "Block the content farms from Google Search."
+        "message": "Automatically hide content farms on Google Search pages 😀"
     },
-    "redoText": {
-        "message": "Domain \"$HOST$\" has been blocked.",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
+    "areaPlaceHolder": {
+        "message": "# Key in host names here. One host or url per line. For example:\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n# Then click \"Terminate!\". Isn't it easy?\n# Author: Hyperbola"
     },
-    "redo": {
+    "btnAdd": {
+        "message": "Terminate!"
+    },
+    "btnDelete": {
+        "message": "Unterminate"
+    },
+    "btnView": {
+        "message": "View all"
+    },
+    "emptyList": {
+        "message": "Nothing terminated 😂"
+    },
+    "terminateHint": {
+        "message": "Terminate this domain!"
+    },
+    "onTerminatedMsg": {
+        "message": "Domain \"$1\" has been terminated."
+    },
+    "redoHint": {
         "message": "Redo"
     },
-    "showAll1": {
-        "message": "Content Farm Blocker has hidden $COUNT$ results from this page.<br />You can choose to ",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
+    "templyShowAllMsg": {
+        "message": "The Content Farm Terminator! has hidden $1 results from this page.<br />You can choose to#."
     },
-    "showAllHint": {
+    "templyShowAllHint": {
         "message": "show these results temporarily"
     },
-    "showAll2": {
-        "message": "."
+    "unTerminatedHint": {
+        "message": "unTerminatedHint"
     },
-    "unblock": {
-        "message": "unblock"
+    "nothingChanged": {
+        "message": "Uhh ... Nothing changed"
+    },
+    "allAdded": {
+        "message": "All terminated successfuly!"
+    },
+    "notAllAdded": {
+        "message": "$1 websites are termiated, but some problem remains ..."
+    },
+    "allRemoved": {
+        "message": "All unterminated successfully."
+    },
+    "notAllRemoved": {
+        "message": "$1 websites are unterminated, but some problem remains ..."
+    },
+    "addActionHint": {
+        "message": "$1 Terminated successfuly<br>$2 Already terminated or dulplicated in the list<br>$3 Illegal domain or URL"
+    },
+    "removeActionHint": {
+        "message": "$1 Unterminated successfuly<br>$2 Websites originally not termiated, or dulplicated in the list<br>$3 Illegal domain or URL"
     }
 }

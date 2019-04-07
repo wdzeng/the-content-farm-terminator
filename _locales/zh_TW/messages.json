@@ -2,118 +2,61 @@
     "extName": {
         "message": "內容農場終結者"
     },
+    "description": {
+        "message": "這個套件可以自動讓你在 Google 搜尋頁面直接隱藏農場網站喔 😀"
+    },
     "areaPlaceHolder": {
-        "message": "輸入內容農場網域或整列網址，一行一個。例如：\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n作者：雙曲線"
+        "message": "# 輸入內容農場網域或整列網址，一行一個。# 例如：\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n# 然後按「終結農場」就可以喔。很簡單吧！\n# 作者：雙曲線"
     },
     "btnAdd": {
-        "message": "新增"
+        "message": "終結農場"
     },
     "btnDelete": {
-        "message": "刪除"
+        "message": "刪除農場"
     },
     "btnView": {
-        "message": "檢視"
-    },
-    "errorHostNames": {
-        "message": "找不到有效網域，清單未變更。"
-    },
-    "oneAdded": {
-        "message": "已新增 \"$HOST$\" 。",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlyOneAdded": {
-        "message": "有些網域已存在或無效，所以只有新增 \"$HOST$\" 。",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "allAdded": {
-        "message": "已新增所有網域共 $COUNT$ 個。",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlySomeAdded": {
-        "message": "有些網域已存在或無效，所以只新增 $COUNT$ 個網域。",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "nothingChanged": {
-        "message": "沒有任何變更"
-    },
-    "oneRemoved": {
-        "message": "已刪除 \"$HOST$\" 。",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlyOneRemoved": {
-        "message": "有些網域不在清單中或無效，所以只有刪除一個網域。"
-    },
-    "allRemoved": {
-        "message": "已刪除所有網域共 $COUNT$ 個",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
-    },
-    "onlySomeRemoved": {
-        "message": "有些網域不在清單中或無效，所以只有刪除 $COUNT$ 個網域。",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
+        "message": "看看所有農場網站"
     },
     "emptyList": {
-        "message": "清單是空的。輸入你要擋下的網站，按新增就可以囉 :)"
+        "message": "沒有被擋的農場網站喔 😂"
     },
-    "block": {
+    "terminateHint": {
         "message": "終結內容農場"
     },
-    "description": {
-        "message": "在 Google 搜尋頁面直接終結內容農場"
+    "onTerminatedMsg": {
+        "message": "\"$1\" 被終結喇！"
     },
-    "redoText": {
-        "message": "已封鎖 \"$HOST$\" 。",
-        "placeholders": {
-            "HOST": {
-                "content": "$1"
-            }
-        }
-    },
-    "redo": {
+    "redoHint": {
         "message": "取消封鎖"
     },
-    "showAll1": {
-        "message": "內容農場終結者封鎖了 $COUNT$ 個搜尋結果。<br />您也可以選擇",
-        "placeholders": {
-            "COUNT": {
-                "content": "$1"
-            }
-        }
+    "templyShowAllMsg": {
+        "message": "內容農場終結者隱藏了 $1 個搜尋結果。<br />您也可以選擇#。"
     },
-    "showAllHint": {
+    "templyShowAllHint": {
         "message": "暫時顯示"
     },
-    "showAll2": {
-        "message": "。"
-    },
-    "unblock": {
+    "unTerminatedHint": {
         "message": "解除封鎖"
+    },
+    "nothingChanged": {
+        "message": "額 ... 沒有任何改變"
+    },
+    "allAdded": {
+        "message": "全部終結喇！"
+    },
+    "notAllAdded": {
+        "message": "$1 個網站被終結了喔，但好像有些狀況 !?"
+    },
+    "allRemoved": {
+        "message": "解除封鎖成功！"
+    },
+    "notAllRemoved": {
+        "message": "已經取消 $1 個網站了，但好像有些狀況 !?"
+    },
+    "addActionHint": {
+        "message": "$1 成功終結\n$2 重複了\n$3 不合法的網址"
+    },
+    "removeActionHint": {
+        "message": "$1 成功刪除\n$2 本來就沒被擋，或在清單裡重複了\n$3 不合法的網址"
     }
 }

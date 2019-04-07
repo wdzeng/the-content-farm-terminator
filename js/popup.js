@@ -1,182 +1,133 @@
 "use strict";
 
+const PASS = "😀";
+const DULPLICATED = "🤨";
+const FOUL = "😭";
 const __ = chrome.i18n.getMessage;
+const eArea = document.getElementById("txtArea");
+const eAdd = document.getElementById("btnAdd");
+const eDelete = document.getElementById("btnDelete");
+const eViewAll = document.getElementById("btnViewAll");
+const eHint = document.getElementById("btnHint");
 
-const eHint = document.getElementById('hint');
-const eArea = document.getElementById('area');
-const eAdd = document.getElementById('add');
-const eDelete = document.getElementById('delete');
-const eView = document.getElementById('view');
+eArea.placeholder = __("areaPlaceHolder");
+eAdd.innerHTML = __("btnAdd");
+eDelete.innerHTML = __("btnDelete");
+eViewAll.innerHTML = __("btnView");
+eAdd.onclick = onAdd;
+eDelete.onclick = onDelete;
+eViewAll.onclick = onViewAll;
 
-eArea.placeholder = __('areaPlaceHolder');
-eAdd.innerHTML = __('btnAdd');
-eDelete.innerHTML = __('btnDelete');
-eView.innerHTML = __('btnView');
-eAdd.onclick = onAddListener;
-eDelete.onclick = onDeleteListener;
-eView.onclick = onViewListener;
-
-function onAddListener() {
-
-    const candidates = list(text());
-    const nCandidates = candidates.length;
-    if (nCandidates === 0) {
-        if (isAreaEmpty())
-            eHint.innerHTML = '';
-        else
-            eHint.innerHTML = __('errorHostNames');
-        return;
-    }
-
-    DB.getFarmList(farmList => {
-        console.log(farmList);
-        const nRow = getRowCount();
-        let nAdded = 0;
-        for (let i = 0; i < nCandidates; i++)
-            nAdded += addHostIntoArray(farmList, candidates[i]);
-        const resMsg = getOnAddMessage(nAdded, nRow, candidates);
-        if (nAdded === 0) {
-            eHint.innerHTML = resMsg;
-            return;
-        }
-        DB.setFarmList(farmList, () => eHint.innerHTML = resMsg);
+function actionResult(hostArray, passedHosts) {
+    return hostArray.map((e, i) => {
+        if (e === null) return FOUL;
+        if (!passedHosts.includes(e)) return DULPLICATED;
+        return hostArray.indexOf(e) === i ? PASS : DULPLICATED;
     });
 }
 
-function getOnAddMessage(nAdded, nRow, candidates) {
-    if (nAdded === 0) {
-        return __('nothingChanged');
-    }
-    if (nAdded === 1) {
-        if (nRow == 1)
-            return __('oneAdded', candidates[0]);
-        else
-            return __('onlyOneAdded', candidates[0]);
-    }
-    if (nAdded === nRow) {
-        return __('allAdded', nAdded.toString());
-    }
-    return __('onlySomeAdded', nAdded.toString());
-}
+function onAdd() {
 
-function onDeleteListener() {
+    if (isAreaEmpty()) return;
 
-    const candidates = list(text());
-    const nCandidates = candidates.length;
-    if (nCandidates === 0) {
-        if (isAreaEmpty())
-            eHint.innerHTML = '';
-        else
-            eHint.innerHTML = __('errorHostNames');
-    }
-    else {
-        DB.getFarmList(farmList => {
-            const nRow = getRowCount();
-            let nRemoved = 0;
-            for (let i = 0; i < nCandidates; i++)
-                nRemoved += removeHostFromArray(farmList, candidates[i]);
-            const resMsg = getOnDeleteMessage(nRemoved, nRow, candidates);
-            if (nRemoved === 0) {
-                eHint.innerHTML = resMsg;
-                return;
-            }
-            DB.setFarmList(farmList, () => eHint.innerHTML = resMsg);
-        });
-    }
-}
+    let lines = eArea.value.split("\n").map(str => str.trim()).filter(validLine);
+    if (lines.length === 0) return;
 
-function getOnDeleteMessage(nDeleted, nRow, candidates) {
-    if (nDeleted === 1) {
-        if (nRow === 1)
-            return __('oneRemoved', candidates[0]);
-        else
-            return __('onlyOneRemoved');
-    }
-    if (nDeleted === nRow) {
-        return __('allRemoved', nDeleted.toString());
-    }
-    return __('onlySomeRemoved', nDeleted.toString());
-}
-
-function onViewListener() {
-    eHint.innerHTML = ''; // Clear the hint area.
-    DB.getFarmList(farmList => {
-        let msg;
-        if (farmList.length === 0) {
-            msg = `# ${__('emptyList')}`;
+    let hosts = lines.map(toHost);
+    let validHosts = hosts.filter(h => h);
+    DB.addHosts(validHosts, function (added) {
+        let resultList = actionResult(hosts, added);
+        let str = lines.map((line, index) => `${resultList[index]} ${line}`).join("\n");
+        let nPass = resultList.filter(e => e === PASS).length;
+        let title;
+        if (nPass === lines.length) {
+            title = __("allAdded", nPass.toString());
+        }
+        else if (nPass === 0) {
+            title = __("nothingChanged");
         }
         else {
-            const fix = `# ${farmList.length}`;
-            msg = `${fix}\n${farmList.join('\n')}\n${fix}`;
+            title = __("notAllAdded", nPass.toString());
+        }
+        let hint = __("addActionHint", [PASS, DULPLICATED, FOUL]);
+        eArea.value = str;
+        eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`;
+    });
+}
+
+function onDelete() {
+
+    if (isAreaEmpty()) return;
+
+    let lines = eArea.value.split("\n").map(str => str.trim()).filter(validLine);
+    if (lines.length === 0) return;
+
+    let hosts = lines.map(toHost);
+    let validHosts = hosts.filter(h => h);
+    DB.removeHosts(validHosts, function (removed) {
+        let resultList = actionResult(hosts, removed);
+        let str = lines.map((line, index) => `${resultList[index]} ${line}`).join("\n");
+        let nPass = resultList.filter(e => e === PASS).length;
+        let title
+        if (nPass === lines.length) {
+            title = __("allRemoved", nPass.toString());
+        }
+        else if (nPass === 0) {
+            title = __("nothingChanged");
+        }
+        else {
+            title = __("notAllRemoved", nPass.toString());
+        }
+        let hint = __("removeActionHint", [PASS, DULPLICATED, FOUL]);
+        eArea.value = str;
+        eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`;
+    });
+}
+
+function onViewAll() {
+    DB.getFarmList(list => {
+        list = list.reverse();
+        let msg;
+        if (list.length === 0) {
+            msg = `# ${__("emptyList")}`;
+        }
+        else {
+            const fix = `# ${list.length}`;
+            msg = `${fix}\n${list.join("\n")}\n${fix}`;
         }
         eArea.value = msg;
     });
 }
 
-// Add a host into array.
-function addHostIntoArray(array, host) {
-    if (array.includes(host)) {
-        return 0;
-    }
-    array.unshift(host);
-    return 1;
-}
-
-// Remove a host from array.
-function removeHostFromArray(array, host) {
-    const index = array.indexOf(host);
-    if (index === -1) {
-        return 0;
-    }
-    array.splice(index, 1);
-    return 1;
-}
-
-// Get the text of text area.
-function text() {
-    return eArea.value;
-}
-
-// Get the list of host name from text area.
-function list(text) {
-    return text.split('\n')
-        .map(line => getHost(line))
-        .filter(host => host)
-}
-
 // Get the host name from a text, or return null if this string is invalid
-const getHost = (function () {
+const toHost = (function () {
 
-    const regUrl = new RegExp('http[s]{0,1}:\\/\\/.*?\\/.*');
-    const regHost = new RegExp('^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)+([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$');
+    const REG_URL = new RegExp("http[s]{0,1}:\\/\\/.*?\\/.*");
+    const REG_HOST = new RegExp("^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)+([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$");
 
     return function (text) {
         text = text && text.trim().toLowerCase();
-        // Check text and trim it
-        if (!text) {
-            return null;
-        }
         let host;
-        if (regUrl.test(text)) {
-            let fromIndex = text.indexOf('://') + 3;
-            let toIndex = text.indexOf('/', fromIndex);
+        if (REG_URL.test(text)) {
+            let fromIndex = text.indexOf("://") + 3;
+            let toIndex = text.indexOf("/", fromIndex);
             host = text.substring(fromIndex, toIndex);
         }
         else {
             host = text;
         }
-        return regHost.test(host) ? host : null;
+        return REG_HOST.test(host) ? host : null;
     }
 })();
 
-function isAreaEmpty() {
-    return eArea.value.trim().length == 0;
+function validLine(string) {
+    return string.length
+        && !string.startsWith("#")
+        && !string.startsWith(PASS)
+        && !string.startsWith(DULPLICATED)
+        && !string.startsWith(FOUL);
 }
 
-function getRowCount() {
-    return eArea.value
-        .trim()
-        .split('\n')
-        .filter(line => !line.startsWith("#"))
-        .length;
+function isAreaEmpty() {
+    return eArea.value.split("\n").filter(validLine).length === 0;
 }

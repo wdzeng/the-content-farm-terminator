@@ -45,40 +45,40 @@ function hideFarmResultItems() {
  */
 function setHintForSearchItem($srItem, text, onClick) {
     // Get the hint anchor of these results and check if it exists.
-    let $hint = $('a.cfb-hint', $srItem);
+    let $hint = $("a.cfb-hint", $srItem);
     // If a hint exists, update this hint.
     if ($hint.length) {
         $hint.html(text)
-            .one('click', function () {
-                onClick($(this).parents('div.g'));
+            .one("click", function () {
+                onClick($(this).parents("div.g"));
                 return false;
             });
         return;
     }
     // If a hint does not exits, create a new hint.
-    let hintCss = { 'margin-left': '4px', 'color': '#808080' };
+    let hintCss = { "margin-left": "4px", "color": "#808080" };
     let hintOnClickListener = function () {
-        onClick($(this).parents('div.g'));
+        onClick($(this).parents("div.g"));
         return false;
     }
     $hint = $(`<a class="fl cfb-hint" href="#">${text}</a>`)
         .css(hintCss)
-        .one('click', hintOnClickListener);
+        .one("click", hintOnClickListener);
     // Add these hints to DOM tree
-    $('div.r', $srItem).append($hint);
+    $("div.r", $srItem).append($hint);
 }
 
 /**
  * Add "Block this domain" hint to some results.
  */
 function addBlockHint($srItems) {
-    setHintForSearchItem($srItems, __('block'), $srItemBlocked => {
+    setHintForSearchItem($srItems, __("terminateHint"), $srItemBlocked => {
         const hostName = getHostName($srItemBlocked);
         // Get other search items linking to same host and hide them all.
         let $blockCandidates = getResults(hostName);
         $blockCandidates.fadeOut(TIME_FADING, one(() => addRedoHint($blockCandidates)));
         // Add this host to blocking list
-        DB.addHost(hostName);
+        DB.addHosts(hostName);
         return false;
     });
 }
@@ -87,12 +87,12 @@ function addBlockHint($srItems) {
  * Add "Unblock this domain" hint to some results.
  */
 function addUnblockHint($srItems) {
-    setHintForSearchItem($srItems, __('unblock'), $srItemUnblocked => {
+    setHintForSearchItem($srItems, __("unTerminatedHint"), $srItemUnblocked => {
         let hostName = getHostName($srItemUnblocked);
         let $unblocked = getResults(hostName);
-        $('h3.LC20lb', $unblocked).removeClass('farm-title');
+        $("h3.LC20lb", $unblocked).removeClass("farm-title");
         addBlockHint($unblocked);
-        DB.removeHost(hostName);
+        DB.removeHosts(hostName);
     })
 }
 
@@ -103,17 +103,18 @@ function addRedoHint($srItems) {
 
     // Check host name
     const hostName = getHostName($srItems);
-    const clzName = `cfb-${hostName.replace(/\./g, '-')}`
+    const clzName = `cfb-${hostName.replace(/\./g, "-")}`
     // Create redo text
-    let $txtRedo = $(`<div class="g s ${clzName}"></div>`).append($(`<span>${__('redoText', hostName)}</span>`))
+    let $txtRedo = $(`<div class="g s ${clzName}"></div>`)
+        .append($(`<span style="margin-right: 8px;">${__("onTerminatedMsg", hostName)}</span>`))
     // Create redo button
-    let $btnRedo = $(`<a href="#">${__('redo')}</a>`)
-        .one('click', () => {
+    let $btnRedo = $(`<a href="#">${__("redoHint")}</a>`)
+        .one("click", () => {
             $(`div.${clzName}`).remove();
-            let $unblocked = $('div.g').filter((i, e) => getHostName($(e)) === hostName);
+            let $unblocked = $("div.g").filter((i, e) => getHostName($(e)) === hostName);
             addBlockHint($unblocked);
             $unblocked.fadeIn(TIME_FADING);
-            DB.removeHost(hostName);
+            DB.removeHosts(hostName);
             return false;
         });
     // Add button to DOM tree
@@ -125,7 +126,7 @@ function addRedoHint($srItems) {
  * Get the host an result item linking to.
  */
 function getHostName($srItem) {
-    let $anchor = $('div.r>a:first', $srItem);
+    let $anchor = $("div.r>a:first", $srItem);
     if ($anchor.length) return $anchor[0].hostname;
     return null;
 }
@@ -134,9 +135,9 @@ function getHostName($srItem) {
  * Remove extra margin between image box and the top bar so that the webpage looks pretty.
  */
 function updateTopMargin() {
-    let first = document.querySelector('div.g:not([style*="display: none"])');
-    if (first && first.id === 'imagebox_bigimages') {
-        first.firstChild.style.marginTop = '0';
+    let first = document.querySelector("div.g:not([style*='display: none'])");
+    if (first && first.id === "imagebox_bigimages") {
+        first.firstChild.style.marginTop = "0";
         return true;
     }
     return false;
@@ -147,25 +148,23 @@ function updateTopMargin() {
  * @param {Number} nHidden Number of search results hidden. 
  */
 function addShowAllOnceHint(nHidden) {
-    let $div = $('<div id="tempShow"></div>');
-    let $txt = $('<p></p>').css('font-style', 'italic');
-    let $btn = $(`<a href="#">${__('showAllHint')}</a>`)
-        .css('text-decoration', 'none')
-        .one('click', function () {
+    let $div = $("<div id='tempShow'></div>");
+    let $txt = $("<p></p>").css("font-style", "italic");
+    let $btn = $(`<a href="#">${__("templyShowAllHint")}</a>`)
+        .css("text-decoration", "none")
+        .one("click", function () {
             showFarmsOnce();
             $div.hide(0);
             return false;
         })
         .hover(
-            () => $btn.css('text-decoration', 'underline'),
-            () => $btn.css('text-decoration', 'none')
+            () => $btn.css("text-decoration", "underline"),
+            () => $btn.css("text-decoration", "none")
         );
-
-    $txt.append(__('showAll1', nHidden.toString()))
-        .append($btn)
-        .append(__('showAll2'));
+    let hintMsg = __("templyShowAllMsg").split("#");
+    $txt.append(hintMsg[0]).append($btn).append(hintMsg[1]);
     $div.append($txt);
-    $('#extrares').append($div);
+    $("#extrares").append($div);
 }
 
 /**
@@ -174,7 +173,7 @@ function addShowAllOnceHint(nHidden) {
 function showFarmsOnce() {
     let $farmResults = getResults(null, false);
     regFarmTitleClz();
-    $farmResults.find('h3.LC20lb').addClass('farm-title');
+    $farmResults.find("h3.LC20lb").addClass("farm-title");
     addUnblockHint($farmResults);
     $farmResults.fadeIn(TIME_FADING);
 }
@@ -203,10 +202,10 @@ function getResults(host, visibility) {
  * Declare a style tag into the DOM for the top margin adjustment.
  */
 function regFarmTitleClz() {
-    let css = '.farm-title { font-style: italic; color: #CC0000; }';
+    let css = ".farm-title { font-style: italic; color: #CC0000; }";
     let head = document.head;
-    let style = document.createElement('style');
-    style.type = 'text/css';
+    let style = document.createElement("style");
+    style.type = "text/css";
     style.appendChild(document.createTextNode(css));
     head.appendChild(style);
 }
