@@ -23,20 +23,20 @@
     "terminateHint": {
         "message": "Terminate this domain!"
     },
-    "onTerminatedMsg": {
+    "unTerminatedMsg": {
         "message": "Domain \"$1\" has been terminated."
     },
     "redoHint": {
         "message": "Redo"
     },
     "templyShowAllMsg": {
-        "message": "The Content Farm Terminator! has hidden $1 results from this page.<br />You can choose to#."
+        "message": "The Content Farm Terminator! has hidden $1 results from this page.<br />You can choose to #."
     },
     "templyShowAllHint": {
         "message": "show these results temporarily"
     },
     "unTerminatedHint": {
-        "message": "unTerminatedHint"
+        "message": "Unterminiate"
     },
     "nothingChanged": {
         "message": "Uhh ... Nothing changed"

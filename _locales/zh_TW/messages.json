@@ -23,7 +23,7 @@
     "terminateHint": {
         "message": "終結內容農場"
     },
-    "onTerminatedMsg": {
+    "unTerminatedMsg": {
         "message": "\"$1\" 被終結喇！"
     },
     "redoHint": {
