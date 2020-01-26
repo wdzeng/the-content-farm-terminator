@@ -26,8 +26,8 @@
     "unTerminatedMsg": {
         "message": "\"$1\" 被終結喇！"
     },
-    "redoHint": {
-        "message": "取消封鎖"
+    "undoHint": {
+        "message": "解除封鎖"
     },
     "templyShowAllMsg": {
         "message": "內容農場終結者隱藏了 $1 個搜尋結果。<br />您也可以選擇#。"

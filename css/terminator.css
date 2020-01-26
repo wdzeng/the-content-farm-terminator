@@ -1,0 +1,29 @@
+#cft-temp-show {
+    font-style: italic;
+}
+
+a.cft {
+    text-decoration: none !important;
+}
+
+a.cft:hover {
+    text-decoration: underline !important;
+}
+
+a.cft-hint {
+    margin-left: 4px;
+    color: #808080 !important;
+}
+
+.cft-undo-hint {
+    margin-right: 8px;
+}
+
+span+a.cft-hint {
+    margin-left: 0px;
+}
+
+.cft-farm-title {
+    font-style: italic;
+    color: #CC0000;
+}
