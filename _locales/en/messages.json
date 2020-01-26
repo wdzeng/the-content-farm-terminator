@@ -30,7 +30,7 @@
         "message": "Undo"
     },
     "templyShowAllMsg": {
-        "message": "The Content Farm Terminator! has hidden $1 results from this page.<br />You can choose to #."
+        "message": "The Content Farm Terminator! has hidden $1 result(s) from this page.<br />However, you can #."
     },
     "templyShowAllHint": {
         "message": "show these results temporarily"
@@ -42,21 +42,21 @@
         "message": "Uhh ... Nothing changed"
     },
     "allAdded": {
-        "message": "All terminated successfuly!"
+        "message": "All terminated successfuly."
     },
     "notAllAdded": {
-        "message": "$1 websites are termiated, but some problem remains ..."
+        "message": "Websites termiated: $1; still some problems remain."
     },
     "allRemoved": {
         "message": "All unterminated successfully."
     },
     "notAllRemoved": {
-        "message": "$1 websites are unterminated, but some problem remains ..."
+        "message": "Websites unterminated: $1; still some problems remain."
     },
     "addActionHint": {
-        "message": "$1 Terminated successfuly<br>$2 Already terminated or dulplicated in the list<br>$3 Illegal domain or URL"
+        "message": "$1 Terminated successfuly<br />$2 Already terminated or dulplicated in the list<br />$3 Illegal domain or URL"
     },
     "removeActionHint": {
-        "message": "$1 Unterminated successfuly<br>$2 Websites originally not termiated, or dulplicated in the list<br>$3 Illegal domain or URL"
+        "message": "$1 Unterminated successfuly<br />$2 Originally not termiated, or dulplicated in the list<br />$3 Illegal domain or URL"
     }
 }

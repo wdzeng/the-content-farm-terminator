@@ -38,7 +38,7 @@ function hideFarmResultItems() {
             // If the first result is removed, add some margin to make the page pretty.
             updateTopMargin();
             // Add a hint which allows user to show these results temporarily.
-            addShowAllOnceHint();
+            addShowAllOnceHint(nFarmResult);
         }
         // After farm results are hidden, add "block this domain" hint to the remaining results.
         addBlockHint(getResults(null, true));
@@ -115,7 +115,7 @@ function addUnblockHint($srItems) {
     setHintForSearchItem($srItems, __("unTerminatedHint"), $srItemUnblocked => {
         let hostName = getHostName($srItemUnblocked);
         let $unblocked = getResults(hostName);
-        $("h3.LC20lb", $unblocked).removeClass("farm-title");
+        $("h3.LC20lb", $unblocked).removeClass("cft-farm-title");
         addBlockHint($unblocked);
         DB.removeHosts(hostName);
     })
@@ -133,7 +133,7 @@ function addUndoHint($srItems) {
     let $txtUndo = $(`<div class="g s ${clzName}"></div>`)
         .append($(`<span class="cft-undo-hint">${__("unTerminatedMsg", hostName)}</span>`))
     // Create undo button
-    let $btnUndo = $(`<a href="#">${__("undoHint")}</a>`)
+    let $btnUndo = $(`<a href="#" class="cft">${__("undoHint")}</a>`)
         .one("click", () => {
             $(`div.${clzName}`).remove();
             let $unblocked = $("div.g").filter((i, e) => getHostName($(e)) === hostName);
@@ -172,7 +172,7 @@ function updateTopMargin() {
  * Add hint which allows user to show farm results temporarily
  * @param {Number} nHidden Number of search results hidden. 
  */
-function addShowAllOnceHint() {
+function addShowAllOnceHint(nHidden) {
     let $div = $("<div id='cft-temp-show'></div>");
     let $txt = $("<p></p>"); // .css("font-style", "italic");
     let $btn = $(`<a href="#" class="cft">${__("templyShowAllHint")}</a>`)
@@ -181,13 +181,7 @@ function addShowAllOnceHint() {
             $div.hide(0);
             return false;
         })
-    /*        
-    .hover(
-        () => $btn.css("text-decoration", "underline"),
-        () => $btn.css("text-decoration", "none")
-    );
-    */
-    let hintMsg = __("templyShowAllMsg").split("#");
+    let hintMsg = __("templyShowAllMsg", nHidden.toString()).split("#");
     $txt.append(hintMsg[0]).append($btn).append(hintMsg[1]);
     $div.append($txt);
     $("#extrares").append($div);
@@ -198,7 +192,7 @@ function addShowAllOnceHint() {
  */
 function showFarmsOnce() {
     let $farmResults = getResults(null, false);
-    $farmResults.find("h3.LC20lb").addClass("farm-title");
+    $farmResults.find("h3.LC20lb").addClass("cft-farm-title");
     addUnblockHint($farmResults);
     $farmResults.fadeIn(TIME_FADING);
 }
