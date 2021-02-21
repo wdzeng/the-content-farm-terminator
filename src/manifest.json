@@ -11,8 +11,8 @@
     ],
     "background": {
         "scripts": [
-            "/js/database.js",
-            "/js/background.js"
+            "/scripts/database.js",
+            "/scripts/background.js"
         ],
         "persistent": false
     },
@@ -214,9 +214,8 @@
                 "https://www.google.cat/search*"
             ],
             "js": [
-                "/lib/jquery.js",
-                "/js/database.js",
-                "/js/terminator.js"
+                "/scripts/database.js",
+                "/scripts/terminator.js"
             ],
             "css": [
                 "css/terminator.css"
