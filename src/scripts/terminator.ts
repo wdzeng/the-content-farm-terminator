@@ -289,7 +289,7 @@ function showFarmResultsOnce() {
 
 function getResultNodes(host?: string | string[], visibility?: 'visible' | 'hidden'): HTMLDivElement[] {
   let candidates = Array.from(document.querySelectorAll<HTMLDivElement>('div.g'))
-  if (host === undefined || visibility === undefined) {
+  if (host === undefined) {
     return candidates
   }
   if (visibility === 'hidden') {
