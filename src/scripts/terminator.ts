@@ -1,42 +1,64 @@
 'use strict'
 
 var _ = chrome.i18n.getMessage
-hideFarmResultNodes()
+init()
+
 
 // Utilities
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-function fadeOut(el: HTMLElement): Promise<void> {
+function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> {
   return new Promise(res => {
+    if (now) {
+      els.forEach(el => el.style.display = 'none')
+      res()
+      return
+    }
+
     let op = 1;  // initial opacity
     const timer = setInterval(function () {
       if (op <= 0.1) {
         clearInterval(timer);
-        el.style.display = 'none';
+        els.forEach(el => el.style.display = 'none')
         res()
         return
       }
-      el.style.opacity = op.toString();
-      el.style.filter = 'alpha(opacity=' + op * 100 + ")";
-      op *= 0.9;
-    }, 50);
-  })
 
+      els.forEach(el => {
+        el.style.opacity = op.toString();
+        el.style.filter = 'alpha(opacity=' + op * 100 + ")";
+      })
+      op *= 0.8
+    }, 30);
+
+  })
 }
-function fadeIn(element: HTMLElement): Promise<void> {
+function fadeIn(els: HTMLElement[], now?: boolean): Promise<void> {
   return new Promise(res => {
+    if (now) {
+      els.forEach(el => {
+        el.style.display = 'block';
+        el.style.opacity = '1';
+        el.style.filter = 'alpha(opacity=100)';
+      })
+      res()
+      return
+    }
+
     let op = 0.1;  // initial opacity
-    element.style.display = 'block';
+    els.forEach(el => el.style.display = 'block')
     const timer = setInterval(function () {
       if (op >= 1) {
         clearInterval(timer);
         res()
         return
       }
-      element.style.opacity = op.toString();
-      element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-      op *= 1.1;
-    }, 10);
+      els.forEach(el => {
+        el.style.opacity = op.toString();
+        el.style.filter = `alpha(opacity=${op * 100})`;
+      })
+      op *= 1.25
+    }, 30);
   })
 }
 // https://www.w3schools.com/howto/howto_js_check_hidden.asp
@@ -44,7 +66,7 @@ function isElementHidden(el: HTMLElement) {
   const style = window.getComputedStyle(el);
   return style.display === 'none' || style.visibility === 'hidden'
 }
-function one(callback: (_: Event) => any) {
+function makeInvokedOnceOnly(callback: (_: Event) => any) {
   let flag = true
   return (e: Event) => {
     if (flag) {
@@ -70,7 +92,7 @@ function isLogin() {
 }
 */
 
-async function hideFarmResultNodes() {
+async function init() {
   const farmList = await farmListDatabase.getFarmList()
   // Get farm results
   const farmResultNodes = getResultNodes(farmList)
@@ -78,13 +100,12 @@ async function hideFarmResultNodes() {
   // If any serach result of farm exists
   if (nFarmResult) {
     // Hide these search results
-    farmResultNodes.forEach(fadeOut)
+    await fadeOut(farmResultNodes, true)
     // If the first result is removed, add some margin to make the page pretty.
     updateTopMarginIfFirstResultIsBlocked()
     // Add a hint which allows user to show these results temporarily.
     addShowResultsOnceHint(nFarmResult)
   }
-  // After farm results are hidden, add "block this domain" hint to the remaining results.
   addBlockHint(getResultNodes(undefined, 'visible'))
 }
 
@@ -103,7 +124,10 @@ function setHintForSearchItem(resultNode: HTMLDivElement | HTMLDivElement[], tex
   if (hintNode !== null) {
     // If a hint already exists, just update this hint.
     hintNode.innerHTML = text
-    hintNode.onclick = one(() => onClickListener(resultNode))
+    hintNode.onclick = makeInvokedOnceOnly(e => {
+      onClickListener(resultNode)
+      e.preventDefault()
+    })
     return
   }
 
@@ -114,7 +138,10 @@ function setHintForSearchItem(resultNode: HTMLDivElement | HTMLDivElement[], tex
   hintNode.classList.add('cft-hint')
   hintNode.appendChild(hintTextNode)
   hintNode.href = '#'
-  hintNode.onclick = one(() => onClickListener(resultNode))
+  hintNode.onclick = makeInvokedOnceOnly(e => {
+    onClickListener(resultNode)
+    e.preventDefault()
+  })
 
   // Add these hints to page
   // const $eTitles = $('div.yuRUbf', $srItem)
@@ -128,7 +155,7 @@ function setHintForSearchItem(resultNode: HTMLDivElement | HTMLDivElement[], tex
   // const $eHintContainer = $('div.eFM0qc', $eSubtitle)
   const hintWrapperNode = subtitleNode.querySelector('div.eFM0qc')!
 
-  titlesNode.classList.add('cft-title')
+  titlesNode.classList.add('cft-titles')
   titleNode.classList.add('cft-title')
   subtitleNode.classList.add('cft-subtitle')
   urlNode.classList.add('cft-url')
@@ -156,17 +183,20 @@ function setHintForSearchItem(resultNode: HTMLDivElement | HTMLDivElement[], tex
  * Add 'Block this domain' hint ti search results
  */
 function addBlockHint(resultNodes: HTMLDivElement[]) {
-  setHintForSearchItem(resultNodes, _('terminateHint'), blockedNode => {
-    const hostName = getResultNodeHostname(blockedNode)
-    // Get other search items linking to same host and hide them all.
-    const blockedCandidates = getResultNodes(hostName)
-    blockedCandidates.forEach(async (n) => {
-      await fadeOut(n)
-      addUndoHint(n)
-    })
-    // Add this host to blocking list
-    farmListDatabase.addHosts(hostName)
-  })
+  setHintForSearchItem(resultNodes, _('terminateHint'), onBlockHintClickedListener)
+}
+
+/**
+ * This function is called when user clicked 'block' button
+ */
+async function onBlockHintClickedListener(blockedNode: HTMLDivElement) {
+  const hostName = getHostnameOf(blockedNode)
+  // Get other search items linking to same host and hide them all.
+  const blockedCandidates = getResultNodes(hostName, 'visible')
+  await fadeOut(blockedCandidates)
+  blockedCandidates.forEach(n => addUndoHint(n))
+  // Add this host to blocking list
+  farmListDatabase.addHosts(hostName)
 }
 
 /**
@@ -174,11 +204,11 @@ function addBlockHint(resultNodes: HTMLDivElement[]) {
  */
 async function addUnblockHint(resultNodes: HTMLDivElement[]) {
   setHintForSearchItem(resultNodes, _('terminateHint'), async (unblockedNode: HTMLDivElement) => {
-    const hostName = getResultNodeHostname(unblockedNode)
+    const hostName = getHostnameOf(unblockedNode)
     // Get other search items linking to same host and show them all.
     const unblockedNodes = getResultNodes(hostName)
     // $('h3.LC20lb', unblockedNodes).removeClass('cft-farm-title')
-    unblockedNodes.map(n => n.querySelector('h3.LC201b')!)
+    unblockedNodes.map(n => n.querySelector('h3.LC20lb')!)
       .forEach(h => h.classList.remove('cft-farm-title'))
     addBlockHint(unblockedNodes)
     // Remove this host to blocking list
@@ -190,20 +220,20 @@ async function addUnblockHint(resultNodes: HTMLDivElement[]) {
  * Add 'undo' hint to a search result
  */
 function addUndoHint(resultNode: HTMLDivElement) {
-  const hostname = getResultNodeHostname(resultNode)
+  const hostname = getHostnameOf(resultNode)
   const undoNodeClassname = `cft-${hostname.replace(/\./g, '-')}`
 
   // Create undo button
   const undoButtonTextNode = document.createTextNode(_('undoHint'))
   const undoButtonNode = document.createElement('a')
   undoButtonNode.appendChild(undoButtonTextNode)
-  undoButtonNode.onclick = one(e => {
+  undoButtonNode.onclick = makeInvokedOnceOnly(async (e) => {
     // Remove nodes that shows 'This hostname is blocked'
     const removedNodes = document.querySelectorAll(`div.${undoNodeClassname}`)
     removedNodes.forEach(n => n.remove())
     // Re-show 'Block this host' hint
-    const unblockedNodes = Array.from(document.querySelectorAll<HTMLDivElement>('div.g'))
-      .filter(node => getResultNodeHostname(node) === hostname)
+    const unblockedNodes = getResultNodes(hostname, 'hidden')
+    await fadeIn(unblockedNodes)
     addBlockHint(unblockedNodes)
     // Remove this host from database
     farmListDatabase.removeHosts(hostname)
@@ -216,7 +246,7 @@ function addUndoHint(resultNode: HTMLDivElement) {
   undoMsgNode.appendChild(undoMsgTextNode)
   const undoNode = document.createElement('div')
   undoNode.classList.add('g')
-  undoNode.classList.add('s')
+  undoNode.classList.add('cft-blocked-hint')
   undoNode.classList.add(undoNodeClassname)
   undoNode.appendChild(undoMsgNode)
   undoNode.appendChild(undoButtonNode);
@@ -228,9 +258,9 @@ function addUndoHint(resultNode: HTMLDivElement) {
 
 /**
  * Get the hostname where a result node points to
- * @param resultNode 
  */
-function getResultNodeHostname(resultNode: HTMLDivElement) {
+function getHostnameOf(resultNode: HTMLDivElement): string {
+  console.log(resultNode)
   const anchorNode = resultNode.querySelector<HTMLAnchorElement>('div.yuRUbf > a:first-child')!
   return anchorNode.hostname
 }
@@ -249,6 +279,9 @@ function updateTopMarginIfFirstResultIsBlocked() {
    */
 }
 
+/**
+ * Show hint message that allows user to show all blocker results for once
+ */
 function addShowResultsOnceHint(nHidden: number) {
   const hintNode = document.createElement('div')
   hintNode.id = 'cft-temp-show'
@@ -259,13 +292,13 @@ function addShowResultsOnceHint(nHidden: number) {
   anchorNode.href = '#'
   anchorNode.classList.add('cft')
   anchorNode.appendChild(anchorTextNode)
-  anchorNode.onclick = one(e => {
+  anchorNode.onclick = makeInvokedOnceOnly(e => {
     showFarmResultsOnce()
-    fadeOut(hintNode)
+    fadeOut([hintNode])
     e.preventDefault()
   })
 
-  const hintMessageTextNodes = _('templyShowAllMsg', nHidden.toString()).split('#').map(document.createTextNode)
+  const hintMessageTextNodes = _('templyShowAllMsg', nHidden.toString()).split('#').map(txt => document.createTextNode(txt))
   const hintMessageNode = document.createElement('p')
   hintMessageNode.appendChild(hintMessageTextNodes[0])
   hintMessageNode.appendChild(anchorNode)
@@ -277,21 +310,26 @@ function addShowResultsOnceHint(nHidden: number) {
   resultNode.parentNode!.insertBefore(hintNode, resultNode.nextSibling)
 }
 
+/**
+ * Show all blocked search result for once
+ */
 function showFarmResultsOnce() {
   const farmResults = getResultNodes(undefined, 'hidden')
   farmResults.forEach(fr => {
-    const resultTitleNode = fr.querySelector('h3.LC201b')!
+    const resultTitleNode = fr.querySelector('h3.LC20lb')!
     resultTitleNode.classList.add('cft-farm-title')
     addUnblockHint([fr])
   })
-  farmResults.forEach(fadeIn)
+  fadeIn(farmResults)
 }
 
+/**
+ * Get all result nodes which match given hostname and visibility restricts.
+ */
 function getResultNodes(host?: string | string[], visibility?: 'visible' | 'hidden'): HTMLDivElement[] {
   let candidates = Array.from(document.querySelectorAll<HTMLDivElement>('div.g'))
-  if (host === undefined) {
-    return candidates
-  }
+    .filter(c => !c.classList.contains('cft-blocked-hint'))
+
   if (visibility === 'hidden') {
     candidates = candidates.filter(isElementHidden)
   }
@@ -300,8 +338,10 @@ function getResultNodes(host?: string | string[], visibility?: 'visible' | 'hidd
   }
 
   if (typeof host === 'string') {
-    return candidates.filter((value) => getResultNodeHostname(value) === host)
+    return candidates.filter((value) => getHostnameOf(value) === host)
   }
-
-  return candidates.filter((value) => host.includes(getResultNodeHostname(value)))
+  if (Array.isArray(host)) {
+    return candidates.filter((value) => host.includes(getHostnameOf(value)))
+  }
+  return candidates
 }
