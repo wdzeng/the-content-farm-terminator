@@ -1,9 +1,9 @@
 'use strict'
 
 var _ = chrome.i18n.getMessage
-const TIME_FADING = 400
-const init = hideFarmResultNodes
-init()
+hideFarmResultNodes()
+
+// Utilities
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
 function fadeOut(el: HTMLElement): Promise<void> {
@@ -44,7 +44,6 @@ function isElementHidden(el: HTMLElement) {
   const style = window.getComputedStyle(el);
   return style.display === 'none' || style.visibility === 'hidden'
 }
-
 function one(callback: (_: Event) => any) {
   let flag = true
   return (e: Event) => {
@@ -58,14 +57,18 @@ function one(callback: (_: Event) => any) {
   }
 }
 
+// Scripts
+
 /**
  * Check whether an google account is logged in.
  */
+/*
 function isLogin() {
   const citeNode = document.querySelector('cite.iUh30')!
   const citeNodeStyle = getComputedStyle(citeNode)
   return citeNodeStyle.color === 'rgb(0, 102, 33)'
 }
+*/
 
 async function hideFarmResultNodes() {
   const farmList = await farmListDatabase.getFarmList()
