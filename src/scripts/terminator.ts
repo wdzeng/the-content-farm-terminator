@@ -353,16 +353,8 @@ function getResultNodes(
     //  | HTMLDivElement
     //  | undefined
     // return firstChild && firstChild.classList.contains('tF2Cxc')
-
-    const childNodes = [...resultNodeCaididate.childNodes]
-    return childNodes.some((c) => {
-      if (c instanceof HTMLDivElement) {
-        if (c.classList.contains('tF2Cxc')) {
-          return true
-        }
-      }
-      return false
-    })
+    const testedTarget = resultNodeCaididate.querySelector('div.tF2Cxc');
+    return testedTarget !== null;
   }
 
   let candidates = Array.from(
