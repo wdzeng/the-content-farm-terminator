@@ -1,5 +1,5 @@
 # 內容農場終結者 The Content Farm Terminator
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) [![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator.svg)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/)
+[![license](https://img.shields.io/badge/license-MIT-blue)](#license) [![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator.svg)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/) [![GitHub stars](https://badgen.net/github/stars/wdzeng/The-Content-Farm-Terminator)](https://GitHub.com/wdzeng/The-Content-Farm-Terminator/stargazers/) [![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
 
 這個酷東西可以幫你把 Google 搜尋頁面上的內容農場擋起來。<br/>
 This plugin helps hide content farm results on the Google search pages.
@@ -12,10 +12,10 @@ Please install the plugin on [Chrome Store](https://chrome.google.com/webstore/d
 
 ## 使用說明 Instruction
 
-安裝這個 plugin 之後，你在 Google 搜尋頁面上的每一條搜尋結果會被加上一個「終結內容農場」的灰色按鈕。按下該按鈕之後，往後相同的網域便不會出現在搜尋頁面上。<br/>
-Once the plugin is installed, each result on Google search pages is appended with a grey button saying "Terminate!". Click the button and that domain will be permanently blocked and not shown on search pages.
+安裝這個 plugin 之後，你在 Google 搜尋頁面上的每一條搜尋結果會被加上一個「終結內容農場」的灰色按鈕，如下圖所示。按下該按鈕之後，往後相同的網域便不會出現在搜尋頁面上。<br/>
+Once the plugin is installed, each result on Google search pages is appended with a grey button saying "Terminate!" as shown in the following picture. Click the button and that domain will be permanently blocked and not shown on search pages.
 
-![](https://i.imgur.com/axp8siq.png)
+<p align="center" style="text-align:center; margin-top: 1em"><img src="https://i.imgur.com/IiO6hdc.png"></p>
 
 ## Bugs
 
