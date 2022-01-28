@@ -23,16 +23,16 @@
     "terminateHint": {
         "message": "Terminate!"
     },
-    "unTerminatedMsg": {
+    "terminatedMsg": {
         "message": "Domain \"$1\" has been terminated."
     },
     "undoHint": {
         "message": "Undo"
     },
-    "templyShowAllMsg": {
+    "showFarmResultsOnce": {
         "message": "The Content Farm Terminator! has hidden $1 result(s) from this page.  You can #."
     },
-    "templyShowAllHint": {
+    "showFarmResultsOneHint": {
         "message": "show these results temporarily"
     },
     "unTerminatedHint": {

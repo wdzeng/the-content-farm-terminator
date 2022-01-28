@@ -9,30 +9,30 @@
         "message": "# 輸入內容農場網域或整列網址，一行一個。# 例如：\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n# 然後按「終結農場」就可以喔。很簡單吧！\n# 作者：雙曲線"
     },
     "btnAdd": {
-        "message": "終結農場"
+        "message": "封鎖網域"
     },
     "btnDelete": {
-        "message": "刪除農場"
+        "message": "解封網域"
     },
     "btnView": {
         "message": "看看所有農場網站"
     },
     "emptyList": {
-        "message": "沒有被擋的農場網站"
+        "message": "沒有被封鎖的農場網站"
     },
     "terminateHint": {
-        "message": "終結內容農場"
+        "message": "封鎖內容農場"
     },
-    "unTerminatedMsg": {
-        "message": "你把 \"$1\" 給 ban 掉惹 owo"
+    "terminatedMsg": {
+        "message": "已封鎖網域 \"$1\""
     },
     "undoHint": {
-        "message": "解除封鎖"
+        "message": "取消封鎖"
     },
-    "templyShowAllMsg": {
+    "showFarmResultsOnce": {
         "message": "內容農場終結者根據你的農場清單擋住了 $1 個搜尋結果。你可以#。"
     },
-    "templyShowAllHint": {
+    "showFarmResultsOneHint": {
         "message": "暫時顯示"
     },
     "unTerminatedHint": {
@@ -45,18 +45,18 @@
         "message": "OK 已封鎖"
     },
     "notAllAdded": {
-        "message": "只有 $1 個網站被封鎖"
+        "message": "只有 $1 個網域被封鎖"
     },
     "allRemoved": {
-        "message": "OK 已解除封鎖"
+        "message": "OK 已解封"
     },
     "notAllRemoved": {
-        "message": "只有解除封鎖 $1 個網站"
+        "message": "僅解封 $1 個網域"
     },
     "addActionHint": {
-        "message": "$1 已封鎖 \n$2 被無視\n$3 不合法的網址"
+        "message": "$1 已封鎖\n$2 被無視\n$3 不合法的網址"
     },
     "removeActionHint": {
-        "message": "$1 已解除封鎖 \n$2 被無視\n$3 網址不合法"
+        "message": "$1 已解除封鎖\n$2 被無視\n$3 網址不合法"
     }
 }
