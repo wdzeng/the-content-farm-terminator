@@ -107,7 +107,7 @@ async function init() {
 }
 
 /**
- * Sets a hint for some search results. If the hint alreadt exists, update it. If the hint does not exists, insert a new one.
+ * Sets a hint for some search results. If the hint already exists, update it. If the hint does not exists, insert a new one.
  */
 function setHintForSearchItem(
   resultNode: HTMLDivElement | HTMLDivElement[],
@@ -154,7 +154,7 @@ function setHintForSearchItem(
   // const $eTitle = $('a', $eTitles)
   const titleNode = titlesNode.querySelector<HTMLAnchorElement>('a')!
   // const $eUrl = $('div.TbwUpd', $eSubtitle)
-  const urlNode = subtitleNode?.querySelector('div.TbwUpd')!
+  const urlNode = subtitleNode.querySelector('div.TbwUpd')!
   // const $eHintContainer = $('div.eFM0qc', $eSubtitle)
   const hintWrapperNode = subtitleNode.querySelector('div.eFM0qc')!
 
