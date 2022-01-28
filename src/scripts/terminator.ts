@@ -199,20 +199,20 @@ async function addUnblockHint(resultNodes: HTMLDivElement[]) {
  */
 function addUndoHint(resultNode: HTMLDivElement) {
   const hostname = getHostnameOf(resultNode)
-  const undoNodeClassname = `cft-${hostname.replace(/\./g, '-')}`
+  const undoNodeClass = `cft-${hostname.replace(/\./g, '-')}`
 
   // Create undo button
   const undoButtonTextNode = document.createTextNode(_('undoHint'))
   const undoButtonNode = document.createElement('a')
   undoButtonNode.appendChild(undoButtonTextNode)
+  undoButtonNode.classList.add('cft-undo-hint')
   undoButtonNode.onclick = once(async (e) => {
     // Remove nodes that shows 'This hostname is blocked'
-    const removedNodes = document.querySelectorAll(`div.${undoNodeClassname}`)
+    const removedNodes = document.querySelectorAll(`div.${undoNodeClass}`)
     removedNodes.forEach((n) => n.remove())
     // Re-show 'Block this host' hint
     const unblockedNodes = getResultNodes(hostname, 'hidden')
     await fadeIn(unblockedNodes)
-    console.log('...')
     addBlockHint(unblockedNodes)
     // Remove this host from database
     farmListDatabase.removeHosts(hostname)
@@ -228,7 +228,7 @@ function addUndoHint(resultNode: HTMLDivElement) {
   const undoNode = document.createElement('div')
   undoNode.classList.add('g')
   undoNode.classList.add('cft-blocked-hint')
-  undoNode.classList.add(undoNodeClassname)
+  undoNode.classList.add(undoNodeClass)
   undoNode.appendChild(undoMsgNode)
   undoNode.appendChild(undoButtonNode)
 
@@ -255,7 +255,7 @@ function addShowResultsOnceHint(nHidden: number) {
   hintNode.id = 'cft-temp-show'
   hintNode.classList.add('med')
 
-  const anchorTextNode = document.createTextNode(_('templyShowAllHint'))
+  const anchorTextNode = document.createTextNode(_('showFarmResultsOneHint'))
   const anchorNode = document.createElement('a')
   anchorNode.href = '#'
   anchorNode.classList.add('cft')
@@ -266,7 +266,7 @@ function addShowResultsOnceHint(nHidden: number) {
     e.preventDefault()
   })
 
-  const hintMessageTextNodes = _('templyShowAllMsg', nHidden.toString())
+  const hintMessageTextNodes = _('showFarmResultsOnce', nHidden.toString())
     .split('#')
     .map((txt) => document.createTextNode(txt))
   const hintMessageNode = document.createElement('p')
