@@ -20,10 +20,10 @@
     "clean": "rm -f ./src/scripts/*.js ./The-Content-Farm-Terminator.zip"
   },
   "devDependencies": {
-    "eslint": "^7.20.0",
-    "@types/chrome": "0.0.132",
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1"
+    "eslint": "^8.7.0",
+    "@types/chrome": "0.0.177",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1"
   },
   "bugs": {
     "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
