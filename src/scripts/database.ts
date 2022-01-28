@@ -30,7 +30,7 @@ const farmListDatabase = {
     }
 
     return new Promise<string[]>((res, rej) => {
-      const keys = []
+      const keys = Array<string>()
       for (let i = 0; i < listSize; i++) {
         keys.push(KEY_FARM_LIST + i)
       }
