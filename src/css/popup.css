@@ -1,44 +1,42 @@
 body {
-    margin: 0px;
-    padding: 4px;
-    font-family: sans-serif;
-    font-size: 14px;
+  margin: 0px;
+  padding: 4px;
+  font-family: sans-serif;
+  font-size: 14px;
 }
-
-body>div {
-    margin: 4px;
+body > div {
+  margin: 4px;
 }
 
 textarea {
-    font-family: consolas, sans-serif;
-    width: 40em;
-    border-radius: 3px;
-    padding: 0.5em;
-    line-height: 1.5;
+  font-family: consolas, sans-serif;
+  width: 40em;
+  border-radius: 3px;
+  padding: 0.5em;
+  line-height: 1.5;
 }
 
-button {
-    font-family: sans-serif;
-    padding: 0 0.5em;
+.bar {
+  display: flex;
 }
-
-.clickable {
-    height: 24px;
+.bar-left {
+  flex-grow: 1;
 }
-
-span.space {
-    margin-right: 4px;
+.bar-left button {
+  font-family: sans-serif;
+  padding: 0 0.5em;
+  height: 24px;
 }
-
-#btnHint {
-    padding-top: 8px;
-    line-height: 20px;
+.bar-left button:not(:last-child) {
+  margin-right: 0.5em;
 }
-
-#btnHint p {
-    margin: 0;
+#hint {
+  padding-top: 8px;
+  line-height: 20px;
 }
-
-#btnHint p:not(:last-child){
-    margin-bottom: 6px;
+#hint p {
+  margin: 0;
+}
+#hint p:not(:last-child) {
+  margin-bottom: 6px;
 }

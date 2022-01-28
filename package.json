@@ -16,7 +16,8 @@
     "build": "yarn dev && yarn zip",
     "dev": "yarn transpile",
     "transpile": "tsc --rootDir ./src/scripts",
-    "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts",
+    "sass": "sass --no-source-map ./src/css",
+    "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
     "clean": "rm -f ./src/scripts/*.js ./The-Content-Farm-Terminator.zip"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "^8.7.0",
+    "sass": "^1.49.0",
     "typescript": "^4.5.5"
   },
   "bugs": {

@@ -1,0 +1,52 @@
+body {
+  margin: 0px;
+  padding: 4px;
+  font-family: sans-serif;
+  font-size: 14px;
+
+  & > div {
+    margin: 4px;
+  }
+}
+
+textarea {
+  font-family: consolas, sans-serif;
+  width: 40em;
+  border-radius: 3px;
+  padding: 0.5em;
+  line-height: 1.5;
+}
+
+.bar {
+  display: flex;
+
+  &-left {
+    flex-grow: 1;
+
+    button {
+      font-family: sans-serif;
+      padding: 0 0.5em;
+      height: 24px;
+
+      &:not(:last-child) {
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  &-right {
+  }
+}
+
+#hint {
+  padding-top: 8px;
+  line-height: 20px;
+
+  p {
+    margin: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 6px;
+    }
+  }
+}

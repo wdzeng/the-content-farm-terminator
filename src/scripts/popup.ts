@@ -1,7 +1,7 @@
 'use strict'
 
 const EMOJI_PASS = '😀'
-const EMOJI_DULPLICATED = '🤨'
+const EMOJI_DUPLICATED = '🤨'
 const EMOJI_FOUL = '😭'
 var _ = chrome.i18n.getMessage
 const REG_URL = new RegExp('http[s]{0,1}:\\/\\/.*?\\/.*')
@@ -11,7 +11,7 @@ const textarea = document.getElementById('txtArea') as HTMLTextAreaElement
 const btnAdd = document.getElementById('btnAdd') as HTMLInputElement
 const btnDelete = document.getElementById('btnDelete') as HTMLInputElement
 const btnView = document.getElementById('btnViewAll') as HTMLInputElement
-const eHint = document.getElementById('btnHint') as HTMLInputElement
+const eHint = document.getElementById('hint') as HTMLSpanElement
 
 textarea.placeholder = _('areaPlaceHolder')
 btnAdd.innerHTML = _('btnAdd')
@@ -24,8 +24,8 @@ btnView.onclick = onViewAllHostsListener
 function actionResult(hostArray: Array<string | null>, passedHosts: string[]) {
   return hostArray.map((value, index) => {
     if (value === null) return EMOJI_FOUL
-    if (!passedHosts.includes(value)) return EMOJI_DULPLICATED
-    return hostArray.indexOf(value) === index ? EMOJI_PASS : EMOJI_DULPLICATED
+    if (!passedHosts.includes(value)) return EMOJI_DUPLICATED
+    return hostArray.indexOf(value) === index ? EMOJI_PASS : EMOJI_DUPLICATED
   })
 }
 
@@ -53,7 +53,7 @@ async function onAddHostsListener() {
   else {
     title = _('notAllAdded', nNewlyBlocked.toString())
   }
-  const hint = _('addActionHint', [EMOJI_PASS, EMOJI_DULPLICATED, EMOJI_FOUL])
+  const hint = _('addActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
 
   textarea.value = text
   eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`
@@ -83,7 +83,7 @@ async function onRemoveHostsListener() {
   else {
     title = _('notAllRemoved', nNewlyUnblocked.toString())
   }
-  let hint = _('removeActionHint', [EMOJI_PASS, EMOJI_DULPLICATED, EMOJI_FOUL])
+  let hint = _('removeActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
 
   textarea.value = text
   eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`
@@ -124,7 +124,7 @@ function isValidLine(line: string) {
   return line.length
     && !line.startsWith('#')
     && !line.startsWith(EMOJI_PASS)
-    && !line.startsWith(EMOJI_DULPLICATED)
+    && !line.startsWith(EMOJI_DUPLICATED)
     && !line.startsWith(EMOJI_FOUL)
 }
 

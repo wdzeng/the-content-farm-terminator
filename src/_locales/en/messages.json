@@ -12,7 +12,7 @@
         "message": "Terminate!"
     },
     "btnDelete": {
-        "message": "Unterminate"
+        "message": "Determinate"
     },
     "btnView": {
         "message": "View all"
@@ -35,17 +35,17 @@
     "showFarmResultsOneHint": {
         "message": "show these results temporarily"
     },
-    "unTerminatedHint": {
-        "message": "Unterminate"
+    "determinateHint": {
+        "message": "Determinate"
     },
     "nothingChanged": {
         "message": "Uhh ... Nothing changed"
     },
     "allAdded": {
-        "message": "All terminated successfuly."
+        "message": "All terminated successfully."
     },
     "notAllAdded": {
-        "message": "Websites termiated: $1; still some problems remain."
+        "message": "Websites terminated: $1; still some problems remain."
     },
     "allRemoved": {
         "message": "All unterminated successfully."
@@ -54,9 +54,9 @@
         "message": "Websites unterminated: $1; still some problems remain."
     },
     "addActionHint": {
-        "message": "$1 Terminated successfuly<br />$2 Already terminated or dulplicated in the list<br />$3 Illegal domain or URL"
+        "message": "$1 Terminated successfully<br />$2 Already terminated or duplicated in the list<br />$3 Illegal domain or URL"
     },
     "removeActionHint": {
-        "message": "$1 Unterminated successfuly<br />$2 Originally not termiated, or dulplicated in the list<br />$3 Illegal domain or URL"
+        "message": "$1 Unterminated successfully<br />$2 Originally not terminated, or duplicated in the list<br />$3 Illegal domain or URL"
     }
 }
