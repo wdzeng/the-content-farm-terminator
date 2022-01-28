@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn dev && yarn zip",
-    "dev": "yarn transpile",
+    "dev": "yarn transpile && yarn sass",
     "transpile": "tsc --rootDir ./src/scripts",
     "sass": "sass --no-source-map ./src/css",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
