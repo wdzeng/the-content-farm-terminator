@@ -1,5 +1,5 @@
 # 內容農場終結者 The Content Farm Terminator
-[![license](https://img.shields.io/badge/license-MIT-blue)](#license) [![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator.svg)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/) [![GitHub stars](https://badgen.net/github/stars/wdzeng/The-Content-Farm-Terminator)](https://GitHub.com/wdzeng/The-Content-Farm-Terminator/stargazers/) [![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
+[![license](https://img.shields.io/badge/license-MIT-blue)](#license) [![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/) [![GitHub stars](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator)](#stars) [![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
 
 這個酷東西可以幫你把 Google 搜尋頁面上的內容農場擋起來。<br/>
 This plugin helps hide content farm results on the Google search pages.
