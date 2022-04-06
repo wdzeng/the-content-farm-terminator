@@ -20,4 +20,4 @@ Once the plugin is installed, each result on Google search pages is appended wit
 ## Bugs
 
 由於 Google 三不五時會調整搜尋頁面的 CSS ，導致這個 plugin 會不定時地失效。請寄一封 email 或發個 issue 提醒維護者，感恩🙏🙏<br/>
-The plugin may fail since the CSS changes from time to time. While I could not always keep an eye on the layout, it would be appreciate if somebody send me an email or open an issue.
+The plugin may fail since the CSS changes from time to time. While I could not always keep an eye on the layout, it would be appreciate if somebody sends me an email or opens an issue.
