@@ -7,6 +7,8 @@
 
 [中文](README.md) 👈
 
+This plugin removes content farm results from Google search pages.
+
 ## Installation
 
 Please install the plugin on [Chrome Store](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn).
