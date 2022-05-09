@@ -14,11 +14,11 @@
   },
   "scripts": {
     "build": "yarn tsc && yarn sass && yarn zip",
-    "dev": "concurrently --kill-others 'tsc -w' 'sass --watch --no-source-map ./src/css'",
+    "dev": "concurrently --kill-others 'tsc -w' 'sass --watch --no-source-map ./src/css/popup.scss:./src/css/popup.css ./src/css/terminator.scss:./src/css/terminator.css'",
     "tsc": "tsc",
-    "sass": "sass --no-source-map ./src/css",
+    "sass": "sass --no-source-map ./src/css/popup.scss:./src/css/popup.css ./src/css/terminator.scss:./src/css/terminator.css",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
-    "clean": "rm -f src/*.js ./src/scripts/*.js ./src/css/*.css The-Content-Farm-Terminator.zip"
+    "clean": "rm -f src/scripts/*.js src/css/*.css The-Content-Farm-Terminator.zip"
   },
   "devDependencies": {
     "@types/chrome": "0.0.184",

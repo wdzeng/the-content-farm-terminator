@@ -4,31 +4,34 @@
 <head>
   <meta charset="utf-8">
   <title>The Content Farm Terminator!</title>
-  <link rel="stylesheet" type="text/css" href="css/popup.css">
-  <script src="scripts/database.js"></script>
-  <script src="scripts/popup.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="/css/popup.css">
+  <script type="module" src="/scripts/i18n.js" defer></script>
+  <script type="module" src="/scripts/popup.js" defer></script>
 </head>
 
 <body>
-  <div>
-    <textarea rows="6" id="txtArea" autocomplete="off" autocorrect="off" autocapitalize="off"
-      spellcheck="false"></textarea>
+  <!-- text area -->
+  <div class="editor-wrapper">
+    <textarea rows="6" cols="70" id="txtArea" autocomplete="off" autocorrect="off" autocapitalize="off"
+      spellcheck="false" placeholder="__MSG_areaPlaceholder__"></textarea>
   </div>
-  <div class="bar">
-    <div class="bar-left">
-      <button id="btnAdd" class="clickable"></button>
-      <button id="btnDelete" class="clickable"></button>
-      <button id="btnViewAll" class="clickable"></button>
+
+  <!-- button bar -->
+  <div class="buttons-wrapper">
+    <div class="buttons-left">
+      <button id="btnAdd">__MSG_btnAdd__</button>
+      <button id="btnDelete">__MSG_btnDelete__</button>
+      <button id="btnViewAll">__MSG_btnView__</button>
     </div>
-    <div class="bar-right">
+    <div class="buttons-right">
       <a href="https://github.com/wdzeng/The-Content-Farm-Terminator" target="_blank">
-        <img src="/images/github.png" class="clickable" title="Github Page" height="24px" />
+        <img src="/images/github.png" title="Github Page" height="24px" />
       </a>
     </div>
   </div>
-  <div>
-    <span id="hint"></span>
-  </div>
+
+  <!-- hint text-->
+  <div id="hint"></div>
 </body>
 
 </html>
