@@ -1,0 +1,53 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: ~
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build project and publish to chrome web store
+    env:
+      EXTENSION_ID: chhekpgdckchblnfdelceaigmlfbakgn
+      DIST_ZIP_PATH: The-Content-Farm-Terminator.zip
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Build project
+        run: yarn install --frozen-lockfile && yarn build
+      - name: Retrieve web store token
+        env:
+          CLIENT_ID: ${{ secrets.API_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.API_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.WEB_STORE_REFRESH_TOKEN }}
+        run: |
+          token=$(curl -s https://www.googleapis.com/oauth2/v4/token \
+                       -d client_id=$CLIENT_ID                       \
+                       -d client_secret=$CLIENT_SECRET               \
+                       -d refresh_token=$REFRESH_TOKEN               \
+                       -d grant_type=refresh_token                   \
+                       --fail                                        \
+                    | jq .access_token                               \
+                    | tr -d '"'                                      \
+                 )
+          if [[ -z $token ]]; then exit 1; fi
+          echo "::add-mask::$token"
+          echo "WEB_STORE_TOKEN=$token" >> $GITHUB_ENV
+      - name: Update extension package
+        run: |
+          curl -H "Authorization: Bearer $WEB_STORE_TOKEN"   \
+               -H 'x-goog-api-version: 2'                    \
+               -X PUT                                        \
+               -T "$DIST_ZIP_PATH" -v -s --fail              \
+               https://www.googleapis.com/upload/chromewebstore/v1.1/items/$EXTENSION_ID
+      - name: Publish extension
+        run: |
+          curl -H "Authorization: Bearer $WEB_STORE_TOKEN"   \
+               -H 'x-goog-api-version: 2'                    \
+               -H 'Content-Length: 0'                        \
+               -X POST --fail -v -s                          \
+               https://www.googleapis.com/chromewebstore/v1.1/items/$EXTENSION_ID/publish
