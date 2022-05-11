@@ -23,9 +23,7 @@ function updateHint(title: string, content: string) {
   pTitle.textContent = title
   const pHint = document.createElement('p')
   pHint.textContent = content
-  document.removeChild(divHint)
-  divHint.appendChild(pTitle)
-  divHint.appendChild(pHint)
+  divHint.replaceChildren(pTitle, pHint)
 }
 
 async function onAddHostsListener() {
