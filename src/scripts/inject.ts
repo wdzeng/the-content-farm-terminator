@@ -1,7 +1,5 @@
-import * as db from './database.js'
-import { fadeIn, fadeOut, isElementHidden, once } from './util.js'
-
-const _ = chrome.i18n.getMessage
+import * as db from './database'
+import { fadeIn, fadeOut, isElementHidden, once, i18nMessage as _ } from './util'
 
 export async function init() {
   const farmList = await db.getFarmList()
@@ -255,3 +253,5 @@ function getResultNodes(
   }
   return candidates
 }
+
+init()

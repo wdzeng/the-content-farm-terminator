@@ -1,3 +1,5 @@
+import { i18nMessage as _ } from './util'
+
 /*
  license: The MIT License, Copyright (c) 2016-2019 YUKI "Piro" Hiroshi
  original:
@@ -7,7 +9,7 @@
 function updateString(s: string | null) {
   if (s === null) return null
   return s.replace(/__MSG_([@\w]+)__/g, (matched, key) => {
-    return chrome.i18n.getMessage(key) || matched
+    return _(key) || matched
   })
 }
 

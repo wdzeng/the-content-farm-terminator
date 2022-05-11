@@ -1,5 +1,6 @@
-import { intersectArray, removeDuplicates, subtractArray } from './util.js'
+import { intersectArray, removeDuplicates, subtractArray } from './util'
 
+const storage = process.env.BROWSER === 'chrome' ? chrome.storage : browser.storage
 const KEY_FARM_LIST = 'farmList'
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
@@ -14,7 +15,7 @@ export async function getFarmList(): Promise<string[]> {
   // Query segment count.
   q = {}
   q[KEY_FARM_LIST_SIZE] = 0
-  const res1: { [key: string]: number } = await chrome.storage.sync.get(q)
+  const res1: { [key: string]: number } = await storage.sync.get(q)
   const segmentCount: number = res1[KEY_FARM_LIST_SIZE]
 
   if (segmentCount === 0) {
@@ -24,7 +25,7 @@ export async function getFarmList(): Promise<string[]> {
   // Query segments and merge into one.
   q = {}
   q = [...Array(segmentCount).keys()].map(i => KEY_FARM_LIST + i)
-  const res2: { [key: string]: string[] } = await chrome.storage.sync.get(q)
+  const res2: { [key: string]: string[] } = await storage.sync.get(q)
   const segments = Object.values(res2)
   return segments.flat()
 }
@@ -61,7 +62,7 @@ export async function addHosts(hosts: string[]): Promise<string[]> {
   }
   obj[KEY_FARM_LIST_SIZE] = endIndex
 
-  await chrome.storage.sync.set(obj)
+  await storage.sync.set(obj)
   return subtractArray(newList, oldList)
 }
 
@@ -92,7 +93,7 @@ export async function removeHosts(hosts: string[]): Promise<string[]> {
     obj[KEY_FARM_LIST + i] = newList.slice(index, index + MAX_LIST_SIZE)
   }
   obj[KEY_FARM_LIST_SIZE] = segmentCount
-  await chrome.storage.sync.set(obj)
+  await storage.sync.set(obj)
 
   return intersectArray(list, hosts)
 }

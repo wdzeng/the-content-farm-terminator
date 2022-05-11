@@ -1,21 +1,14 @@
-import * as db from './database.js'
-import { isValidHostname, isValidUrl } from './util.js'
+import * as db from './database'
+import { isValidHostname, isValidUrl, i18nMessage as _ } from './util'
 
 const EMOJI_PASS = '😀'
 const EMOJI_DUPLICATED = '🤨'
 const EMOJI_FOUL = '😭'
-const _ = chrome.i18n.getMessage
 const textarea = document.getElementById('txtArea') as HTMLTextAreaElement
 const btnAdd = document.getElementById('btnAdd') as HTMLInputElement
 const btnDelete = document.getElementById('btnDelete') as HTMLInputElement
 const btnView = document.getElementById('btnViewAll') as HTMLInputElement
 const divHint = document.getElementById('hint') as HTMLSpanElement
-
-function init() {
-  btnAdd.onclick = onAddHostsListener
-  btnDelete.onclick = onRemoveHostsListener
-  btnView.onclick = onViewAllHostsListener
-}
 
 function actionResult(hostArray: Array<string | null>, passedHosts: string[]) {
   return hostArray.map((value, index) => {
@@ -27,7 +20,6 @@ function actionResult(hostArray: Array<string | null>, passedHosts: string[]) {
 
 async function onAddHostsListener() {
   if (isTextAreaEmpty()) return
-
   const lines = textarea.value.split('\n').map(str => str.trim()).filter(isValidLine)
   if (lines.length === 0) return
 
@@ -137,4 +129,7 @@ function isTextAreaEmpty() {
   return textarea.value.split('\n').filter(isValidLine).length === 0
 }
 
-init()
+// init
+btnAdd.onclick = onAddHostsListener
+btnDelete.onclick = onRemoveHostsListener
+btnView.onclick = onViewAllHostsListener

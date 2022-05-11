@@ -1,36 +1,42 @@
 {
-  "name": "the-content-farm-terminator",
-  "version": "3.2",
-  "description": "A chrome plugin for blocking content farm results on search pages.",
-  "author": {
-    "name": "hyperbola",
-    "email": "me@hyperbola.me",
-    "url": "https://github.com/wdzeng"
-  },
-  "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
-  },
-  "scripts": {
-    "build": "yarn tsc && yarn sass && yarn zip",
-    "dev": "concurrently --kill-others 'tsc -w' 'sass --watch --no-source-map ./src/css/popup.scss:./src/css/popup.css ./src/css/inject.scss:./src/css/inject.css'",
-    "tsc": "tsc",
-    "sass": "sass --no-source-map ./src/css/popup.scss:./src/css/popup.css ./src/css/inject.scss:./src/css/inject.css",
-    "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
-    "clean": "rm -f src/scripts/*.js src/css/*.css The-Content-Farm-Terminator.zip"
-  },
-  "devDependencies": {
-    "@types/chrome": "0.0.184",
-    "@typescript-eslint/eslint-plugin": "^5.22.0",
-    "@typescript-eslint/parser": "^5.22.0",
-    "concurrently": "^7.1.0",
-    "eslint": "^8.14.0",
-    "sass": "^1.51.0",
-    "typescript": "^4.6.4"
-  },
-  "bugs": {
-    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
-  },
-  "license": "GPL-2.0"
+    "name": "the-content-farm-terminator",
+    "version": "3.2",
+    "description": "A chrome plugin for blocking content farm results on search pages.",
+    "author": {
+        "name": "hyperbola",
+        "email": "me@hyperbola.me",
+        "url": "https://github.com/wdzeng"
+    },
+    "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
+    },
+    "scripts": {
+        "build:chrome": "BROWSER=chrome webpack && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip",
+        "build:firefox": "BROWSER=firefox webpack && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip",
+        "copy": "cp -r src/_locales src/images src/popup.html dist",
+        "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/inject.scss:./dist/css/inject.css --style compressed",
+        "zip": "zip -r The-Content-Farm-Terminator.zip ./dist",
+        "clean": "rm -rf ./dist The-Content-Farm-Terminator.zip"
+    },
+    "devDependencies": {
+        "@types/chrome": "0.0.184",
+        "@types/firefox-webext-browser": "^94.0.1",
+        "@types/node": "^17.0.32",
+        "concurrently": "^7.1.0",
+        "eslint": "^8.14.0",
+        "process": "^0.11.10",
+        "sass": "^1.51.0",
+        "sass-loader": "^12.6.0",
+        "terser-webpack-plugin": "^5.3.1",
+        "ts-loader": "^9.3.0",
+        "typescript": "^4.6.4",
+        "webpack": "^5.72.1",
+        "webpack-cli": "^4.9.2"
+    },
+    "bugs": {
+        "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
+    },
+    "license": "GPL-2.0"
 }
