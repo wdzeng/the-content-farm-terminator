@@ -92,4 +92,4 @@ export function isValidUrl(s: string): boolean {
   return reg.test(s)
 }
 
-export const i18nMessage = chrome.i18n.getMessage
+export const getI18nMessage = (window.browser || window.chrome).i18n.getMessage

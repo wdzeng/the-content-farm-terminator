@@ -1,4 +1,4 @@
-import { i18nMessage as _ } from './util.js'
+import { getI18nMessage as _ } from './util.js'
 
 /*
  license: The MIT License, Copyright (c) 2016-2019 YUKI "Piro" Hiroshi
