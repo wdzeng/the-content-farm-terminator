@@ -1,5 +1,5 @@
-import * as db from './database'
-import { fadeIn, fadeOut, isElementHidden, once, i18nMessage as _ } from './util'
+import * as db from './database.js'
+import { fadeIn, fadeOut, isElementHidden, once, i18nMessage as _ } from './util.js'
 
 export async function init() {
   const farmList = await db.getFarmList()

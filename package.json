@@ -13,24 +13,21 @@
         "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
     },
     "scripts": {
-        "build:chrome": "BROWSER=chrome webpack && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip",
-        "build:firefox": "BROWSER=firefox webpack && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip",
-        "copy": "cp -r src/_locales src/images src/popup.html dist",
+        "build:chrome": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip:chrome",
+        "build:firefox": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip:firefox",
+        "tsc": "mkdir -p dist/scripts && sucrase src/scripts -d dist/scripts --transforms typescript",
         "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/inject.scss:./dist/css/inject.css --style compressed",
-        "zip": "cd dist && zip -FSr ../The-Content-Farm-Terminator.zip .",
-        "clean": "rm -rf ./dist The-Content-Farm-Terminator.zip"
+        "copy": "cp -r src/_locales src/images src/popup.html dist",
+        "zip:chrome": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Chrome.zip .",
+        "zip:firefox": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Firefox.zip .",
+        "clean": "rm -rf ./dist The-Content-Farm-Terminator-*.zip"
     },
     "devDependencies": {
         "@types/chrome": "0.0.184",
         "@types/firefox-webext-browser": "^94.0.1",
-        "@types/node": "^17.0.32",
-        "eslint": "^8.14.0",
         "sass": "^1.51.0",
-        "terser-webpack-plugin": "^5.3.1",
-        "ts-loader": "^9.3.0",
-        "typescript": "^4.6.4",
-        "webpack": "^5.72.1",
-        "webpack-cli": "^4.9.2"
+        "sucrase": "^3.21.0",
+        "typescript": "^4.6.4"
     },
     "bugs": {
         "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"

@@ -92,5 +92,4 @@ export function isValidUrl(s: string): boolean {
   return reg.test(s)
 }
 
-const i18n = process.env.BROWSER === 'chrome' ? chrome.i18n : browser.i18n
-export const i18nMessage = i18n.getMessage
+export const i18nMessage = chrome.i18n.getMessage
