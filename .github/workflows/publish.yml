@@ -42,6 +42,7 @@ jobs:
         with:
           extension-id: ${{ env.EXTENSION_ID }}
           zip-path: ${{ env.PATH_CHROME_ZIP }}
+          tester-only: false
           client-id: ${{ secrets.CHROME_API_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_API_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_API_REFRESH_TOKEN }}
@@ -73,6 +74,8 @@ jobs:
         uses: wdzeng/firefox-addons-action@v1
         with:
           xpi-path: ${{ env.PATH_FIREFOX_XPI }}
+          addon-guid: ${{ secrets.FIREFOX_ADDON_GUID }}
+          tester-only: false
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          guid: ${{ secrets.FIREFOX_ADDON_GUID }}
+          
