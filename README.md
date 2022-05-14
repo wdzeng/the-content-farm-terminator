@@ -24,4 +24,4 @@
 
 ## Bugs
 
-由於 Google 三不五時會調整搜尋頁面的 CSS ，導致這個 plugin 會不定時地失效。請寄一封 [email](mailto:me@hyperbola.me) 或發 issue 提醒維護者，感恩🙏🙏
+由於 Google 三不五時會調整搜尋頁面的 CSS ，導致這個擴充套件會不定時地失效。請寄一封 [email](mailto:me@hyperbola.me) 或發 issue 提醒維護者，感恩🙏🙏

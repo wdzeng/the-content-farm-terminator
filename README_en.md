@@ -8,15 +8,15 @@
 
 [中文](README.md) 👈
 
-This plugin removes content farm results from Google search pages.
+This extension removes content farm results from Google search pages.
 
 ## Installation
 
-Please install the plugin on [Chrome Web Store](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn).
+Please install the extension on [Chrome Web Store](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn).
 
 ## Instruction
 
-Once the plugin is installed, each result on Google search pages is appended with a grey button saying "Terminate!" as shown in the following picture.
+Once the extension is installed, each result on Google search pages is appended with a grey button saying "Terminate!" as shown in the following picture.
 
 <img src="res/demo_en.png" alt="demo-en">
 
@@ -24,4 +24,4 @@ Click the button and that domain will be permanently blocked and not shown on se
 
 ## Bugs
 
-The plugin may fail since the CSS changes from time to time. While I could not always keep an eye on the layout, it would be appreciated if you could send me an [email](mailto:me@hyperbola.me) or open an issue.
+The extension may fail since the CSS changes from time to time. While I could not always keep an eye on the layout, it would be appreciated if you could send me an [email](mailto:me@hyperbola.me) or open an issue.
