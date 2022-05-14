@@ -18,7 +18,7 @@ Please install the plugin on [Chrome Web Store](https://chrome.google.com/websto
 
 Once the plugin is installed, each result on Google search pages is appended with a grey button saying "Terminate!" as shown in the following picture.
 
-![demo](res/demo_en.png)
+<img src="res/demo_en.png" alt="demo-en">
 
 Click the button and that domain will be permanently blocked and not shown on search pages.
 
