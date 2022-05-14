@@ -1,9 +1,10 @@
 # 內容農場終結者
 
-[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/)
-[![GitHub stars](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator)](#stars)
-[![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
+![release](https://img.shields.io/github/v/release/wdzeng/The-Content-Farm-Terminator)
+![chrome web store](https://img.shields.io/chrome-web-store/v/chhekpgdckchblnfdelceaigmlfbakgn)
+![user](https://img.shields.io/chrome-web-store/users/chhekpgdckchblnfdelceaigmlfbakgn?color=gold)
+![star](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator)
+![license](https://img.shields.io/github/license/wdzeng/The-Content-Farm-Terminator?color=red)
 
 [English](README_en.md) 👈
 
@@ -11,7 +12,7 @@
 
 ## 安裝
 
-可以到 [Chrome Store](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn) 上安裝。
+可以到 [Chrome 線上應用程式商店](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)安裝。
 
 ## 使用說明
 
