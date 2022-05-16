@@ -1,5 +1,11 @@
 #search[cft-search-category="news"] {
 
+  .cft-result {
+    .cft-hint {
+      margin-left: 0.5em;
+    }
+  }
+
   // Hide hr dividing search results in the card since it breaks the UI.
   hr {
     display: none

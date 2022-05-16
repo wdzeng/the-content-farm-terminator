@@ -1,15 +1,14 @@
-#search[cft-serach-category="website"] {
+#search[cft-search-category="website"] {
 
   // the "Terminate!" or "Determinate" <a> button.
   .cft-result {
     .cft-hint {
       margin-left: 0.5em;
-      color: #808080 !important;
-      font-size: small;
+    }
 
-      &:hover {
-        cursor: pointer;
-      }
+    // If the button is next to the triangle, set to no margin.
+    span+.cft-hint {
+      margin-left: 0;
     }
 
     // result node title and subtitle wrapper; for website search
