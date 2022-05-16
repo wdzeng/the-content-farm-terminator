@@ -1,0 +1,52 @@
+import { UnlistedTerminator } from './terminator.js'
+
+export class GoogleImageTerminator extends UnlistedTerminator {
+
+  constructor() { super('google-image') }
+
+  getSearchResultWrapper(): HTMLElement {
+    return document.querySelector('.islrc') as HTMLDivElement
+  }
+
+  isSearchResult(e: HTMLElement): boolean {
+    return e.classList.contains('isv-r')
+      && e.classList.contains('PNCib')
+      && e.classList.contains('MSM1fd')
+      && e.classList.contains('BUooTd')
+  }
+
+  getCurrentSearchResults(): HTMLElement[] {
+    const nodes = document.querySelectorAll('.islrc>.isv-r.PNCib.MSM1fd.BUooTd')
+    return Array.from(nodes) as HTMLElement[]
+  }
+
+  getSourceDomain(resultNode: HTMLElement): string {
+    return resultNode.querySelector('.fxgdke')!.textContent!
+  }
+
+  addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
+    const button = document.createElement('a')
+    button.href = '#'
+    button.classList.add('cft-button')
+    button.textContent = buttonText
+
+    const p = document.createElement('p')
+    p.append(
+      document.createTextNode(msgLeft),
+      button,
+      document.createTextNode(msgRight)
+    )
+    p.id = 'cft-temp-show'
+    p.classList.add('cft-image-temp-hint')
+
+    const wrapper = document.querySelector('.mJxzWe') as HTMLElement
+    wrapper.prepend(p)
+
+    return button
+  }
+}
+
+export async function init() {
+  const terminator = new GoogleImageTerminator()
+  await terminator.init()
+}

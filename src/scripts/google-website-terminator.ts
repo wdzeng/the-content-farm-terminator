@@ -3,7 +3,7 @@ import { GoogleListedTerminator } from './google-listed-terminator.js'
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
   constructor() {
-    super('website')
+    super('google-website')
   }
 
   protected getResultNodes(): HTMLDivElement[] {

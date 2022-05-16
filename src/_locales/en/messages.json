@@ -58,5 +58,8 @@
     },
     "removeActionHint": {
         "message": "$1 Unterminated successfully<br />$2 Originally not terminated, or duplicated in the list<br />$3 Illegal domain or URL"
+    },
+    "imageTerminatorRunningHint": {
+        "message": "The Content Farm Terminator! is filtering images in real time, you can #disable# it for this time only."
     }
 }

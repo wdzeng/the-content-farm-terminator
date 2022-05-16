@@ -10,17 +10,19 @@
   const tbm = urlParams.get('tbm')
   if (tbm === null) {
     // websites
-    const src = (window.browser || window.chrome).runtime.getURL('/scripts/terminate-google-website.js')
+    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-website-terminator.js')
     const contentMain = await import(src)
     contentMain.init()
   }
   else if (tbm === 'isch') {
     // images
-    // TODO
+    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-image-terminator.js')
+    const contentMain = await import(src)
+    contentMain.init()
   }
   else if (tbm === 'nws') {
     // news
-    const src = (window.browser || window.chrome).runtime.getURL('/scripts/terminate-google-news.js')
+    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-news-terminator.js')
     const contentMain = await import(src)
     contentMain.init()
   }
