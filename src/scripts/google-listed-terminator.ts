@@ -1,17 +1,9 @@
-import { ContentFarmTerminator } from './terminate.js'
+import { ListedTerminator } from './terminator.js'
 
-export abstract class GoogleListedTerminator extends ContentFarmTerminator {
+export abstract class GoogleListedTerminator extends ListedTerminator {
   
-  private category: string
-
   constructor(category: string) {
-    super()
-    this.category = category
-  }
-
-  protected markSearchCategory(): void {
-    const search = document.getElementById('search') as HTMLElement
-    search.setAttribute('cft-search-category', this.category)
+    super(category)
   }
 
   protected addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {

@@ -1,4 +1,4 @@
-import { GoogleListedTerminator } from './terminate-google-listed.js'
+import { GoogleListedTerminator } from './google-listed-terminator.js'
 
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
