@@ -428,11 +428,7 @@
         "https://www.google.ws/*"
       ],
       "resources": [
-        "/scripts/util.js",
-        "/scripts/database.js",
-        "/scripts/terminate.js",
-        "/scripts/terminate-google-website.js",
-        "/scripts/terminate-google-news.js"
+        "/scripts/*.js"
       ]
     }
   ]
