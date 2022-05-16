@@ -199,7 +199,7 @@ export abstract class UnlistedTerminator extends Terminator {
             const domain = this.getSourceDomain(addedNode)
             if (farmList.has(domain)) {
               addedNode.classList.add('cft-farm-result')
-              hideElements([addedNode], false) // fire and forget
+              // hideElements([addedNode], false) // fire and forget
             }
           }
         }
