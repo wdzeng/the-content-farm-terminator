@@ -6,7 +6,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     super()
   }
 
-  protected getAllResultNodes(): HTMLDivElement[] {
+  protected getResultNodes(): HTMLDivElement[] {
     const divGNodes: HTMLDivElement[] = Array.from(document.querySelectorAll('.v7W49e>*'))
     return divGNodes.filter(candidateNode =>
       candidateNode.classList.contains('tF2Cxc')
@@ -31,8 +31,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
 
     // Create button
     button = document.createElement('a')
-    button.classList.add('fl')
-    button.classList.add('cft-hint')
+    button.classList.add('cft-hint', 'cft-button')
     button.textContent = text
     button.href = '#'
 
@@ -41,9 +40,9 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
     const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
     const urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
-    titleWrapperNode.classList.add('cft-titles')
-    titleNode.classList.add('cft-title')
-    subtitleNode.classList.add('cft-subtitle')
+    titleWrapperNode.classList.add('cft-result-title-wrapper')
+    titleNode.classList.add('cft-result-title')
+    subtitleNode.classList.add('cft-result-subtitle')
     urlNode.classList.add('cft-url')
     const hintWrapperNode = subtitleNode.querySelector('.eFM0qc') as HTMLElement
     hintWrapperNode.appendChild(button)
@@ -54,7 +53,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
   protected addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
     const a = document.createElement('a')
     a.href = '#'
-    a.classList.add('cft')
+    a.classList.add('cft-button')
     a.textContent = buttonText
 
     const leftMessage = document.createTextNode(msgLeft)
@@ -66,18 +65,14 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
 
     const hintNode = document.createElement('div')
     hintNode.id = 'cft-temp-show'
-    hintNode.classList.add('med')
+    hintNode.classList.add('cft-bottom-hint')
     hintNode.appendChild(hintMessageNode)
 
     // Add the hint node to the bottom of the page.
-    const resultNode = document.getElementById('res') as HTMLElement
-    resultNode.parentNode!.insertBefore(hintNode, resultNode.nextSibling)
+    const botStuff = document.getElementById('botstuff') as HTMLElement
+    botStuff.prepend(hintNode)
 
     return a
-  }
-
-  protected getShowFarmResultsOnceNode(): HTMLElement {
-    return document.getElementById('cft-temp-show') as HTMLElement
   }
 
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
@@ -87,7 +82,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     // terminated domain if the user clicks it later.
     const undoButton = document.createElement('a')
     undoButton.setAttribute('cft-domain', domain)
-    undoButton.classList.add('cft-undo-hint')
+    undoButton.classList.add('cft-hint', 'cft-button')
     undoButton.textContent = buttonText
 
     // Create undo hint message
@@ -97,7 +92,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     // Create undo node that contains hint and button. 
     const undoDiv = document.createElement('div')
     undoDiv.classList.add('g', 'cft-blocked-hint')
-    undoDiv.setAttribute('ctf-domain', domain)
+    undoDiv.setAttribute('cft-domain', domain)
     undoDiv.appendChild(undoHintNode)
     undoDiv.appendChild(undoButton)
 
@@ -105,23 +100,6 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
 
     return undoButton
-  }
-
-  protected getUndoNodes(domain: string): HTMLDivElement[] {
-    const selector = `.cft-blocked-hint[ctf-domain="${domain}"]`
-    const nodes = document.querySelectorAll(selector)
-    return Array.from(nodes) as HTMLDivElement[]
-  }
-
-  protected markResultTitle(resultNode: HTMLElement, isFarm: boolean): void {
-    const resultTitleNode = resultNode.querySelector('.LC20lb') as HTMLElement
-    const className = 'cft-farm-title'
-    if (isFarm) {
-      resultTitleNode.classList.add(className)
-    }
-    else {
-      resultTitleNode.classList.remove(className)
-    }
   }
 }
 

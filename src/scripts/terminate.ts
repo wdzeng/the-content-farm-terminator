@@ -6,12 +6,20 @@ export abstract class ContentFarmTerminator {
   constructor() { }
 
   async init(): Promise<void> {
-    // Get farm result nodes.
+    // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
-    const farmResultNodes = this.getResultNodes(farmList)
+    const resultNodes = this.getResultNodes()
+    const farmResultNodes = Array<HTMLElement>()
+    const nonfarmResultNodes = Array<HTMLElement>()
+    for (const resultNode of resultNodes) {
+      const domain = this.getSourceDomain(resultNode)
+      if (farmList.has(domain)) farmResultNodes.push(resultNode)
+      else nonfarmResultNodes.push(resultNode)
+    }
 
     if (farmResultNodes.length > 0) {
       // Hide farm result nodes.
+      farmResultNodes.forEach(resultNode => resultNode.classList.add('cft-farm-result'))
       await hideElements(farmResultNodes, false)
       // Add a hint which allows user to show these results temporarily onto the
       // page.
@@ -20,18 +28,9 @@ export abstract class ContentFarmTerminator {
 
     // Add "Terminate!" button to each search result. Already hidden farm result
     // nodes are excluded.
-    const nonfarmResultNodes = this.getAllResultNodes().filter(resultNode => {
-      const domain = this.getSourceDomain(resultNode)
-      return !farmList.has(domain)
-    })
     console.log('Non-farm result nodes')
     console.log(nonfarmResultNodes)
     nonfarmResultNodes.forEach(e => this.addTerminateHint(e))
-  }
-
-  private getResultNodes(domains: Set<string>): HTMLElement[] {
-    return this.getAllResultNodes()
-      .filter(resultNode => domains.has(this.getSourceDomain(resultNode)))
   }
 
   private addShowFarmResultsOnceHint(farmCount: number): void {
@@ -43,14 +42,18 @@ export abstract class ContentFarmTerminator {
     button.onclick = once(async (e) => {
       e.preventDefault()
 
-      // Add Get all blocked results that going to be shown.
-      let blockedResultNodes = this.getAllResultNodes()
-      blockedResultNodes = blockedResultNodes.filter(isElementHidden)
+      // Add Get blocked results that are going to be shown. Noted that not 
+      // all hidden result nodes are selected. There may be result nodes that
+      // are hidden on page loaded or on user clicks the "Terminate!" button,
+      // and only the former ones are selected.
+      let blockedResultNodes = this.getResultNodes()
+      blockedResultNodes = blockedResultNodes.filter(resultNode => resultNode.classList.contains('cft-farm-result'))
       const determinateHintText = _('determinateHint')
 
       blockedResultNodes.forEach(resultNode => {
         // Set there title to farm (red).
-        this.markResultTitle(resultNode, true)
+        // resultNode.classList.add('')
+        // this.markResultTitle(resultNode, true)
 
         // Add a "Determinate" hint to these results.
         const button = this.addHintNode(resultNode, determinateHintText)
@@ -60,11 +63,12 @@ export abstract class ContentFarmTerminator {
 
           // Get other search items linking to same host and show them all.
           const domain = this.getSourceDomain(resultNode)
-          const unblockedResultNodes = this.getResultNodes(new Set([domain]))
+          const unblockedResultNodes = this.getResultNodes().filter(resultNode => this.getSourceDomain(resultNode) == domain)
           // Since these results are unblocked, we should re-add the
           // "Terminate!" hint to them, and set title to safe (default font).
           unblockedResultNodes.forEach(unblockedResultNode => {
-            this.markResultTitle(unblockedResultNode, false)
+            // this.markResultTitle(unblockedResultNode, false)
+            unblockedResultNode.classList.remove('cft-farm-result')
             this.addTerminateHint(unblockedResultNode)
           })
 
@@ -76,7 +80,7 @@ export abstract class ContentFarmTerminator {
       // Then we show the blocked results and hide the show-once hint.
       await Promise.all([
         showElements(blockedResultNodes, true),
-        hideElements([this.getShowFarmResultsOnceNode()], true)
+        hideElements([document.getElementById('cft-temp-show') as HTMLElement], true)
       ])
     })
   }
@@ -89,7 +93,7 @@ export abstract class ContentFarmTerminator {
       e.preventDefault()
 
       // Get other search items linking to same host and hide them all.
-      const resultNodes = this.getAllResultNodes()
+      const resultNodes = this.getResultNodes()
       const nodesToBeHidden = resultNodes.filter(e => this.getSourceDomain(e) === domain)
       await hideElements(nodesToBeHidden, true) // wait for fade effect
 
@@ -109,11 +113,11 @@ export abstract class ContentFarmTerminator {
       e.preventDefault()
 
       // Get all undo node for the domain and removes them
-      const undoNodes = this.getUndoNodes(domain)
+      const undoNodes = document.querySelectorAll(`.cft-blocked-hint[cft-domain="${domain}"]`)
       undoNodes.forEach(undoNode => undoNode.remove())
 
       // Show hidden result nodes that are previous hidden.
-      let unblockedResultNodes = this.getAllResultNodes()
+      let unblockedResultNodes = this.getResultNodes()
       unblockedResultNodes = unblockedResultNodes.filter(resultNode => this.getSourceDomain(resultNode) === domain)
       unblockedResultNodes = unblockedResultNodes.filter(isElementHidden)
       await showElements(unblockedResultNodes, true)
@@ -128,7 +132,7 @@ export abstract class ContentFarmTerminator {
   }
 
   // Queries all result nodes.
-  protected abstract getAllResultNodes(): HTMLElement[]
+  protected abstract getResultNodes(): HTMLElement[]
 
   // Queries the domain name of a result node.
   protected abstract getSourceDomain(resultNode: HTMLElement): string
@@ -150,20 +154,8 @@ export abstract class ContentFarmTerminator {
   // click listener for the undo button. It is super class's responsibility.
   protected abstract addUndoHintNode(hiddenResultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement
 
-  // Queries all undo node (elements having the same level as search results but
-  // showing xxx is terminated hint) that matches the domain. These nodes are to
-  // be hidden when the user clicks the undo button.
-  protected abstract getUndoNodes(domain: string): HTMLElement[]
-
-  // Marks the result title as farm result (red font) or non-farm (default).
-  protected abstract markResultTitle(resultNode: HTMLElement, isFarm: boolean): void
-
   // Add a hint banner at the end of the webpage. Returns the button to be
   // click. Do not add listener to the button. It is super class's
   // responsibility.
   protected abstract addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement
-
-  // Queries the banner node at the end of the webpage. This node is to be
-  // hidden when the user clicks the show once button.
-  protected abstract getShowFarmResultsOnceNode(): HTMLElement
 }

@@ -209,7 +209,7 @@
         "/scripts/content-script.js"
       ],
       "css": [
-        "/css/inject.css"
+        "/css/google-search.css"
       ]
     }
   ],
