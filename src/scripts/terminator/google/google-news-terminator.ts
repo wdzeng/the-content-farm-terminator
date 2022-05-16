@@ -6,6 +6,19 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     super('google-news')
   }
 
+  async init(): Promise<void> {
+    // Since a.href in the result node changes when the user clicks it, we
+    // need to preserve the hostname first.
+    const resultNodes = this.getResultNodes()
+    resultNodes.forEach(resultNode => {
+      const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
+      const domain = a.hostname
+      resultNode.setAttribute('cft-hostname-preserve', domain)
+    })
+
+    super.init()
+  }
+
   protected getResultNodes(): HTMLElement[] {
     const selector = '.v7W49e>div[data-hveid],.v7W49e g-card div[data-hveid]:not(:only-child)'
     const _resultNodes = document.querySelectorAll(selector)
@@ -14,8 +27,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected getSourceDomain(resultNode: HTMLElement): string {
-    const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
-    return a.hostname
+    return resultNode.getAttribute('cft-hostname-preserve') as string
   }
 
   protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement {
@@ -33,7 +45,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     button.href = '#'
 
     // Add button to the result node.
-    const titleNode = resultNode.querySelector('.mCBkyc.y355M.nDgy9d,.mCBkyc.y355M.JQe2Ld.nDgy9d') as HTMLElement
+    const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
     titleNode.classList.add('cft-result-title')
 
     const sourceNewsNode = resultNode.querySelector('.CEMjEf.NUnG9d') as HTMLElement
