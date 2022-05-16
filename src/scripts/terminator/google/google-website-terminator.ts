@@ -1,4 +1,4 @@
-import { GoogleListedTerminator } from './google-listed-terminator.js'
+import { GoogleListedTerminator } from './google-listed-terminator'
 
 function isNewsResultNode(resultNode: HTMLElement): boolean {
   return resultNode.classList.contains('MkXWrd')
@@ -100,10 +100,4 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
     return undoButton
   }
-}
-
-
-export async function init() {
-  const terminator = new GoogleWebsiteTerminator()
-  await terminator.init()
 }

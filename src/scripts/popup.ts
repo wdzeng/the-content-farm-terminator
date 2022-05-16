@@ -1,5 +1,6 @@
-import * as db from './database.js'
-import { isValidHostname, isValidUrl, getI18nMessage as _ } from './util.js'
+import * as db from './util/database'
+import { isValidHostname, isValidUrl } from './util'
+import { parseDocument, getI18nMessage as _ } from './util/i18n'
 
 const EMOJI_PASS = '😀'
 const EMOJI_DUPLICATED = '🤨'
@@ -141,3 +142,4 @@ function isTextAreaEmpty() {
 btnAdd.onclick = onAddHostsListener
 btnDelete.onclick = onRemoveHostsListener
 btnView.onclick = onViewAllHostsListener
+parseDocument()

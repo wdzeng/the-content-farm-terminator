@@ -1,6 +1,7 @@
-import { intersectArray, removeDuplicates, subtractArray } from './util.js'
+import { intersectArray, removeDuplicates, subtractArray } from './array.js'
 
-const storage = (window.browser || window.chrome).storage
+// eslint-disable-next-line no-undef
+const storage = (browser || chrome).storage
 const KEY_FARM_LIST = 'farmList'
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400

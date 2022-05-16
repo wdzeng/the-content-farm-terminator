@@ -1,11 +1,7 @@
-import { ListedTerminator } from './terminator.js'
+import { ListedTerminator } from '../terminator'
 
 export abstract class GoogleListedTerminator extends ListedTerminator {
   
-  constructor(category: string) {
-    super(category)
-  }
-
   protected addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
     const a = document.createElement('a')
     a.href = '#'

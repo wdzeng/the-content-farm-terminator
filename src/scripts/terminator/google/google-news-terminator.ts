@@ -1,6 +1,6 @@
-import { GoogleListedTerminator } from './google-listed-terminator.js'
+import { GoogleListedTerminator } from './google-listed-terminator'
 
-export class GoogleWebsiteTerminator extends GoogleListedTerminator {
+export class GoogleNewsTerminator extends GoogleListedTerminator {
 
   constructor() {
     super('google-news')
@@ -71,9 +71,4 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
     return undoButton
   }
-}
-
-export async function init() {
-  const terminator = new GoogleWebsiteTerminator()
-  await terminator.init()
 }

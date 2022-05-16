@@ -1,0 +1,39 @@
+env:
+  browser: true
+  commonjs: true
+  es2020: true
+extends:
+  - standard
+parserOptions:
+  ecmaVersion: latest
+rules:
+  semi:
+    - error
+    - never
+  indent:
+    - error
+    - 2
+  no-console:
+    - warn
+  padding-line-between-statements:
+    - error
+    # add blank line between function
+    - blankLine: always
+      prev: '*'
+      next: function
+    - blankLine: always
+      prev: function
+      next: '*'
+    - blankLine: always
+      prev: class
+      next: '*'
+    - blankLine: always
+      prev: '*'
+      next: class
+  brace-style:
+    - warn
+    - stroustrup
+  no-var:
+    - error
+  promise/param-names:
+    - off
