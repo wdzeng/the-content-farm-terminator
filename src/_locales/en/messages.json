@@ -24,7 +24,7 @@
         "message": "Terminate!"
     },
     "terminatedMsg": {
-        "message": "Domain \"$1\" has been terminated."
+        "message": "Domain \"$1\" has been terminated. "
     },
     "undoHint": {
         "message": "Undo"
