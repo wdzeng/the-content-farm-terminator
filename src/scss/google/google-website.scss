@@ -1,0 +1,58 @@
+#search[cft-serach-category="website"] {
+
+  // the "Terminate!" or "Determinate" <a> button.
+  .cft-result {
+    .cft-hint {
+      margin-left: 0.5em;
+      color: #808080 !important;
+      font-size: small;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    // result node title and subtitle wrapper; for website search
+    .cft-result-title-wrapper {
+      position: static !important;
+      display: flex;
+      flex-direction: column-reverse;
+
+      // result node title
+      .cft-result-title {
+        br {
+          display: none;
+        }
+
+        h3 {
+          padding-top: 1px;
+        }
+
+        .TbwUpd.NJjxre {
+          display: none;
+        }
+      }
+
+      // result node subtitle
+      .cft-result-subtitle {
+        width: 100%;
+        height: initial !important;
+        position: static !important;
+        display: flex;
+        flex-direction: row;
+        visibility: visible !important;
+
+        .eFM0qc {
+          flex-shrink: 0;
+        }
+
+        .cft-url {
+          overflow-x: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          flex-shrink: 1;
+        }
+      }
+    }
+  }
+}

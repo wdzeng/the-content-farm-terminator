@@ -1,0 +1,20 @@
+#search[cft-search-category="news"] {
+
+  // Hide hr dividing search results in the card since it breaks the UI.
+  hr {
+    display: none
+  }
+
+  .cft-blocked-hint {
+    padding: 16px;
+
+    &.cft-is-news-card {
+      margin-bottom: 16px;
+      border-left: 2px solid #dadce0;
+    }
+
+    &.cft-in-news-card {
+      // nothing
+    }
+  }
+}

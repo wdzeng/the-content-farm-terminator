@@ -6,18 +6,20 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     super()
   }
 
-  protected getResultNodes(): HTMLDivElement[] {
-    const divGNodes: HTMLDivElement[] = Array.from(document.querySelectorAll('.v7W49e>*'))
-    return divGNodes.filter(candidateNode =>
-      candidateNode.classList.contains('tF2Cxc')
-      || candidateNode.querySelector('.tF2Cxc') !== null
-      || candidateNode.querySelector('.jtfYYd') !== null
-    )
+  protected markSearchCategory(): void {
+    const search = document.getElementById('search') as HTMLElement
+    search.setAttribute('cft-search-category', 'news')
+  }
+
+  protected getResultNodes(): HTMLElement[] {
+    const selector = '.v7W49e>div[data-hveid],.v7W49e g-card div[data-hveid]:not(:only-child)'
+    const _resultNodes = document.querySelectorAll(selector)
+    const resultNodes = Array.from(_resultNodes) as HTMLElement[]
+    return resultNodes
   }
 
   protected getSourceDomain(resultNode: HTMLElement): string {
-    const selector = '.yuRUbf>a:first-child'
-    const a = resultNode.querySelector(selector) as HTMLAnchorElement
+    const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
     return a.hostname
   }
 
@@ -36,16 +38,11 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     button.href = '#'
 
     // Add button to the result node.
-    const titleWrapperNode = resultNode.querySelector('.yuRUbf') as HTMLElement
-    const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
-    const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
-    const urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
-    titleWrapperNode.classList.add('cft-result-title-wrapper')
+    const titleNode = resultNode.querySelector('.mCBkyc.y355M.nDgy9d,.mCBkyc.y355M.JQe2Ld.nDgy9d') as HTMLElement
     titleNode.classList.add('cft-result-title')
-    subtitleNode.classList.add('cft-result-subtitle')
-    urlNode.classList.add('cft-url')
-    const hintWrapperNode = subtitleNode.querySelector('.eFM0qc') as HTMLElement
-    hintWrapperNode.appendChild(button)
+
+    const sourceNewsNode = resultNode.querySelector('.CEMjEf.NUnG9d') as HTMLElement
+    sourceNewsNode.appendChild(button)
 
     return button
   }
@@ -78,6 +75,9 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
     const domain = this.getSourceDomain(resultNode)
 
+    const parentNode = resultNode.parentElement as HTMLElement
+    const isInCard = !parentNode.classList.contains('v7W49e')
+
     // Create undo button. An attribute is added so that we can infer the
     // terminated domain if the user clicks it later.
     const undoButton = document.createElement('a')
@@ -91,7 +91,7 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
 
     // Create undo node that contains hint and button. 
     const undoDiv = document.createElement('div')
-    undoDiv.classList.add('g', 'cft-blocked-hint')
+    undoDiv.classList.add('cft-blocked-hint', isInCard ? 'cft-in-news-card' : 'cft-is-news-card')
     undoDiv.setAttribute('cft-domain', domain)
     undoDiv.appendChild(undoHintNode)
     undoDiv.appendChild(undoButton)

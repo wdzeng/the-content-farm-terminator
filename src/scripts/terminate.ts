@@ -6,6 +6,8 @@ export abstract class ContentFarmTerminator {
   constructor() { }
 
   async init(): Promise<void> {
+    this.markSearchCategory()
+
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
     const resultNodes = this.getResultNodes()
@@ -16,6 +18,9 @@ export abstract class ContentFarmTerminator {
       if (farmList.has(domain)) farmResultNodes.push(resultNode)
       else nonfarmResultNodes.push(resultNode)
     }
+
+    // Add class to result nodes.
+    resultNodes.forEach(resultNode => resultNode.classList.add('cft-result'))
 
     if (farmResultNodes.length > 0) {
       // Hide farm result nodes.
@@ -28,8 +33,6 @@ export abstract class ContentFarmTerminator {
 
     // Add "Terminate!" button to each search result. Already hidden farm result
     // nodes are excluded.
-    console.log('Non-farm result nodes')
-    console.log(nonfarmResultNodes)
     nonfarmResultNodes.forEach(e => this.addTerminateHint(e))
   }
 
@@ -58,6 +61,9 @@ export abstract class ContentFarmTerminator {
         // Add a "Determinate" hint to these results.
         const button = this.addHintNode(resultNode, determinateHintText)
 
+        // Mark the result node as shown temporarily
+        resultNode.classList.add('cft-farm-result-shown')
+
         button.onclick = once(async (e) => {
           e.preventDefault()
 
@@ -67,8 +73,7 @@ export abstract class ContentFarmTerminator {
           // Since these results are unblocked, we should re-add the
           // "Terminate!" hint to them, and set title to safe (default font).
           unblockedResultNodes.forEach(unblockedResultNode => {
-            // this.markResultTitle(unblockedResultNode, false)
-            unblockedResultNode.classList.remove('cft-farm-result')
+            unblockedResultNode.classList.remove('cft-farm-result', 'cft-farm-result-shown')
             this.addTerminateHint(unblockedResultNode)
           })
 
@@ -122,14 +127,16 @@ export abstract class ContentFarmTerminator {
       unblockedResultNodes = unblockedResultNodes.filter(isElementHidden)
       await showElements(unblockedResultNodes, true)
 
-      // No need to re-add "Terminate!" button since they are already added.
-      //// Re-add 'Terminate!' button to these nodes
-      //// unblockedResultNodes.forEach(this.addTerminateHint)
+      // Re-add 'Terminate!' button to these nodes
+      unblockedResultNodes.forEach(resultNode => this.addTerminateHint(resultNode))
 
       // Remove domain from database
       await db.removeHosts([domain])
     })
   }
+
+  // Marks the search category.
+  protected abstract markSearchCategory(): void
 
   // Queries all result nodes.
   protected abstract getResultNodes(): HTMLElement[]
