@@ -97,5 +97,6 @@ jobs:
         with:
           xpi-path: ${{ env.PATH_FIREFOX_XPI }}
           addon-guid: ${{ secrets.FIREFOX_ADDON_GUID }}
+          license: MIT
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
