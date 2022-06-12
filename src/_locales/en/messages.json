@@ -5,7 +5,7 @@
     "description": {
         "message": "Automatically hide content farms on Google Search pages 😀"
     },
-    "areaPlaceHolder": {
+    "areaPlaceholder": {
         "message": "# Key in host names here. One host or url per line. For example:\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n# Then click \"Terminate!\". Isn't it easy?\n# Author: Hyperbola"
     },
     "btnAdd": {
