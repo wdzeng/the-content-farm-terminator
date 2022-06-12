@@ -7,8 +7,8 @@ on:
   workflow_dispatch: ~
 
 env:
-  PATH_CHROME_ZIP: The-Content-Farm-Terminator-Chrome.zip
-  PATH_FIREFOX_XPI: The-Content-Farm-Terminator-Firefox.zip
+  PATH_CHROME_ZIP: the-content-farm-terminator-Chrome.zip
+  PATH_FIREFOX_XPI: the-content-farm-terminator-Firefox.zip
 
 jobs:
   build-chrome:
