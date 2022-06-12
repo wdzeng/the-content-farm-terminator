@@ -1,13 +1,14 @@
 {
   "name": "the-content-farm-terminator",
   "version": "4.0.2",
-  "description": "A chrome extension for blocking content farm results on search pages.",
+  "private": true,
+  "description": "A browser extension that blocks content farm results on Google search pages.",
   "author": {
     "name": "hyperbola",
     "email": "me@hyperbola.me",
     "url": "https://github.com/wdzeng"
   },
-  "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
+  "homepage": "https://github.com/wdzeng/the-content-farm-terminator",
   "repository": {
     "type": "git",
     "url": "https://github.com/wdzeng/the-content-farm-terminator.git"
@@ -23,19 +24,19 @@
     "clean": "rm -rf lib dist the-content-farm-terminator-*.zip"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.3.2",
-    "@types/chrome": "0.0.184",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@types/chrome": "0.0.190",
     "@types/firefox-webext-browser": "^94.0.1",
-    "eslint": "^8.15.0",
+    "eslint": "^8.17.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-n": "^15.2.2",
     "eslint-plugin-promise": "^6.0.0",
-    "rollup": "^2.73.0",
-    "sass": "^1.51.0",
+    "rollup": "^2.75.6",
+    "sass": "^1.52.3",
     "sucrase": "^3.21.0",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.3"
   },
   "bugs": {
     "url": "https://github.com/wdzeng/the-content-farm-terminator/issues"
