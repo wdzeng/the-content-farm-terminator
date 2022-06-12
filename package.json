@@ -19,9 +19,9 @@
     "tsc": "rollup -c rollup.config.js && eslint --fix dist/scripts",
     "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
     "copy": "cp -r src/_locales src/images src/popup.html dist",
-    "zip:chrome": "cd dist && zip -FSr ../the-content-farm-terminator-Chrome.zip .",
-    "zip:firefox": "cd dist && zip -FSr ../the-content-farm-terminator-Firefox.zip .",
-    "clean": "rm -rf lib dist the-content-farm-terminator-*.zip"
+    "zip:chrome": "cd dist && zip -FSr ../the-content-farm-terminator_chrome.zip .",
+    "zip:firefox": "cd dist && zip -FSr ../the-content-farm-terminator_firefox.zip .",
+    "clean": "rm -rf lib dist the-content-farm-terminator_*.zip"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.3",
