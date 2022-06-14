@@ -20,7 +20,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected getResultNodes(): HTMLElement[] {
-    const selector = '.v7W49e>div[data-hveid] .ftSUBd,.v7W49e g-card div[data-hveid]:not(:only-child)'
+    const selector = '.v7W49e>div[data-hveid] .ftSUBd' // ,.v7W49e g-card div[data-hveid]:not(:only-child)'
     const _resultNodes = document.querySelectorAll(selector)
     const resultNodes = Array.from(_resultNodes) as HTMLElement[]
     return resultNodes
@@ -57,8 +57,9 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
     const domain = this.getSourceDomain(resultNode)
 
-    const parentNode = resultNode.parentElement as HTMLElement
-    const isInCard = !parentNode.classList.contains('v7W49e')
+    // 4.0.3: it seems that each block hint element is now in the card
+    // const parentNode = resultNode.parentElement as HTMLElement
+    // const isInCard = !parentNode.classList.contains('v7W49e')
 
     // Create undo button. An attribute is added so that we can infer the
     // terminated domain if the user clicks it later.
@@ -73,7 +74,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
 
     // Create undo node that contains hint and button. 
     const undoDiv = document.createElement('div')
-    undoDiv.classList.add('cft-blocked-hint', isInCard ? 'cft-in-news-card' : 'cft-is-news-card')
+    undoDiv.classList.add('cft-blocked-hint' /* , isInCard ? 'cft-in-news-card' : 'cft-is-news-card' */)
     undoDiv.setAttribute('cft-domain', domain)
     undoDiv.appendChild(undoHintNode)
     undoDiv.appendChild(undoButton)
