@@ -12,12 +12,21 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
   protected getResultNodes(): HTMLElement[] {
     // Regular result nodes
-    let commonResultNodes: HTMLElement[] = Array.from(document.querySelectorAll('.v7W49e>*,[data-hveid="CAEQNw"]'))
-    commonResultNodes = commonResultNodes.filter(candidateNode =>
-      candidateNode.classList.contains('tF2Cxc')
-      || candidateNode.querySelector('.tF2Cxc') !== null
-      || candidateNode.querySelector('.jtfYYd') !== null
-    )
+    // div.g is regular result node
+    let commonResultNodes: HTMLElement[] = Array.from(document.querySelectorAll('div.g'))
+    commonResultNodes = commonResultNodes.filter(candidateNode => {
+      // If a div.g has parent also div.g, it is not a result node
+      let parentNode = candidateNode.parentElement
+      if (parentNode?.closest('div.g')) {
+        return false
+      }
+
+      return candidateNode.classList.contains('tF2Cxc') // single result node
+        || candidateNode.querySelector('.tF2Cxc') !== null // group result node that contains another div.g
+        || candidateNode.querySelector('.jtfYYd') !== null // group result node that contains no div.g
+
+      // there is a little possibilities of mis-selections...
+    })
 
     // News result nodes may appear on Google Website Search
     const newsResultNodes = Array.from(document.querySelectorAll('.MkXWrd')) as HTMLElement[]
