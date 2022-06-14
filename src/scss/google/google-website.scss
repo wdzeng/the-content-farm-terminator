@@ -28,7 +28,7 @@ body[cft-search-category="google-website"] {
       flex-direction: column-reverse;
 
       // result node title
-      .cft-result-title {
+      a {
         br {
           display: none;
         }
