@@ -6,6 +6,11 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     super('google-news')
   }
 
+  private static isInCarousel(resultNode: HTMLElement): boolean {
+    const classList = resultNode.classList
+    return classList.contains('E7YbUb')
+  }
+
   async init(): Promise<void> {
     // Since a.href in the result node changes when the user clicks it, we
     // need to preserve the hostname first.
@@ -20,7 +25,9 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected getResultNodes(): HTMLElement[] {
-    const selector = '.v7W49e>div[data-hveid] .ftSUBd' // ,.v7W49e g-card div[data-hveid]:not(:only-child)'
+    // .v7W49e>div[data-hveid]: regular news result
+    // g-scrolling-carousel: carousel news
+    const selector = '.v7W49e>div[data-hveid] .ftSUBd,g-scrolling-carousel.F8yfEe .E7YbUb'
     const _resultNodes = document.querySelectorAll(selector)
     const resultNodes = Array.from(_resultNodes) as HTMLElement[]
     return resultNodes
@@ -45,11 +52,17 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     button.href = '#'
 
     // Add button to the result node.
+    let container: HTMLElement
+    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+    }
+    else {
+      container = resultNode.querySelector('.CEMjEf.NUnG9d')!
+    }
     const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
     titleNode.classList.add('cft-result-title')
 
-    const sourceNewsNode = resultNode.querySelector('.CEMjEf.NUnG9d') as HTMLElement
-    sourceNewsNode.appendChild(button)
+    container.appendChild(button)
 
     return button
   }

@@ -1,26 +1,50 @@
 body[cft-search-category="google-news"] {
 
-  .cft-result {
-    .cft-hint {
-      margin-left: 0.5em;
+  // regular search result
+  div[data-hveid] {
+    .cft-result {
+      .cft-hint {
+        margin-left: 0.5em;
+      }
     }
-  }
 
-  // Hide hr dividing search results in the card since it breaks the UI.
-  hr {
-    display: none
-  }
+    .cft-blocked-hint {
+      padding: 16px;
 
-  .cft-blocked-hint {
-    padding: 16px;
-
-    &.cft-is-news-card {
+      // &.cft-is-news-card {
       margin-bottom: 16px;
       border-left: 2px solid #dadce0;
+      // }
+
+      // &.cft-in-news-card {
+      //   // nothing
+      // }
+    }
+  }
+
+  // carousel
+  .fhQnRd {
+    
+    .cft-farm-result-container {
+      background-image: url('https://raw.githubusercontent.com/wdzeng/the-content-farm-terminator/main/src/images/icon128.png');
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
-    &.cft-in-news-card {
-      // nothing
+    .cft-blocked-hint {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .cft-undo-hint {
+        // since the card is too small with show only undo button
+        display: none
+      }
     }
   }
 }
