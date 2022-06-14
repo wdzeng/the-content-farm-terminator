@@ -20,7 +20,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected getResultNodes(): HTMLElement[] {
-    const selector = '.v7W49e>div[data-hveid],.v7W49e g-card div[data-hveid]:not(:only-child)'
+    const selector = '.v7W49e>div[data-hveid] .ftSUBd,.v7W49e g-card div[data-hveid]:not(:only-child)'
     const _resultNodes = document.querySelectorAll(selector)
     const resultNodes = Array.from(_resultNodes) as HTMLElement[]
     return resultNodes
