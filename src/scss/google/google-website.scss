@@ -16,7 +16,9 @@ body[cft-search-category="google-website"] {
       margin-left: 0.5em;
     }
 
-    // If the button is next to the triangle, set to no margin.
+    // If the button is next to the triangle dropdown, set to no margin.
+    // Such dropdown is a simple <span> tag; not knowing how to select it
+    // properly.
     span+.cft-hint {
       margin-left: 0;
     }
