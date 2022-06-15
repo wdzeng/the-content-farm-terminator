@@ -82,6 +82,11 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
 
     // For result node in carousel, simply add a button for it.
     if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      // Since the result is not removed from the page, remove the terminate
+      // button.
+      const termButton = resultNode.querySelector('.cft-button')!
+      termButton.remove()
+
       const container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
       container.appendChild(undoButton)
     }
