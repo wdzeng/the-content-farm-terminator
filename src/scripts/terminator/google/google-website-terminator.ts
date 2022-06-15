@@ -1,11 +1,11 @@
-import { hideElements, showElements } from '../../util'
+import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
 import { GoogleListedTerminator } from './google-listed-terminator'
 
-function isNewsResultNode(resultNode: HTMLElement): boolean {
-  return resultNode.classList.contains('MkXWrd')
-}
-
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
+
+  private static isNewsResultNode(resultNode: HTMLElement): boolean {
+    return resultNode.classList.contains('MkXWrd')
+  }
 
   constructor() {
     super('google-website')
@@ -36,7 +36,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
   }
 
   protected getSourceDomain(resultNode: HTMLElement): string {
-    if (isNewsResultNode(resultNode)) {
+    if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
       // news result node
       const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
       return a.hostname
@@ -63,9 +63,9 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     button.href = '#'
 
     // Add button to the result node.
-    if (isNewsResultNode(resultNode)) {
+    if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
       // news result node
-      const wrapper = resultNode.querySelector('.CEMjEf.NUnG9d') as HTMLElement
+      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd') as HTMLElement
       wrapper.appendChild(button)
     }
     else {
@@ -96,29 +96,47 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     undoButton.classList.add('cft-hint', 'cft-button')
     undoButton.textContent = buttonText
 
-    // Create undo hint message
-    const undoHintNode = document.createElement('span')
-    undoHintNode.textContent = undoHintText
+    if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
+      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+      wrapper.appendChild(undoButton)
+    }
+    else {
+      // Create undo hint message
+      const undoHintNode = document.createElement('span')
+      undoHintNode.textContent = undoHintText
 
-    // Create undo node that contains hint and button. 
-    const undoDiv = document.createElement('div')
-    undoDiv.classList.add('cft-blocked-hint')
-    undoDiv.classList.add(isNewsResultNode(resultNode) ? 'MkXWrd' : 'g')
-    undoDiv.setAttribute('cft-domain', domain)
-    undoDiv.appendChild(undoHintNode)
-    undoDiv.appendChild(undoButton)
+      // Create undo node that contains hint and button. 
+      const undoDiv = document.createElement('div')
+      undoDiv.classList.add('cft-blocked-hint')
+      undoDiv.classList.add(GoogleWebsiteTerminator.isNewsResultNode(resultNode) ? 'MkXWrd' : 'g')
+      undoDiv.setAttribute('cft-domain', domain)
+      undoDiv.appendChild(undoHintNode)
+      undoDiv.appendChild(undoButton)
 
-    // Insert undo node next to the (hidden) result node
-    resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+      // Insert undo node next to the (hidden) result node
+      resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+    }
 
     return undoButton
   }
 
-  protected hideResults(elements: HTMLElement[], init: boolean): Promise<void> {
-    return hideElements(elements, !init)
+  protected async hideResults(elements: HTMLElement[], init: boolean): Promise<void> {
+    const regular: HTMLElement[] = []
+    const news: HTMLElement[] = []
+    elements.forEach(x => GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x))
+    await Promise.all([
+      greyOutElements(news, !init),
+      hideElements(regular, !init)
+    ])
   }
 
-  protected showResults(elements: HTMLElement[]): Promise<void> {
-    return showElements(elements, true)
+  protected async showResults(elements: HTMLElement[]): Promise<void> {
+    const regular: HTMLElement[] = []
+    const news: HTMLElement[] = []
+    elements.forEach(x => GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x))
+    await Promise.all([
+      greyInElements(news, true),
+      showElements(regular, true)
+    ])
   }
 }
