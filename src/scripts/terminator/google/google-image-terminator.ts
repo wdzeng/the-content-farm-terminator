@@ -4,27 +4,27 @@ export class GoogleImageTerminator extends UnlistedTerminator {
 
   constructor() { super('google-image') }
 
-  getSearchResultWrapper(): HTMLElement {
+  protected getSearchResultWrapper(): HTMLElement {
     return document.querySelector('.islrc') as HTMLDivElement
   }
 
-  isSearchResult(e: HTMLElement): boolean {
+  protected isSearchResult(e: HTMLElement): boolean {
     return e.classList.contains('isv-r')
       && e.classList.contains('PNCib')
       && e.classList.contains('MSM1fd')
       && e.classList.contains('BUooTd')
   }
 
-  getCurrentSearchResults(): HTMLElement[] {
+  protected getCurrentSearchResults(): HTMLElement[] {
     const nodes = document.querySelectorAll('.islrc>.isv-r.PNCib.MSM1fd.BUooTd')
     return Array.from(nodes) as HTMLElement[]
   }
 
-  getSourceDomain(resultNode: HTMLElement): string {
+  protected getSourceDomain(resultNode: HTMLElement): string {
     return resultNode.querySelector('.fxgdke')!.textContent!
   }
 
-  addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
+  protected addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
     const button = document.createElement('a')
     button.href = '#'
     button.classList.add('cft-button')

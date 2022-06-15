@@ -1,3 +1,4 @@
+import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
 import { GoogleListedTerminator } from './google-listed-terminator'
 
 export class GoogleNewsTerminator extends GoogleListedTerminator {
@@ -27,7 +28,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   protected getResultNodes(): HTMLElement[] {
     // .v7W49e>div[data-hveid]: regular news result
     // g-scrolling-carousel: carousel news
-    const selector = '.v7W49e>div[data-hveid] .ftSUBd,g-scrolling-carousel.F8yfEe .E7YbUb'
+    const selector = '.v7W49e>div[data-hveid],g-scrolling-carousel.F8yfEe .E7YbUb'
     const _resultNodes = document.querySelectorAll(selector)
     const resultNodes = Array.from(_resultNodes) as HTMLElement[]
     return resultNodes
@@ -37,7 +38,12 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     return resultNode.getAttribute('cft-hostname-preserve') as string
   }
 
-  protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement {
+  protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
+    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      // Do not add hint node
+      return null
+    }
+
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -52,22 +58,18 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     button.href = '#'
 
     // Add button to the result node.
-    let container: HTMLElement
-    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
-      container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
-    }
-    else {
-      container = resultNode.querySelector('.CEMjEf.NUnG9d')!
-    }
+    const container = resultNode.querySelector('.CEMjEf.NUnG9d')!
+    container.appendChild(button)
+    return button
     // const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
     // titleNode.classList.add('cft-result-title')
-
-    container.appendChild(button)
-
-    return button
   }
 
-  protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
+  protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null {
+    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      return null
+    }
+
     const domain = this.getSourceDomain(resultNode)
 
     // 4.0.3: it seems that each block hint element is now in the card
@@ -97,5 +99,32 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
 
     return undoButton
+  }
+
+  protected async hideResults(resultNodes: HTMLElement[], init: boolean): Promise<void> {
+    const regular: HTMLElement[] = []
+    const carousel: HTMLElement[] = []
+
+    resultNodes.forEach(x => {
+      GoogleNewsTerminator.isInCarousel(x) ? carousel.push(x) : regular.push(x)
+    })
+    await Promise.all([
+      greyOutElements(carousel, !init),
+      hideElements(regular, !init)
+    ])
+  }
+
+  protected async showResults(resultNodes: HTMLElement[]): Promise<void> {
+    const regular: HTMLElement[] = []
+    const carousel: HTMLElement[] = []
+
+    resultNodes.forEach(x => {
+      GoogleNewsTerminator.isInCarousel(x) ? carousel.push(x) : regular.push(x)
+    })
+
+    await Promise.all([
+      greyInElements(carousel, true),
+      showElements(regular, true)
+    ])
   }
 }

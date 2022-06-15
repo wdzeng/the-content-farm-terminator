@@ -24,27 +24,10 @@ body[cft-search-category="google-news"] {
 
   // carousel
   .fhQnRd {
-    
-    .cft-farm-result-container {
-      background-image: url('https://raw.githubusercontent.com/wdzeng/the-content-farm-terminator/main/src/images/icon128.png');
-      background-repeat: no-repeat;
-      background-position: center;
-    }
 
-    .cft-blocked-hint {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .cft-undo-hint {
-        // since the card is too small with show only undo button
-        display: none
-      }
+    .cft-farm-result {
+      filter: grayscale(100%);
+      opacity: 0.2;
     }
   }
 }
