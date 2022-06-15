@@ -69,7 +69,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null {
     const domain = this.getSourceDomain(resultNode)
 
-    // 4.0.3: it seems that each block hint element is now in the card
+    // 4.1.0: it seems that each block hint element is now in the card
     // const parentNode = resultNode.parentElement as HTMLElement
     // const isInCard = !parentNode.classList.contains('v7W49e')
 
