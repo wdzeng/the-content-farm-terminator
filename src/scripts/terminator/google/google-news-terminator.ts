@@ -12,7 +12,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     return classList.contains('E7YbUb')
   }
 
-  async init(): Promise<void> {
+  protected async init(): Promise<void> {
     // Since a.href in the result node changes when the user clicks it, we
     // need to preserve the hostname first.
     const resultNodes = this.getResultNodes()
