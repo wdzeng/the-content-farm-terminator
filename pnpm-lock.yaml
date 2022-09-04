@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@rollup/plugin-typescript': ^8.3.3
-  '@types/chrome': 0.0.190
+  '@types/chrome': 0.0.196
   '@types/firefox-webext-browser': ^94.0.1
   eslint: ^8.17.0
   eslint-config-standard: ^17.0.0
@@ -17,7 +17,7 @@ specifiers:
 
 devDependencies:
   '@rollup/plugin-typescript': 8.3.3_a4s7325ov6m337p2dvgeh54tg4
-  '@types/chrome': 0.0.190
+  '@types/chrome': 0.0.196
   '@types/firefox-webext-browser': 94.0.1
   eslint: 8.17.0
   eslint-config-standard: 17.0.0_2vzjc6wa644febnedshovlwyla
@@ -94,8 +94,8 @@ packages:
       rollup: 2.75.6
     dev: true
 
-  /@types/chrome/0.0.190:
-    resolution: {integrity: sha512-lCwwIBfaD+PhG62qFB46mIBpD+xBIa+PedNB24KR9YnmJ0Zn9h0OwP1NQBhI8Cbu1rKwTQHTxhs7GhWGyUvinw==}
+  /@types/chrome/0.0.196:
+    resolution: {integrity: sha512-LAjGIQYC0wyiYu6lVT03dBrHBfYTMsM8EmNfQ+UdZipGZe8OUiir6weoa9oQoBw3T3RLzBCp9m904T+rFtpPAg==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.8
