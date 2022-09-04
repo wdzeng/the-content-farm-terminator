@@ -10,6 +10,14 @@ body[cft-search-category="google-image"] {
   //   opacity: 0.2;
   // }
 
+  .cft-farm-result:not(.cft-farm-result-shown) {
+
+    // image title
+    .VFACy.kGQAp.sMi44c.d0NI4c.lNHeqe.WGvvNb {
+      visibility: hidden;
+    }
+  }
+
   .cft-image-temp-hint {
     padding: 0 20px;
   }
