@@ -22,9 +22,15 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
         return false
       }
 
-      return candidateNode.classList.contains('tF2Cxc') // single result node
-        || candidateNode.querySelector('.tF2Cxc') !== null // group result node that contains another div.g
-        || candidateNode.querySelector('.jtfYYd') !== null // group result node that contains no div.g
+      return (
+        // single result node
+        candidateNode.classList.contains("tF2Cxc") ||
+        // group result node that contains another div.g
+        candidateNode.querySelector(".tF2Cxc") !== null ||
+        // group result node that contains no div.g
+        // https://github.com/wdzeng/the-content-farm-terminator/issues/16
+        candidateNode.querySelector(".kvH3mc.BToiNc.UK95Uc")
+      )
 
       // there is a little possibilities of mis-selections...
     })
