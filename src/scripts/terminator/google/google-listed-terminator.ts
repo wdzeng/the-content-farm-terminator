@@ -1,8 +1,11 @@
 import { ListedTerminator } from '../terminator'
 
 export abstract class GoogleListedTerminator extends ListedTerminator {
-  
-  protected addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
+  protected addShowFarmResultsOnceNode(
+    msgLeft: string,
+    buttonText: string,
+    msgRight: string
+  ): HTMLElement {
     const a = document.createElement('a')
     a.href = '#'
     a.classList.add('cft-button')
@@ -27,4 +30,3 @@ export abstract class GoogleListedTerminator extends ListedTerminator {
     return a
   }
 }
-

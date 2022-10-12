@@ -1,10 +1,9 @@
+import { greyInElements, greyOutElements, hideElements, once } from '../util'
 import * as db from '../util/database'
-import { /* hideElements, isElementHidden, */ greyInElements, greyOutElements, hideElements, once, /* showElements */ } from "../util"
 import { getI18nMessage as _ } from '../util/i18n'
 
 export abstract class Terminator {
-
-  constructor(private category: string) { }
+  constructor(private category: string) {}
 
   async run(): Promise<void> {
     this.markSearchCategory()
@@ -19,7 +18,6 @@ export abstract class Terminator {
 }
 
 export abstract class ListedTerminator extends Terminator {
-
   protected async init(): Promise<void> {
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
@@ -37,9 +35,11 @@ export abstract class ListedTerminator extends Terminator {
 
     if (farmResultNodes.length > 0) {
       // Hide farm result nodes.
-      farmResultNodes.forEach(resultNode => resultNode.classList.add('cft-farm-result'))
+      farmResultNodes.forEach(resultNode =>
+        resultNode.classList.add('cft-farm-result')
+      )
       this.hideResults(farmResultNodes, true) // fire and forget
-      // hideElements(farmResultNodes, false) // fire and forget
+
       // Add a hint which allows user to show these results temporarily onto the
       // page.
       this.addShowFarmResultsOnceHint(farmResultNodes.length)
@@ -55,23 +55,25 @@ export abstract class ListedTerminator extends Terminator {
     const [msgLeft, msgRight] = msg.split('#')
     const buttonText = _('showFarmResultsOneHint')
 
-    const button = this.addShowFarmResultsOnceNode(msgLeft, buttonText, msgRight)
-    button.onclick = once(async (e) => {
+    const button = this.addShowFarmResultsOnceNode(
+      msgLeft,
+      buttonText,
+      msgRight
+    )
+    button.onclick = once(async e => {
       e.preventDefault()
 
-      // Add Get blocked results that are going to be shown. Noted that not 
+      // Add Get blocked results that are going to be shown. Noted that not
       // all hidden result nodes are selected. There may be result nodes that
       // are hidden on page loaded or on user clicks the "Terminate!" button,
       // and only the former ones are selected.
       let blockedResultNodes = this.getResultNodes()
-      blockedResultNodes = blockedResultNodes.filter(resultNode => resultNode.classList.contains('cft-farm-result'))
+      blockedResultNodes = blockedResultNodes.filter(resultNode =>
+        resultNode.classList.contains('cft-farm-result')
+      )
       const determinateHintText = _('determinateHint')
 
       blockedResultNodes.forEach(resultNode => {
-        // Set there title to farm (red).
-        // resultNode.classList.add('')
-        // this.markResultTitle(resultNode, true)
-
         // Add a "Determinate" hint to these results.
         const button = this.addHintNode(resultNode, determinateHintText)
 
@@ -79,16 +81,22 @@ export abstract class ListedTerminator extends Terminator {
         resultNode.classList.add('cft-farm-result-shown')
 
         if (button) {
-          button.onclick = once(async (e) => {
+          button.onclick = once(async e => {
             e.preventDefault()
 
             // Get other search items linking to same host and show them all.
             const domain = this.getSourceDomain(resultNode)
-            const unblockedResultNodes = this.getResultNodes().filter(resultNode => this.getSourceDomain(resultNode) === domain)
+            const unblockedResultNodes = this.getResultNodes().filter(
+              resultNode => this.getSourceDomain(resultNode) === domain
+            )
+
             // Since these results are unblocked, we should re-add the
             // "Terminate!" hint to them, and set title to safe (default font).
             unblockedResultNodes.forEach(unblockedResultNode => {
-              unblockedResultNode.classList.remove('cft-farm-result', 'cft-farm-result-shown')
+              unblockedResultNode.classList.remove(
+                'cft-farm-result',
+                'cft-farm-result-shown'
+              )
               this.addTerminateHint(unblockedResultNode)
             })
 
@@ -101,7 +109,10 @@ export abstract class ListedTerminator extends Terminator {
       // Then we show the blocked results and hide the show-once hint.
       await Promise.all([
         this.showResults(blockedResultNodes),
-        hideElements([document.getElementById('cft-temp-show') as HTMLElement], true)
+        hideElements(
+          [document.getElementById('cft-temp-show') as HTMLElement],
+          true
+        ),
       ])
     })
   }
@@ -111,13 +122,16 @@ export abstract class ListedTerminator extends Terminator {
     const hintNode = this.addHintNode(resultNode, _('terminateHint'))
 
     if (hintNode) {
-      hintNode.onclick = once(async (e) => {
+      hintNode.onclick = once(async e => {
         e.preventDefault()
 
         // Get other search items linking to same host and hide them all.
         const resultNodes = this.getResultNodes()
-        const resultNodesToBeHidden = resultNodes.filter(e => this.getSourceDomain(e) === domain)
-        await this.hideResults(resultNodesToBeHidden, false) // wait for fade effect
+        const resultNodesToBeHidden = resultNodes.filter(
+          e => this.getSourceDomain(e) === domain
+        )
+        // wait for fade effect
+        await this.hideResults(resultNodesToBeHidden, false)
 
         // THEN add undo hints to these nodes
         resultNodesToBeHidden.forEach(e => this.addUndoHint(e))
@@ -130,24 +144,33 @@ export abstract class ListedTerminator extends Terminator {
 
   private addUndoHint(hiddenResultNode: HTMLElement): void {
     const domain = this.getSourceDomain(hiddenResultNode)
-    const undoButton = this.addUndoHintNode(hiddenResultNode, _('undoHint'), _('terminatedMsg', domain))
+    const undoButton = this.addUndoHintNode(
+      hiddenResultNode,
+      _('undoHint'),
+      _('terminatedMsg', domain)
+    )
 
     if (undoButton) {
-      undoButton.onclick = once(async (e) => {
+      undoButton.onclick = once(async e => {
         e.preventDefault()
 
         // Get all undo node for the domain and removes them
-        const undoNodes = document.querySelectorAll(`.cft-blocked-hint[cft-domain="${domain}"]`)
+        const undoNodes = document.querySelectorAll(
+          `.cft-blocked-hint[cft-domain="${domain}"]`
+        )
         undoNodes.forEach(undoNode => undoNode.remove())
 
         // Show hidden result nodes that are previous hidden.
         let unblockedResultNodes = this.getResultNodes()
-        unblockedResultNodes = unblockedResultNodes.filter(resultNode => this.getSourceDomain(resultNode) === domain)
-        // unblockedResultNodes = unblockedResultNodes.filter(isElementHidden) // what does this mean?
+        unblockedResultNodes = unblockedResultNodes.filter(
+          resultNode => this.getSourceDomain(resultNode) === domain
+        )
         await this.showResults(unblockedResultNodes)
 
         // Re-add 'Terminate!' button to these nodes
-        unblockedResultNodes.forEach(resultNode => this.addTerminateHint(resultNode))
+        unblockedResultNodes.forEach(resultNode =>
+          this.addTerminateHint(resultNode)
+        )
 
         // Remove domain from database
         await db.removeHosts([domain])
@@ -161,58 +184,75 @@ export abstract class ListedTerminator extends Terminator {
   // Queries the domain name of a result node.
   protected abstract getSourceDomain(resultNode: HTMLElement): string
 
-  // Add or set a hint to a result node. This function may be called for three 
+  // Add or set a hint to a result node. This function may be called for three
   // scenario.
+  //
   // - The search page is just loaded so add "Terminate!" hint to each search
   //   results.
-  // - The user clicks the "show farm result once" button, so hidden farm results
-  //   are shown and added "Determinate" hint.
-  // - The user clicks the "Determinate" hint mentioned above, so the hint
-  //   is set to "Terminate!" as same as the first one.
+  // - The user clicks the "show farm result once" button, so hidden farm
+  //   results are shown and added "Determinate" hint.
+  // - The user clicks the "Determinate" hint mentioned above, so the hint is
+  //   set to "Terminate!" as same as the first one.
   //
   // Returns the button element.
-  protected abstract addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null
+  protected abstract addHintNode(
+    resultNode: HTMLElement,
+    text: string
+  ): HTMLElement | null
 
   // Add an undo hint and button onto the page. Returns the button element. The
   // result node should be invisible but remains in the DOM tree. Do not add
   // click listener for the undo button. It is super class's responsibility.
-  protected abstract addUndoHintNode(hiddenResultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null
+  protected abstract addUndoHintNode(
+    hiddenResultNode: HTMLElement,
+    buttonText: string,
+    undoHintText: string
+  ): HTMLElement | null
 
   // Add a hint banner at the end of the webpage. Returns the button to be
   // click. Do not add listener to the button. It is super class's
   // responsibility.
-  protected abstract addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement
+  protected abstract addShowFarmResultsOnceNode(
+    msgLeft: string,
+    buttonText: string,
+    msgRight: string
+  ): HTMLElement
 
-  protected abstract hideResults(elements: HTMLElement[], init: boolean): Promise<void>
+  protected abstract hideResults(
+    elements: HTMLElement[],
+    init: boolean
+  ): Promise<void>
 
   protected abstract showResults(elements: HTMLElement[]): Promise<void>
 }
 
-// Unlisted terminator is used for webpage whose search results are not a
-// static list; for example Google Images, which search results are dynamically
-// loaded blocks.
+// Unlisted terminator is used for webpage whose search results are not a static
+// list; for example Google Images, which search results are dynamically loaded
+// blocks.
+//
 // Unlisted terminator does not support terminate or determinate on click
 // action. Users must key in their own farm list via the popup. However this
 // terminator still allows user to show farm results once.
 export abstract class UnlistedTerminator extends Terminator {
-
   protected async init(): Promise<void> {
     const farmList = new Set(await db.getFarmList())
 
     // Since search results are dynamically loaded, an mutation observer is
     // needed.
-    const ma = new MutationObserver((muts) => {
+    const ma = new MutationObserver(muts => {
       let addedFarmResults: HTMLElement[] = []
       for (const mut of muts) {
         for (let i = 0; i < mut.addedNodes.length; i++) {
           const addedNode = mut.addedNodes.item(i)
-          if (addedNode instanceof HTMLElement && this.isSearchResult(addedNode)) {
+          if (
+            addedNode instanceof HTMLElement &&
+            this.isSearchResult(addedNode)
+          ) {
             addedNode.classList.add('cft-result')
             const domain = this.getSourceDomain(addedNode)
             if (farmList.has(domain)) {
               addedFarmResults.push(addedNode)
               addedNode.classList.add('cft-farm-result')
-              // hideElements([addedNode], false) // fire and forget
             }
           }
         }
@@ -226,21 +266,34 @@ export abstract class UnlistedTerminator extends Terminator {
     const resultNodes = this.getCurrentSearchResults()
     resultNodes.forEach(e => e.classList.add('cft-result'))
 
-    const farmResultNodes = resultNodes.filter(e => farmList.has(this.getSourceDomain(e)))
+    const farmResultNodes = resultNodes.filter(e =>
+      farmList.has(this.getSourceDomain(e))
+    )
     farmResultNodes.forEach(e => e.classList.add('cft-farm-result'))
     greyOutElements(farmResultNodes, true)
-    // hideElements(farmResultNodes, false) // fire and forget
 
     // Add option to allow user stops the terminator
-    const [msgLeft, buttonText, msgRight] = _('imageTerminatorRunningHint').split('#')
-    const cancelButton = this.addCancelTerminatorHint(msgLeft, buttonText, msgRight)
-    cancelButton.onclick = once(async (e) => {
+    const [msgLeft, buttonText, msgRight] = _(
+      'imageTerminatorRunningHint'
+    ).split('#')
+    const cancelButton = this.addCancelTerminatorHint(
+      msgLeft,
+      buttonText,
+      msgRight
+    )
+    cancelButton.onclick = once(async e => {
       e.preventDefault()
       ma.disconnect()
 
-      const tempHintNode = document.getElementById('cft-temp-show') as HTMLElement
-      const hiddenFarmImageResults = Array.from(resultContainer.querySelectorAll('.cft-farm-result')) as HTMLElement[]
-      hiddenFarmImageResults.forEach(e => e.classList.add('cft-farm-result-shown'))
+      const tempHintNode = document.getElementById(
+        'cft-temp-show'
+      ) as HTMLElement
+      const hiddenFarmImageResults = Array.from(
+        resultContainer.querySelectorAll('.cft-farm-result')
+      ) as HTMLElement[]
+      hiddenFarmImageResults.forEach(e =>
+        e.classList.add('cft-farm-result-shown')
+      )
       greyInElements(hiddenFarmImageResults, true) // fire and forget
 
       await hideElements([tempHintNode], true)
@@ -255,7 +308,11 @@ export abstract class UnlistedTerminator extends Terminator {
 
   protected abstract getSourceDomain(resultNode: HTMLElement): string
 
-  protected abstract addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement
+  protected abstract addCancelTerminatorHint(
+    msgLeft: string,
+    buttonText: string,
+    msgRight: string
+  ): HTMLElement
 
   protected hideElements(elements: HTMLElement[]): Promise<void> {
     return greyOutElements(elements, true)

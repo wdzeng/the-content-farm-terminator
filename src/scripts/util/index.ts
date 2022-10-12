@@ -5,13 +5,18 @@ export async function tick() {
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function hideElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+export async function hideElements(
+  elements: HTMLElement[],
+  fade: boolean
+): Promise<void> {
   if (elements.length === 0) {
     return
   }
-  
+
   if (!fade) {
-    elements.forEach(el => { el.style.display = 'none' })
+    elements.forEach(el => {
+      el.style.display = 'none'
+    })
     return
   }
 
@@ -32,20 +37,23 @@ export async function hideElements(elements: HTMLElement[], fade: boolean): Prom
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function showElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+export async function showElements(
+  elements: HTMLElement[],
+  fade: boolean
+): Promise<void> {
   if (elements.length === 0) {
     return
   }
-  
+
   if (!fade) {
-    elements.forEach((element) => {
+    elements.forEach(element => {
       element.style.opacity = '1'
       element.style.display = 'block'
     })
     return
   }
 
-  return new Promise((res) => {
+  return new Promise(res => {
     elements.forEach(async el => {
       el.style.display = 'block'
       await tick()
@@ -55,11 +63,14 @@ export async function showElements(elements: HTMLElement[], fade: boolean): Prom
   })
 }
 
-export async function greyOutElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+export async function greyOutElements(
+  elements: HTMLElement[],
+  fade: boolean
+): Promise<void> {
   if (elements.length === 0) {
     return
   }
-  
+
   if (!fade) {
     elements.forEach(el => {
       el.style.filter = 'grayscale(100%)'
@@ -79,11 +90,14 @@ export async function greyOutElements(elements: HTMLElement[], fade: boolean): P
   })
 }
 
-export async function greyInElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+export async function greyInElements(
+  elements: HTMLElement[],
+  fade: boolean
+): Promise<void> {
   if (elements.length === 0) {
     return
   }
-  
+
   if (!fade) {
     elements.forEach(el => {
       el.style.filter = 'initial'
@@ -122,7 +136,9 @@ export function once(callback: (_: Event) => any) {
 }
 
 export function isValidHostname(s: string): boolean {
-  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(s)
+  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(
+    s
+  )
 }
 
 export function isValidUrl(s: string): boolean {

@@ -34,7 +34,10 @@ function updateHint(title: string, content: string[]) {
 
 async function onAddHostsListener() {
   if (isTextAreaEmpty()) return
-  const lines = textarea.value.split('\n').map(str => str.trim()).filter(isValidLine)
+  const lines = textarea.value
+    .split('\n')
+    .map(str => str.trim())
+    .filter(isValidLine)
   if (lines.length === 0) return
 
   const hosts = lines.map(getHostnameFromLine)
@@ -42,17 +45,17 @@ async function onAddHostsListener() {
   const newlyBlockedHosts = await db.addHosts(validHosts)
 
   const resultList = actionResult(hosts, newlyBlockedHosts)
-  const text = lines.map((line, index) => `${resultList[index]} ${line}`).join('\n')
+  const text = lines
+    .map((line, index) => `${resultList[index]} ${line}`)
+    .join('\n')
   const nNewlyBlocked = resultList.filter(e => e === EMOJI_PASS).length
 
   let title: string
   if (nNewlyBlocked === lines.length) {
     title = _('allAdded', nNewlyBlocked.toString())
-  }
-  else if (nNewlyBlocked === 0) {
+  } else if (nNewlyBlocked === 0) {
     title = _('nothingChanged')
-  }
-  else {
+  } else {
     title = _('notAllAdded', nNewlyBlocked.toString())
   }
   const hint = _('addActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
@@ -64,7 +67,10 @@ async function onAddHostsListener() {
 async function onRemoveHostsListener() {
   if (isTextAreaEmpty()) return
 
-  const lines = textarea.value.split('\n').map(str => str.trim()).filter(isValidLine)
+  const lines = textarea.value
+    .split('\n')
+    .map(str => str.trim())
+    .filter(isValidLine)
   if (lines.length === 0) return
 
   const hosts = lines.map(getHostnameFromLine)
@@ -72,17 +78,17 @@ async function onRemoveHostsListener() {
   const removed = await db.removeHosts(validHosts)
 
   const resultList = actionResult(hosts, removed)
-  const text = lines.map((line, index) => `${resultList[index]} ${line}`).join('\n')
+  const text = lines
+    .map((line, index) => `${resultList[index]} ${line}`)
+    .join('\n')
   const nNewlyUnblocked = resultList.filter(e => e === EMOJI_PASS).length
 
   let title: string
   if (nNewlyUnblocked === lines.length) {
     title = _('allRemoved', nNewlyUnblocked.toString())
-  }
-  else if (nNewlyUnblocked === 0) {
+  } else if (nNewlyUnblocked === 0) {
     title = _('nothingChanged')
-  }
-  else {
+  } else {
     title = _('notAllRemoved', nNewlyUnblocked.toString())
   }
   let hint = _('removeActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
@@ -98,8 +104,7 @@ async function onViewAllHostsListener() {
   let msg: string
   if (list.length === 0) {
     msg = `# ${_('emptyList')}`
-  }
-  else {
+  } else {
     const fix = `# ${list.length}`
     msg = `${fix}\n${list.map(h => `${EMOJI_PASS} ${h}`).join('\n')}\n${fix}`
   }
@@ -130,11 +135,13 @@ function getHostnameFromLine(text: string): string | null {
 
 // Queries if a line does not start with '#' or emojis.
 function isValidLine(line: string) {
-  return line.length
-    && !line.startsWith('#')
-    && !line.startsWith(EMOJI_PASS)
-    && !line.startsWith(EMOJI_DUPLICATED)
-    && !line.startsWith(EMOJI_FOUL)
+  return (
+    line.length &&
+    !line.startsWith('#') &&
+    !line.startsWith(EMOJI_PASS) &&
+    !line.startsWith(EMOJI_DUPLICATED) &&
+    !line.startsWith(EMOJI_FOUL)
+  )
 }
 
 // Queries if the textarea is empty. That is, contains any line that is not

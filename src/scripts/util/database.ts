@@ -1,7 +1,7 @@
 import { intersectArray, removeDuplicates, subtractArray } from './array.js'
 
 // eslint-disable-next-line no-undef, no-constant-condition
-const storage = ((typeof browser !== 'undefined') ? browser : chrome).storage
+const storage = (typeof browser !== 'undefined' ? browser : chrome).storage
 const KEY_FARM_LIST = 'farmList'
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
@@ -34,7 +34,7 @@ export async function getFarmList(): Promise<string[]> {
 /**
  * Inserts hosts into database.
  * @returns inserted hosts.
-  */
+ */
 export async function addHosts(hosts: string[]): Promise<string[]> {
   hosts = removeDuplicates(hosts)
 

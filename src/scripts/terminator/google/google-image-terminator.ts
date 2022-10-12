@@ -1,18 +1,21 @@
 import { UnlistedTerminator } from '../terminator'
 
 export class GoogleImageTerminator extends UnlistedTerminator {
-
-  constructor() { super('google-image') }
+  constructor() {
+    super('google-image')
+  }
 
   protected getSearchResultWrapper(): HTMLElement {
     return document.querySelector('.islrc') as HTMLDivElement
   }
 
   protected isSearchResult(e: HTMLElement): boolean {
-    return e.classList.contains('isv-r')
-      && e.classList.contains('PNCib')
-      && e.classList.contains('MSM1fd')
-      && e.classList.contains('BUooTd')
+    return (
+      e.classList.contains('isv-r') &&
+      e.classList.contains('PNCib') &&
+      e.classList.contains('MSM1fd') &&
+      e.classList.contains('BUooTd')
+    )
   }
 
   protected getCurrentSearchResults(): HTMLElement[] {
@@ -24,7 +27,11 @@ export class GoogleImageTerminator extends UnlistedTerminator {
     return resultNode.querySelector('.fxgdke')!.textContent!
   }
 
-  protected addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
+  protected addCancelTerminatorHint(
+    msgLeft: string,
+    buttonText: string,
+    msgRight: string
+  ): HTMLElement {
     const button = document.createElement('a')
     button.href = '#'
     button.classList.add('cft-button')
