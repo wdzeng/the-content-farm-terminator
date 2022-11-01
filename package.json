@@ -25,7 +25,7 @@
     "clean": "rm -rf lib dist the-content-farm-terminator_*.zip"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.5.0",
+    "@rollup/plugin-typescript": "^9.0.2",
     "@types/chrome": "0.0.196",
     "@types/firefox-webext-browser": "^94.0.1",
     "eslint": "^8.25.0",
