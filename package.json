@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.5.0",
-    "@types/chrome": "0.0.196",
+    "@types/chrome": "0.0.200",
     "@types/firefox-webext-browser": "^94.0.1",
     "eslint": "^8.25.0",
     "eslint-config-standard": "^17.0.0",
