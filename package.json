@@ -1,6 +1,6 @@
 {
   "name": "the-content-farm-terminator",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A chrome plugin for blocking content farm results on search pages.",
   "main": "index.js",
   "devDependencies": {
