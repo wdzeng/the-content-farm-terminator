@@ -99,15 +99,21 @@
     "redo": {
         "message": "Redo"
     },
-    "showAll":{
-        "message": "Content Farm Blocker has hidden $COUNT$ results from this page. You can choose to",
+    "showAll1": {
+        "message": "Content Farm Blocker has hidden $COUNT$ results from this page.<br />You can choose to",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
             }
         }
     },
-    "showAllHint":{
-        "message": "show these results temporarily."
+    "showAllHint": {
+        "message": "show these results temporarily"
+    },
+    "showAll2": {
+        "message": "."
+    },
+    "unblock": {
+        "message": "unblock"
     }
 }

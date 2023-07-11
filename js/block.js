@@ -1,88 +1,86 @@
 "use strict";
-(function () {
+(function() {
 
     const fadeTime = 400;
     run();
 
-    //Run content farm blocker
+    // Run content farm blocker
     function run() {
         removeFarmResults();
     }
 
-    //Remove content farm results from google search page
+    // Remove content farm results from google search page
     function removeFarmResults() {
 
-        getFarmList(function (farmList) {
+        getFarmList(function(farmList) {
 
-            //Get farm results
+            // Get farm results
             let $farmResults = getResults(farmList);
             const nFarmResult = $farmResults.length;
 
-            //IF any farm result exists
+            // IF any farm result exists
             if (nFarmResult) {
 
-                //Hide these farm results
+                // Hide these farm results
                 $farmResults.hide(0);
-                //Check search page's looking
+                // Check search page's looking
                 checkMargin();
-                //Add hint that allows user to show these results temporarily
+                // Add hint that allows user to show these results temporarily
                 addShowAllHint(nFarmResult);
             }
 
-            //After farm results are hidden, add block hint to the remaining results
+            // After farm results are hidden, add block hint to the remaining results
             addBlockHint(getResults(null, 'visible'));
         })
     }
 
-    //Add or update a hint of a result
-    //Arg $results should all contain or all not contain hints
+    // Add or update a hint of a result
+    // Arg $results should all contain or all not contain hints
     function addResultHint($results, text, onClick) {
 
-        //Get the hint anchor of these results
+        // Get the hint anchor of these results
         let $hint = $('a.cfb-hint', $results);
 
-        //IF these hint all exist
+        // IF these hint all exist
         if ($hint.length) {
 
-            //Reset this hint
-            $hint.off('click')
-                .html(text)
-                .one('click', function () {
+            // Reset this hint
+            $hint.html(text)
+                .one('click', function() {
                     onClick($(this).parents('div.g'));
                     return false;
                 });
             return;
         }
 
-        //IF no hint exists
-        //Create new hint
-        $hint = $('<a class="TbwUpd fl cfb-hint" href="#"></a>')
-            .html(text)
+        // IF no hint exists
+        // Create new hint
+        $hint = $('<a class="TbwUpd fl cfb-hint" href="#">' + text + '</a>')
             .css({
                 'margin-left': '4px',
                 'color': '#808080'
             })
-            .one('click', function () {
+            .one('click', function() {
                 onClick($(this).parents('div.g'));
                 return false;
             });
 
-        //Add these hints to DOM tree
+        // Add these hints to DOM tree
         $('cite.iUh30', $results).parent().append($hint);
     }
 
-    //Add block hints to results
+    // Add block hints to results
     function addBlockHint($results) {
 
         addResultHint($results, chrome.i18n.getMessage('block'), block);
     }
 
-    //Add redo hints to results
+    // Add redo hints to results
     function addRedoHint($results, hostName, type = false) {
 
-        //IF this result is visible
+        // IF this result is visible
         if (type || $results.is(':visible')) {
-            addResultHint($results, '解除封鎖' /*TODO*/, function ($redone) {
+            addResultHint($results, '解除封鎖', function($redone) {
 
                 let hostName = getHostName($redone);
                 let $unblocked = getResults(hostName);
@@ -92,25 +90,24 @@
             })
         }
 
-        //IF this result has been hidden
+        // IF this result has been hidden
         else {
 
-            //Check host name
+            // Check host name
             if (!hostName) {
                 hostName = getHostName($results);
             }
             const clzName = 'cfb-' + hostName.replace(/\./g, '-');
 
-            //Create redo text
+            // Create redo text
             let $redoText = $('<div class="g s ' + clzName + '"></div>')
-                .append($('<span></span>').html(chrome.i18n.getMessage('redoText', hostName)));
+                .append($('<span>' + chrome.i18n.getMessage('redoText', hostName) + '</span>'));
 
-            //Create redo button
-            let $redoBtn = $('<a href="#"></a>')
-                .html(chrome.i18n.getMessage('redo'))
-                .one('click', function () {
+            // Create redo button
+            let $redoBtn = $('<a href="#">' + chrome.i18n.getMessage('redo') + '</a>')
+                .one('click', function() {
                     $('div.' + clzName).remove();
-                    let $unblocked = $('div.g').filter(function () {
+                    let $unblocked = $('div.g').filter(function() {
                         return getHostName(this) === hostName;
                     });
                     addBlockHint($unblocked);
@@ -119,42 +116,42 @@
                     return false;
                 });
 
-            //Add button to DOM tree
+            // Add button to DOM tree
             $redoText.append($redoBtn);
             $results.after($redoText);
         }
     }
 
-    //Get the host name of a result
+    // Get the host name of a result
     function getHostName($result) {
 
-        let $anchor = $('h3 a', $result);
+        let $anchor = $('div.r>a', $result);
         if ($anchor.length) {
             return $anchor[0].hostname;;
         }
         return null;
     }
 
-    //When block hint is clicked
+    // When block hint is clicked
     function block($result) {
 
         const hostName = getHostName($result);
 
-        //Get ALL results that should be hidden
+        // Get ALL results that should be hidden
         let $blockedCandidates = getResults(hostName);
 
-        //Hide these results
-        $blockedCandidates.fadeOut(fadeTime, function () {
+        // Hide these results
+        $blockedCandidates.fadeOut(fadeTime, function() {
             addRedoHint($blockedCandidates, hostName)
         });
 
-        //Add to blocking list
+        // Add to blocking list
         addHost(hostName);
 
         return false;
     }
 
-    //Remove extra margin between image box and the top bar
+    // Remove extra margin between image box and the top bar
     function checkMargin() {
 
         let first = document.querySelector('div.g:not([style*="display: none"])');
@@ -165,35 +162,33 @@
         return false;
     }
 
-    //Add hint that allows user to show farm results temporarily
+    // Add hint that allows user to show farm results temporarily
     function addShowAllHint(nHidden) {
 
         let $div = $('<div id="tempShow"></div>');
-
         let $text = $('<p></p>')
             .css('font-style', 'italic')
-            .html(chrome.i18n.getMessage('showAll', nHidden.toString()));
-
-        let $btn = $('<a href="#"></a>')
-            .html(chrome.i18n.getMessage('showAllHint'))
+        let $btn = $('<a href="#">' + chrome.i18n.getMessage('showAllHint') + '</a>')
             .css('text-decoration', 'none')
-            .click(function () {
+            .one('click', function() {
                 templyShowAll();
                 $div.hide(0);
                 return false;
             })
-            .hover(function () {
+            .hover(function() {
                 $btn.css('text-decoration', 'underline');
-            }, function () {
+            }, function() {
                 $btn.css('text-decoration', 'none');
             });
 
         $('#extrares').append($div);
         $div.append($text);
-        $text.append($btn);
+        $text.append(chrome.i18n.getMessage('showAll1', nHidden.toString()))
+            .append($btn)
+            .append(chrome.i18n.getMessage('showAll2'));
     }
 
-    //Show farm results temporarily
+    // Show farm results temporarily
     function templyShowAll() {
 
         let $farmResults = getResults(null, 'hidden');
@@ -207,7 +202,8 @@
         let cssSelector = 'div.g';
         if (visibility === 'visible') {
             cssSelector += ':visible';
-        } else if (visibility === 'hidden') {
+        }
+        else if (visibility === 'hidden') {
             cssSelector += ':hidden';
         }
 
@@ -216,11 +212,11 @@
         }
 
         if (Array.isArray(host)) {
-            return $(cssSelector).filter(function () {
+            return $(cssSelector).filter(function() {
                 return host.includes(getHostName(this));
             })
         }
-        return $(cssSelector).filter(function () {
+        return $(cssSelector).filter(function() {
             return getHostName(this) === host;
         })
     }
