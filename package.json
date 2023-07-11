@@ -12,8 +12,10 @@
     "@typescript-eslint/parser": "^4.15.1"
   },
   "scripts": {
-    "build": "tsc --rootDir ./src/scripts",
-    "clean": "rm ./src/scripts/*.js"
+    "build": "npm run compile && npm run zip",
+    "compile": "tsc --rootDir ./src/scripts",
+    "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts",
+    "clean": "rm ./src/scripts/*.js && rm -f The-Content-Farm-Terminator.zip"
   },
   "repository": {
     "type": "git",
