@@ -84,5 +84,8 @@
     },
     "block": {
         "message": "終結內容農場"
+    },
+    "description": {
+        "message": "在 Google 搜尋頁面直接終結內容農場"
     }
 }
