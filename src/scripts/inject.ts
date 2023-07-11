@@ -36,7 +36,7 @@ function setHintForSearchItem(
 
   if (hintNode !== null) {
     // If a hint already exists, just update this hint.
-    hintNode.innerHTML = text
+    hintNode.textContent = text
     hintNode.onclick = once((e) => {
       onClickListener(resultNode)
       e.preventDefault()
