@@ -13,23 +13,24 @@
     "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
   },
   "scripts": {
-    "build": "yarn dev && yarn zip",
-    "dev": "yarn transpile && yarn sass",
-    "transpile": "tsc --rootDir ./src/scripts",
+    "build": "yarn tsc && yarn sass && yarn zip",
+    "dev": "concurrently --kill-others 'tsc -w' 'sass --watch --no-source-map ./src/css'",
+    "tsc": "tsc",
     "sass": "sass --no-source-map ./src/css",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
-    "clean": "rm -f ./src/scripts/*.js ./src/css/*.css ./The-Content-Farm-Terminator.zip"
+    "clean": "rm -f src/*.js ./src/scripts/*.js ./src/css/*.css The-Content-Farm-Terminator.zip"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.177",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^8.7.0",
-    "sass": "^1.49.0",
-    "typescript": "^4.5.5"
+    "@types/chrome": "0.0.184",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "concurrently": "^7.1.0",
+    "eslint": "^8.14.0",
+    "sass": "^1.51.0",
+    "typescript": "^4.6.4"
   },
   "bugs": {
     "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
   },
-  "license": "GPL v2"
+  "license": "GPL-2.0"
 }
