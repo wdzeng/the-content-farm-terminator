@@ -347,14 +347,14 @@ function getResultNodes(
   host?: string | string[],
   visibility?: 'visible' | 'hidden'
 ): HTMLDivElement[] {
-  
+
   function isResultNode(resultNodeCaididate: HTMLDivElement) {
     // const firstChild = resultNodeCaididate.firstChild as
     //  | HTMLDivElement
     //  | undefined
     // return firstChild && firstChild.classList.contains('tF2Cxc')
-    const testedTarget = resultNodeCaididate.querySelector('div.tF2Cxc');
-    return testedTarget !== null;
+    return resultNodeCaididate.classList.contains('tF2Cxc')
+      || resultNodeCaididate.querySelector('div.tF2Cxc') !== null
   }
 
   let candidates = Array.from(
