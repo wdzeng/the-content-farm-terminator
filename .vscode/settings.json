@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "determinated"
+    ],
+    "editor.rulers": [
+        80
     ]
 }

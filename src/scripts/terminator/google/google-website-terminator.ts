@@ -1,8 +1,12 @@
-import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
+import {
+  greyInElements,
+  greyOutElements,
+  hideElements,
+  showElements,
+} from '../../util'
 import { GoogleListedTerminator } from './google-listed-terminator'
 
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
-
   private static isNewsResultNode(resultNode: HTMLElement): boolean {
     return resultNode.classList.contains('MkXWrd')
   }
@@ -14,7 +18,9 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
   protected getResultNodes(): HTMLElement[] {
     // Regular result nodes
     // div.g is regular result node
-    let commonResultNodes: HTMLElement[] = Array.from(document.querySelectorAll('div.g'))
+    let commonResultNodes: HTMLElement[] = Array.from(
+      document.querySelectorAll('div.g')
+    )
     commonResultNodes = commonResultNodes.filter(candidateNode => {
       // If a div.g has parent also div.g, it is not a result node
       let parentNode = candidateNode.parentElement
@@ -24,19 +30,21 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
       return (
         // single result node
-        candidateNode.classList.contains("tF2Cxc") ||
+        candidateNode.classList.contains('tF2Cxc') ||
         // group result node that contains another div.g
-        candidateNode.querySelector(".tF2Cxc") !== null ||
+        candidateNode.querySelector('.tF2Cxc') !== null ||
         // group result node that contains no div.g
         // https://github.com/wdzeng/the-content-farm-terminator/issues/16
-        candidateNode.querySelector(".kvH3mc.BToiNc.UK95Uc")
+        candidateNode.querySelector('.kvH3mc.BToiNc.UK95Uc')
       )
 
       // there is a little possibilities of mis-selections...
     })
 
     // News result nodes may appear on Google Website Search
-    const newsResultNodes = Array.from(document.querySelectorAll('.MkXWrd')) as HTMLElement[]
+    const newsResultNodes = Array.from(
+      document.querySelectorAll('.MkXWrd')
+    ) as HTMLElement[]
 
     return commonResultNodes.concat(newsResultNodes)
   }
@@ -54,7 +62,10 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     return a.hostname
   }
 
-  protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
+  protected addHintNode(
+    resultNode: HTMLElement,
+    text: string
+  ): HTMLElement | null {
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -73,10 +84,11 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       // news result node
       const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd') as HTMLElement
       wrapper.appendChild(button)
-    }
-    else {
+    } else {
       // common result node
-      const titleWrapperNode = resultNode.querySelector('.yuRUbf') as HTMLElement
+      const titleWrapperNode = resultNode.querySelector(
+        '.yuRUbf'
+      ) as HTMLElement
       // const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
       const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
       const urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
@@ -85,14 +97,20 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       subtitleNode.classList.add('cft-result-subtitle')
       urlNode.classList.add('cft-url')
 
-      const hintWrapperNode = subtitleNode.querySelector('.eFM0qc') as HTMLElement
+      const hintWrapperNode = subtitleNode.querySelector(
+        '.eFM0qc'
+      ) as HTMLElement
       hintWrapperNode.appendChild(button)
     }
 
     return button
   }
 
-  protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null {
+  protected addUndoHintNode(
+    resultNode: HTMLElement,
+    buttonText: string,
+    undoHintText: string
+  ): HTMLElement | null {
     const domain = this.getSourceDomain(resultNode)
 
     // Create undo button. An attribute is added so that we can infer the
@@ -102,7 +120,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     undoButton.classList.add('cft-hint', 'cft-button')
     undoButton.textContent = buttonText
 
-    // For news search result, simply add an undo button. 
+    // For news search result, simply add an undo button.
     if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
       // Since the result is not removed from the page, remove the terminate
       // button.
@@ -119,10 +137,12 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       const undoHintNode = document.createElement('span')
       undoHintNode.textContent = undoHintText
 
-      // Create undo node that contains hint and button. 
+      // Create undo node that contains hint and button.
       const undoDiv = document.createElement('div')
       undoDiv.classList.add('cft-blocked-hint')
-      undoDiv.classList.add(GoogleWebsiteTerminator.isNewsResultNode(resultNode) ? 'MkXWrd' : 'g')
+      undoDiv.classList.add(
+        GoogleWebsiteTerminator.isNewsResultNode(resultNode) ? 'MkXWrd' : 'g'
+      )
       undoDiv.setAttribute('cft-domain', domain)
       undoDiv.appendChild(undoHintNode)
       undoDiv.appendChild(undoButton)
@@ -134,23 +154,31 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     return undoButton
   }
 
-  protected async hideResults(elements: HTMLElement[], init: boolean): Promise<void> {
+  protected async hideResults(
+    elements: HTMLElement[],
+    init: boolean
+  ): Promise<void> {
     const regular: HTMLElement[] = []
     const news: HTMLElement[] = []
-    elements.forEach(x => GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x))
+    elements.forEach(x =>
+      GoogleWebsiteTerminator.isNewsResultNode(x)
+        ? news.push(x)
+        : regular.push(x)
+    )
     await Promise.all([
       greyOutElements(news, !init),
-      hideElements(regular, !init)
+      hideElements(regular, !init),
     ])
   }
 
   protected async showResults(elements: HTMLElement[]): Promise<void> {
     const regular: HTMLElement[] = []
     const news: HTMLElement[] = []
-    elements.forEach(x => GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x))
-    await Promise.all([
-      greyInElements(news, true),
-      showElements(regular, true)
-    ])
+    elements.forEach(x =>
+      GoogleWebsiteTerminator.isNewsResultNode(x)
+        ? news.push(x)
+        : regular.push(x)
+    )
+    await Promise.all([greyInElements(news, true), showElements(regular, true)])
   }
 }

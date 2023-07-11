@@ -1,8 +1,11 @@
-import { GoogleImageTerminator, GoogleWebsiteTerminator, GoogleNewsTerminator, Terminator } from './terminator'
+import {
+  GoogleImageTerminator,
+  GoogleWebsiteTerminator,
+  GoogleNewsTerminator,
+  Terminator,
+} from './terminator'
 
 // This script is executed when google.com/search page is loaded.
-
-// suppress eslint warning
 
 async function init() {
   // https://www.sitepoint.com/get-url-parameters-with-javascript/
@@ -15,12 +18,10 @@ async function init() {
   if (tbm === null) {
     // websites
     terminator = new GoogleWebsiteTerminator()
-  }
-  else if (tbm === 'isch') {
+  } else if (tbm === 'isch') {
     // images
     terminator = new GoogleImageTerminator()
-  }
-  else if (tbm === 'nws') {
+  } else if (tbm === 'nws') {
     // news
     terminator = new GoogleNewsTerminator()
   }
