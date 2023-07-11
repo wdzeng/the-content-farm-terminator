@@ -98,5 +98,16 @@
     },
     "redo": {
         "message": "取消封鎖"
+    },
+    "showAll":{
+        "message": "內容農場終結者封鎖了 $COUNT$ 個搜尋結果。您也可以",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "showAllHint":{
+        "message": "暫時顯示。"
     }
 }

@@ -98,5 +98,16 @@
     },
     "redo": {
         "message": "Redo"
+    },
+    "showAll":{
+        "message": "Content Farm Blocker has hidden $COUNT$ results from this page. You can choose to",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "showAllHint":{
+        "message": "show these results temporarily."
     }
 }
