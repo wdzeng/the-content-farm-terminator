@@ -1,29 +1,32 @@
 {
   "name": "the-content-farm-terminator",
-  "version": "3.1.2",
+  "version": "3.2",
   "description": "A chrome plugin for blocking content farm results on search pages.",
-  "main": "index.js",
-  "devDependencies": {
-    "eslint": "^7.20.0",
-    "@types/chrome": "0.0.132",
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1"
+  "author": {
+    "name": "hyperbola",
+    "email": "me@hyperbola.me",
+    "url": "https://github.com/wdzeng"
+  },
+  "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
   },
   "scripts": {
-    "build": "npm run dev && npm run zip",
-    "dev": "npm run transpile",
+    "build": "yarn dev && yarn zip",
+    "dev": "yarn transpile",
     "transpile": "tsc --rootDir ./src/scripts",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts",
     "clean": "rm -f ./src/scripts/*.js ./The-Content-Farm-Terminator.zip"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wdzeng/The-Content-Farm-Terminator.git"
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "@types/chrome": "0.0.177",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1"
   },
-  "author": "Hyperbola",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
   },
-  "homepage": "https://github.com/wdzeng/The-Content-Farm-Terminator#readme"
+  "license": "MIT"
 }
