@@ -1,8 +1,8 @@
 'use strict'
 
-const PASS = '😀'
-const DULPLICATED = '🤨'
-const FOUL = '😭'
+const EMOJI_PASS = '😀'
+const EMOJI_DULPLICATED = '🤨'
+const EMOJI_FOUL = '😭'
 var _ = chrome.i18n.getMessage
 const REG_URL = new RegExp('http[s]{0,1}:\\/\\/.*?\\/.*')
 const REG_HOST = new RegExp('^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)+([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$')
@@ -23,9 +23,9 @@ btnView.onclick = onViewAllHostsListener
 
 function actionResult(hostArray: Array<string | null>, passedHosts: string[]) {
   return hostArray.map((value, index) => {
-    if (value === null) return FOUL
-    if (!passedHosts.includes(value)) return DULPLICATED
-    return hostArray.indexOf(value) === index ? PASS : DULPLICATED
+    if (value === null) return EMOJI_FOUL
+    if (!passedHosts.includes(value)) return EMOJI_DULPLICATED
+    return hostArray.indexOf(value) === index ? EMOJI_PASS : EMOJI_DULPLICATED
   })
 }
 
@@ -41,7 +41,7 @@ async function onAddHostsListener() {
 
   const resultList = actionResult(hosts, newlyBlockedHosts)
   const text = lines.map((line, index) => `${resultList[index]} ${line}`).join('\n')
-  const nNewlyBlocked = resultList.filter(e => e === PASS).length
+  const nNewlyBlocked = resultList.filter(e => e === EMOJI_PASS).length
 
   let title
   if (nNewlyBlocked === lines.length) {
@@ -53,7 +53,7 @@ async function onAddHostsListener() {
   else {
     title = _('notAllAdded', nNewlyBlocked.toString())
   }
-  const hint = _('addActionHint', [PASS, DULPLICATED, FOUL])
+  const hint = _('addActionHint', [EMOJI_PASS, EMOJI_DULPLICATED, EMOJI_FOUL])
 
   textarea.value = text
   eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`
@@ -71,7 +71,7 @@ async function onRemoveHostsListener() {
 
   const resultList = actionResult(hosts, removed)
   const text = lines.map((line, index) => `${resultList[index]} ${line}`).join('\n')
-  const nNewlyUnblocked = resultList.filter(e => e === PASS).length
+  const nNewlyUnblocked = resultList.filter(e => e === EMOJI_PASS).length
 
   let title
   if (nNewlyUnblocked === lines.length) {
@@ -83,7 +83,7 @@ async function onRemoveHostsListener() {
   else {
     title = _('notAllRemoved', nNewlyUnblocked.toString())
   }
-  let hint = _('removeActionHint', [PASS, DULPLICATED, FOUL])
+  let hint = _('removeActionHint', [EMOJI_PASS, EMOJI_DULPLICATED, EMOJI_FOUL])
 
   textarea.value = text
   eHint.innerHTML = `<p>${title}</p><p>${hint}</p>`
@@ -99,7 +99,7 @@ async function onViewAllHostsListener() {
   }
   else {
     const fix = `# ${list.length}`
-    msg = `${fix}\n${list.map(h => `${PASS} ${h}`).join('\n')}\n${fix}`
+    msg = `${fix}\n${list.map(h => `${EMOJI_PASS} ${h}`).join('\n')}\n${fix}`
   }
 
   textarea.value = msg
@@ -123,9 +123,9 @@ function toHost(text: string): string | null {
 function isValidLine(line: string) {
   return line.length
     && !line.startsWith('#')
-    && !line.startsWith(PASS)
-    && !line.startsWith(DULPLICATED)
-    && !line.startsWith(FOUL)
+    && !line.startsWith(EMOJI_PASS)
+    && !line.startsWith(EMOJI_DULPLICATED)
+    && !line.startsWith(EMOJI_FOUL)
 }
 
 function isTextAreaEmpty() {
