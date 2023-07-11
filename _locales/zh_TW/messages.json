@@ -6,16 +6,16 @@
         "message": "輸入內容農場網域（例如 kknews.cc）"
     },
     "addButton": {
-        "message": "新增所有網域"
+        "message": "新增到清單"
     },
     "deleteButton": {
-        "message": "刪除所有網域"
+        "message": "從清單刪除"
     },
     "showAllButton": {
-        "message": "列出所有網域"
+        "message": "列出清單"
     },
     "errorHostNames": {
-        "message": "沒有有效網域，沒有任何變更"
+        "message": "找不到有效網域，因此清單沒有任何變更"
     },
     "oneAdded": {
         "message": "已新增 \"$HOST$\"",
@@ -80,6 +80,9 @@
         }
     },
     "emptyList": {
-        "message": "目前沒有任何網域"
+        "message": "清單中目前沒有任何網域"
+    },
+    "block": {
+        "message": "終結內容農場"
     }
 }
