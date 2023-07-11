@@ -23,9 +23,13 @@ body[cft-search-category="google-website"] {
     // If the button is next to the triangle dropdown, set to no margin.
     // Such dropdown is a simple <span> tag; not knowing how to select it
     // properly.
-    .eFM0qc.BCF2pd + .cft-hint {
-      margin-left: 0;
-    }
+    //
+    // TODO: Currently there is no way to detect if the triangular dropdown
+    // exists; so just always add a space besides hint node.
+    //
+    // .eFM0qc.BCF2pd + .cft-hint {
+    //   margin-left: 0;
+    // }
 
     // result node title and subtitle wrapper; for website search
     .cft-result-title-wrapper {
