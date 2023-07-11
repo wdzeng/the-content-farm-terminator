@@ -26,7 +26,7 @@
         }
     },
     "onlyOneAdded": {
-        "message": "有些網與已存在或無效，所以只有新增 \"$HOST$\"",
+        "message": "有些網域已存在或無效，所以只有新增 \"$HOST$\"",
         "placeholders": {
             "HOST": {
                 "content": "$1"
@@ -61,7 +61,7 @@
         }
     },
     "onlyOneRemoved": {
-        "message": "有些網域不再清單中或無效，所以只有刪除 1 個網域。"
+        "message": "有些網域不在清單中或無效，所以只有刪除 1 個網域。"
     },
     "allRemoved": {
         "message": "已刪除所有網域（$COUNT$ 個）",
@@ -72,7 +72,7 @@
         }
     },
     "onlySomeRemoved": {
-        "message": "有些網域不再清單中或無效，所以只有刪除 $COUNT$ 個網域",
+        "message": "有些網域不在清單中或無效，所以只有刪除 $COUNT$ 個網域",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -87,5 +87,16 @@
     },
     "description": {
         "message": "在 Google 搜尋頁面直接終結內容農場"
+    },
+    "redoText": {
+        "message": "已封鎖 \"$HOST$\"。",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "redo": {
+        "message": "取消封鎖"
     }
 }

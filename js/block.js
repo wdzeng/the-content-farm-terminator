@@ -1,3 +1,5 @@
+"use strict";
+
 (function () {
 
     removeFarmResults();
@@ -5,30 +7,40 @@
 
     function addHints() {
         let $hint = $('<a href="#">' + chrome.i18n.getMessage('block') + '</a>').css('margin-left', '4px').click(function () {
-
+            
             const host = $('h3 a', $(this).parents('div.g'))[0].hostname;
 
-            //Hide blocks
-            $('div.g').filter(function (index) {
-                let anchors = $('h3 a', this);
-                if (!anchors.length) {
+            //Get block
+            let $sec = $('div.g').filter(function (index) {
+                let $anchors = $('h3 a', this);
+                if (!$anchors.length) {
                     return false;
                 }
-                return anchors[0].hostname === host;
-            }).fadeOut(800, function () {
+                return $anchors[0].hostname === host;
+            });
+
+            //Hide blocks
+            $sec.fadeOut(800, function () {
+                let $redoText = $('<div class="g s"></div>')
+                    .append($('<span>' + chrome.i18n.getMessage('redoText', host) + '</span>'));
+                let $redoBtn = $('<a style="margin-left: 0.5em">' + chrome.i18n.getMessage('redo') + '</a>').click(function () {
+                    $redoText.hide(0);
+                    $sec.fadeIn(800);
+                    removeHost(host);
+                    //Disable anchor action
+                    return false;
+                });
+                $redoText.append($redoBtn);
+                $(this).after($redoText);
                 checkMargin();
             });
 
-            //Add to farm list
-            getFarmList(function (data) {
-                if (!data.includes(host)) {
-                    data.unshift(host);
-                    setFarmList(data);
-                }
-            })
+            addHost(host);
 
+            //Disable anchor action
             return false;
         });
+
         let $locs = $('cite.iUh30:visible').parent();
         $locs.append($hint);
     }

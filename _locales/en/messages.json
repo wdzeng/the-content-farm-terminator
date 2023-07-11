@@ -87,5 +87,16 @@
     },
     "description": {
         "message": "Block the content farms from Google Search."
+    },
+    "redoText": {
+        "message": "Domain \"$HOST$\" has been blocked.",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "redo": {
+        "message": "Redo"
     }
 }
