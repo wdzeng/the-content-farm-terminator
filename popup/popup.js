@@ -54,7 +54,7 @@
                         }
                     }
                     else if (count == nRow) {
-                        hint.innerHTML = chrome.i18n.getMessage('addAdded', count.toString);
+                        hint.innerHTML = chrome.i18n.getMessage('allAdded', count.toString());
                     }
                     else {
                         hint.innerHTML = chrome.i18n.getMessage('onlySomeAdded', count.toString());
