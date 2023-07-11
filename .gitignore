@@ -1,4 +1,5 @@
 node_modules
+dist
 src/scripts/*.js
 src/css/*.css
-*.zip
+The-Content-Farm-Terminator.zip
