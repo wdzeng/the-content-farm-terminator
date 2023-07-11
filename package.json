@@ -1,6 +1,6 @@
 {
   "name": "the-content-farm-terminator",
-  "version": "3.2",
+  "version": "v3.4.0",
   "description": "A chrome extension for blocking content farm results on search pages.",
   "author": {
     "name": "hyperbola",
