@@ -1,0 +1,85 @@
+{
+    "extName": {
+        "message": "Content Farm Blocker"
+    },
+    "areaPlaceHolder": {
+        "message": "Key in host names here (ex. kknews.cc)"
+    },
+    "addButton": {
+        "message": "Add"
+    },
+    "deleteButton": {
+        "message": "Delete"
+    },
+    "showAllButton": {
+        "message": "Show All"
+    },
+    "errorHostNames": {
+        "message": "Invalid host names. Nothing is changed."
+    },
+    "oneAdded": {
+        "message": "\"$HOST$\" has been added into the farm list.",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlyOneAdded": {
+        "message": "Only \"$HOST$\" was added into the farm list.",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "allAdded": {
+        "message": "All items ($COUNT$) have been added into the farm list.",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlySomeAdded": {
+        "message": "Only $COUNT$ items were added into the farm list.",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "nothingChanged": {
+        "message": "Nothing changed."
+    },
+    "oneRemoved": {
+        "message": "\"$HOST$\" has been removed from the farm list.",
+        "placeholders": {
+            "HOST": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlyOneRemoved": {
+        "message": "Only 1 item was removed from the farm list."
+    },
+    "allRemoved": {
+        "message": "All items ($COUNT$) have been removed from the farm list.",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "onlySomeRemoved": {
+        "message": "Only $COUNT$ items were removed from the farm list.",
+        "placeholders": {
+            "COUNT": {
+                "content": "$1"
+            }
+        }
+    },
+    "emptyList": {
+        "message": "Empty List"
+    }
+}
