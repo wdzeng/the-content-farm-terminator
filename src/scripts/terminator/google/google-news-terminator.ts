@@ -39,11 +39,6 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
-    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
-      // Do not add hint node
-      return null
-    }
-
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -58,7 +53,13 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     button.href = '#'
 
     // Add button to the result node.
-    const container = resultNode.querySelector('.CEMjEf.NUnG9d')!
+    let container: HTMLElement
+    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+    }
+    else {
+      container = resultNode.querySelector('.CEMjEf.NUnG9d')!
+    }
     container.appendChild(button)
     return button
     // const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
@@ -66,10 +67,6 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null {
-    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
-      return null
-    }
-
     const domain = this.getSourceDomain(resultNode)
 
     // 4.0.3: it seems that each block hint element is now in the card
@@ -83,20 +80,29 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     undoButton.classList.add('cft-hint', 'cft-button')
     undoButton.textContent = buttonText
 
-    // Create undo hint message
-    const undoHintNode = document.createElement('span')
-    undoHintNode.classList.add('cft-undo-hint')
-    undoHintNode.textContent = undoHintText
+    // For result node in carousel, simply add a button for it.
+    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
+      const container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+      container.appendChild(undoButton)
+    }
 
-    // Create undo node that contains hint and button. 
-    const undoDiv = document.createElement('div')
-    undoDiv.classList.add('cft-blocked-hint' /* , isInCard ? 'cft-in-news-card' : 'cft-is-news-card' */)
-    undoDiv.setAttribute('cft-domain', domain)
-    undoDiv.appendChild(undoHintNode)
-    undoDiv.appendChild(undoButton)
+    // For regular result node, add button and a hint message.
+    else {
+      // Create undo hint message
+      const undoHintNode = document.createElement('span')
+      undoHintNode.classList.add('cft-undo-hint')
+      undoHintNode.textContent = undoHintText
 
-    // Insert undo node next to the (hidden) result node
-    resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+      // Create undo node that contains hint and button. 
+      const undoDiv = document.createElement('div')
+      undoDiv.classList.add('cft-blocked-hint' /* , isInCard ? 'cft-in-news-card' : 'cft-is-news-card' */)
+      undoDiv.setAttribute('cft-domain', domain)
+      undoDiv.appendChild(undoHintNode)
+      undoDiv.appendChild(undoButton)
+
+      // Insert undo node next to the (hidden) result node
+      resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+    }
 
     return undoButton
   }
