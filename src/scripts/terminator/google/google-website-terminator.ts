@@ -98,7 +98,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       urlNode.classList.add('cft-url')
 
       const hintWrapperNode = subtitleNode.querySelector(
-        '.eFM0qc'
+        '.byrV5b'
       ) as HTMLElement
       hintWrapperNode.appendChild(button)
     }

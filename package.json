@@ -15,8 +15,11 @@
   },
   "packageManager": "pnpm@7.13.4",
   "scripts": {
-    "build:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json && pnpm zip:chrome",
-    "build:firefox": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-firefox.json ./dist/manifest.json && pnpm zip:firefox",
+    "dev": "pnpm transpile:chrome",
+    "transpile:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json",
+    "transpile:firefox": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-firefox.json ./dist/manifest.json",
+    "build:chrome": "pnpm transpile:chrome && pnpm zip:chrome",
+    "build:firefox": "pnpm transpile:firefox && pnpm zip:firefox",
     "tsc": "rollup -c rollup.config.js && eslint --fix dist/scripts",
     "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
     "copy": "cp -r src/_locales src/images src/popup.html dist",
