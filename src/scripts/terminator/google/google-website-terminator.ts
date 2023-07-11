@@ -11,14 +11,17 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
   }
 
   protected getResultNodes(): HTMLElement[] {
-    let commonResultNodes: HTMLElement[] = Array.from(document.querySelectorAll('.v7W49e>*'))
+    // Regular result nodes
+    let commonResultNodes: HTMLElement[] = Array.from(document.querySelectorAll('.v7W49e>*,[data-hveid="CAEQNw"]'))
     commonResultNodes = commonResultNodes.filter(candidateNode =>
       candidateNode.classList.contains('tF2Cxc')
       || candidateNode.querySelector('.tF2Cxc') !== null
       || candidateNode.querySelector('.jtfYYd') !== null
     )
 
+    // News result nodes may appear on Google Website Search
     const newsResultNodes = Array.from(document.querySelectorAll('.MkXWrd')) as HTMLElement[]
+
     return commonResultNodes.concat(newsResultNodes)
   }
 
