@@ -193,7 +193,7 @@
 
         let $farmResults = getResults(null, 'hidden');
         regFarmTitleClz();
-        $('h3.r>a', $farmResults).addClass('farm-title');
+        $farmResults.find('h3.LC20lb').addClass('farm-title');
         addRedoHint($farmResults, null, true);
         $farmResults.fadeIn(fadeTime);
     }
@@ -223,7 +223,7 @@
 
     function regFarmTitleClz() {
 
-        let css = 'a.farm-title { font-style: italic; color: #CC0000; }';
+        let css = '.farm-title { font-style: italic; color: #CC0000; }';
         let head = document.head;
         let style = document.createElement('style');
         style.type = 'text/css';
