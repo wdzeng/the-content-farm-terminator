@@ -1,6 +1,9 @@
 # 內容農場終結者
 
-[![license](https://img.shields.io/badge/license-MIT-blue)](#license) [![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/) [![GitHub stars](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator)](#stars) [![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![GitHub release](https://img.shields.io/github/release/wdzeng/The-Content-Farm-Terminator)](https://gitHub.com/wdzeng/The-Content-Farm-Terminator/releases/)
+[![GitHub stars](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator)](#stars)
+[![download - Chrome Store](https://img.shields.io/badge/download-Chrome_Store-2ea44f)](https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn)
 
 [English](README_en.md) 👈
 
