@@ -30,7 +30,7 @@
         "message": "Undo"
     },
     "templyShowAllMsg": {
-        "message": "The Content Farm Terminator! has hidden $1 result(s) from this page.<br />However, you can #."
+        "message": "The Content Farm Terminator! has hidden $1 result(s) from this page.  You can #."
     },
     "templyShowAllHint": {
         "message": "show these results temporarily"
