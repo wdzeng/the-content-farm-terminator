@@ -54,10 +54,10 @@
         "message": "Websites determinated: $1; still some problems remain."
     },
     "addActionHint": {
-        "message": "$1 Terminated successfully<br />$2 Already terminated or duplicated in the list<br />$3 Illegal domain or URL"
+        "message": "$1 Terminated successfully#$2 Already terminated or duplicated in the list#$3 Illegal domain or URL"
     },
     "removeActionHint": {
-        "message": "$1 Unterminated successfully<br />$2 Originally not terminated, or duplicated in the list<br />$3 Illegal domain or URL"
+        "message": "$1 Determinated successfully#$2 Originally not terminated, or duplicated in the list#$3 Illegal domain or URL"
     },
     "imageTerminatorRunningHint": {
         "message": "The Content Farm Terminator! is filtering images in real time, you can #disable# it for this time only."

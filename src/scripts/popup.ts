@@ -19,11 +19,16 @@ function actionResult(hostArray: Array<string | null>, passedHosts: string[]) {
   })
 }
 
-function updateHint(title: string, content: string) {
+function updateHint(title: string, content: string[]) {
   const pTitle = document.createElement('p')
   pTitle.textContent = title
   const pHint = document.createElement('p')
-  pHint.textContent = content
+  let first = true
+  for (const contentLine of content) {
+    if (first) first = false
+    else pHint.appendChild(document.createElement('br'))
+    pHint.appendChild(document.createTextNode(contentLine))
+  }
   divHint.replaceChildren(pTitle, pHint)
 }
 
@@ -53,7 +58,7 @@ async function onAddHostsListener() {
   const hint = _('addActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
 
   textarea.value = text
-  updateHint(title, hint)
+  updateHint(title, hint.split('#'))
 }
 
 async function onRemoveHostsListener() {
@@ -83,7 +88,7 @@ async function onRemoveHostsListener() {
   let hint = _('removeActionHint', [EMOJI_PASS, EMOJI_DUPLICATED, EMOJI_FOUL])
 
   textarea.value = text
-  updateHint(title, hint)
+  updateHint(title, hint.split('#'))
 }
 
 async function onViewAllHostsListener() {
