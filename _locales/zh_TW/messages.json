@@ -3,19 +3,19 @@
         "message": "內容農場終結者"
     },
     "areaPlaceHolder": {
-        "message": "輸入內容農場網域（例如 kknews.cc）"
+        "message": "輸入內容農場網域或整列網址，一行一個。例如：\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n作者：雙曲線"
     },
     "addButton": {
-        "message": "新增到清單"
+        "message": "新增至清單"
     },
     "deleteButton": {
         "message": "從清單刪除"
     },
     "showAllButton": {
-        "message": "列出清單"
+        "message": "檢視清單項目"
     },
     "errorHostNames": {
-        "message": "找不到有效網域，因此清單沒有任何變更"
+        "message": "找不到有效網域，清單未變更。"
     },
     "oneAdded": {
         "message": "已新增 \"$HOST$\"",
@@ -26,7 +26,7 @@
         }
     },
     "onlyOneAdded": {
-        "message": "只有新增 \"$HOST$\"",
+        "message": "有些網與已存在或無效，所以只有新增 \"$HOST$\"",
         "placeholders": {
             "HOST": {
                 "content": "$1"
@@ -42,7 +42,7 @@
         }
     },
     "onlySomeAdded": {
-        "message": "僅新增 $COUNT$ 個網域",
+        "message": "有些網域已存在或無效，所以只新增 $COUNT$ 個網域",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -61,7 +61,7 @@
         }
     },
     "onlyOneRemoved": {
-        "message": "只有一個網域被刪除"
+        "message": "有些網域不再清單中或無效，所以只有刪除 1 個網域。"
     },
     "allRemoved": {
         "message": "已刪除所有網域（$COUNT$ 個）",
@@ -72,7 +72,7 @@
         }
     },
     "onlySomeRemoved": {
-        "message": "僅刪除 $COUNT$' 個網域",
+        "message": "有些網域不再清單中或無效，所以只有刪除 $COUNT$ 個網域",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -80,7 +80,7 @@
         }
     },
     "emptyList": {
-        "message": "清單中目前沒有任何網域"
+        "message": "清單中沒有任何項目"
     },
     "block": {
         "message": "終結內容農場"
