@@ -1,36 +1,44 @@
 {
-    "name": "the-content-farm-terminator",
-    "version": "3.2",
-    "description": "A chrome extension for blocking content farm results on search pages.",
-    "author": {
-        "name": "hyperbola",
-        "email": "me@hyperbola.me",
-        "url": "https://github.com/wdzeng"
-    },
-    "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
-    },
-    "scripts": {
-        "build:chrome": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip:chrome",
-        "build:firefox": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip:firefox",
-        "tsc": "mkdir -p dist/scripts && sucrase src/scripts -d dist/scripts --transforms typescript",
-        "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
-        "copy": "cp -r src/_locales src/images src/popup.html dist",
-        "zip:chrome": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Chrome.zip .",
-        "zip:firefox": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Firefox.zip .",
-        "clean": "rm -rf ./dist The-Content-Farm-Terminator-*.zip"
-    },
-    "devDependencies": {
-        "@types/chrome": "0.0.184",
-        "@types/firefox-webext-browser": "^94.0.1",
-        "sass": "^1.51.0",
-        "sucrase": "^3.21.0",
-        "typescript": "^4.6.4"
-    },
-    "bugs": {
-        "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
-    },
-    "license": "GPL-2.0"
+  "name": "the-content-farm-terminator",
+  "version": "3.2",
+  "description": "A chrome extension for blocking content farm results on search pages.",
+  "author": {
+    "name": "hyperbola",
+    "email": "me@hyperbola.me",
+    "url": "https://github.com/wdzeng"
+  },
+  "homepage": "https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator.git"
+  },
+  "scripts": {
+    "build:chrome": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip:chrome",
+    "build:firefox": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip:firefox",
+    "tsc": "rollup -c rollup.config.js && eslint --fix dist/scripts",
+    "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
+    "copy": "cp -r src/_locales src/images src/popup.html dist",
+    "zip:chrome": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Chrome.zip .",
+    "zip:firefox": "cd dist && zip -FSr ../The-Content-Farm-Terminator-Firefox.zip .",
+    "clean": "rm -rf lib dist The-Content-Farm-Terminator-*.zip"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@types/chrome": "0.0.184",
+    "@types/firefox-webext-browser": "^94.0.1",
+    "eslint": "^8.15.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "rollup": "^2.73.0",
+    "sass": "^1.51.0",
+    "sucrase": "^3.21.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
+  },
+  "bugs": {
+    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
+  },
+  "license": "GPL-2.0"
 }

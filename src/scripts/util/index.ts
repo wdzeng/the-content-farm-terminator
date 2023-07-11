@@ -1,19 +1,4 @@
-export function removeDuplicates(a: string[]): string[] {
-  const set = new Set<string>()
-  return a.filter(e => !set.has(e) && set.add(e))
-}
-
-export function subtractArray(a: string[], b: string[]): string[] {
-  const set = new Set(b)
-  return a.filter(x => !set.has(x))
-}
-
-export function intersectArray(a: string[], b: string[]): string[] {
-  if (a.length < b.length) return intersectArray(b, a)
-  // a.length >= b.length
-  const set = new Set(a)
-  return b.filter(e => set.has(e))
-}
+export * from './array'
 
 export async function tick() {
   return new Promise(res => window.requestAnimationFrame(res))
@@ -22,7 +7,7 @@ export async function tick() {
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
 export async function hideElements(els: HTMLElement[], fade: boolean): Promise<void> {
   if (!fade) {
-    els.forEach(el => el.style.display = 'none')
+    els.forEach(el => { el.style.display = 'none' })
     return
   }
 
@@ -81,13 +66,9 @@ export function once(callback: (_: Event) => any) {
 }
 
 export function isValidHostname(s: string): boolean {
-  const reg = new RegExp('^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)+([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$')
-  return reg.test(s)
+  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(s)
 }
 
 export function isValidUrl(s: string): boolean {
-  const reg = new RegExp('http[s]{0,1}:\\/\\/.*?\\/.*')
-  return reg.test(s)
+  return /^http[s]{0,1}:\/\/.*?\/.*$/.test(s)
 }
-
-export const getI18nMessage = (window.browser || window.chrome).i18n.getMessage

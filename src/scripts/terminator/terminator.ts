@@ -1,13 +1,17 @@
-import * as db from './database.js'
-import { hideElements, isElementHidden, once, showElements, getI18nMessage as _ } from './util.js'
+import * as db from '../util/database'
+import { hideElements, isElementHidden, once, showElements } from "../util"
+import { getI18nMessage as _ } from '../util/i18n'
 
 export abstract class Terminator {
 
   constructor(private category: string) { }
 
-  protected init(): void {
+  async run(): Promise<void> {
     this.markSearchCategory()
+    await this.init()
   }
+
+  protected abstract init(): Promise<void>
 
   private markSearchCategory() {
     document.body.setAttribute('cft-search-category', this.category)
@@ -16,18 +20,12 @@ export abstract class Terminator {
 
 export abstract class ListedTerminator extends Terminator {
 
-  constructor(category: string) {
-    super(category)
-  }
-
   async init(): Promise<void> {
-    super.init()
-
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
     const resultNodes = this.getResultNodes()
-    const farmResultNodes = Array<HTMLElement>()
-    const nonfarmResultNodes = Array<HTMLElement>()
+    const farmResultNodes: HTMLElement[] = []
+    const nonfarmResultNodes: HTMLElement[] = []
     for (const resultNode of resultNodes) {
       const domain = this.getSourceDomain(resultNode)
       if (farmList.has(domain)) farmResultNodes.push(resultNode)
@@ -84,7 +82,7 @@ export abstract class ListedTerminator extends Terminator {
 
           // Get other search items linking to same host and show them all.
           const domain = this.getSourceDomain(resultNode)
-          const unblockedResultNodes = this.getResultNodes().filter(resultNode => this.getSourceDomain(resultNode) == domain)
+          const unblockedResultNodes = this.getResultNodes().filter(resultNode => this.getSourceDomain(resultNode) === domain)
           // Since these results are unblocked, we should re-add the
           // "Terminate!" hint to them, and set title to safe (default font).
           unblockedResultNodes.forEach(unblockedResultNode => {
@@ -185,16 +183,9 @@ export abstract class ListedTerminator extends Terminator {
 // Unlisted terminator does not support terminate or determinate on click
 // action. Users must key in their own farm list via the popup. However this
 // terminator still allows user to show farm results once.
-
 export abstract class UnlistedTerminator extends Terminator {
 
-  constructor(category: string) {
-    super(category)
-  }
-
   async init(): Promise<void> {
-    super.init()
-
     const farmList = new Set(await db.getFarmList())
 
     // Since search results are dynamically loaded, an mutation observer is

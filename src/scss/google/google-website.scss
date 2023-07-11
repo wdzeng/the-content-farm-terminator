@@ -1,7 +1,17 @@
 body[cft-search-category="google-website"] {
 
-  // the "Terminate!" or "Determinate" <a> button.
-  .cft-result {
+  .cft-result.MkXWrd {
+    .cft-hint {
+      margin-left: 0.5em;
+    }
+  }
+
+  .cft-blocked-hint.MkXWrd {
+    padding: 16px;
+    font-size: small;
+  }
+
+  .cft-result:not(.MkXWrd) {
     .cft-hint {
       margin-left: 0.5em;
     }

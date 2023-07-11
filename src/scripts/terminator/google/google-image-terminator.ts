@@ -1,4 +1,4 @@
-import { UnlistedTerminator } from './terminator.js'
+import { UnlistedTerminator } from '../terminator'
 
 export class GoogleImageTerminator extends UnlistedTerminator {
 
@@ -44,9 +44,4 @@ export class GoogleImageTerminator extends UnlistedTerminator {
 
     return button
   }
-}
-
-export async function init() {
-  const terminator = new GoogleImageTerminator()
-  await terminator.init()
 }

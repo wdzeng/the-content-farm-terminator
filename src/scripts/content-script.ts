@@ -1,29 +1,33 @@
-// https://stackoverflow.com/a/53033388
+import { GoogleImageTerminator, GoogleWebsiteTerminator, GoogleNewsTerminator, Terminator } from './terminator'
 
 // This script is executed when google.com/search page is loaded.
-(async () => {
+
+// suppress eslint warning
+
+async function init() {
   // https://www.sitepoint.com/get-url-parameters-with-javascript/
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
 
   // Check if user is searching website or news.
   const tbm = urlParams.get('tbm')
+  let terminator: Terminator | null = null
   if (tbm === null) {
     // websites
-    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-website-terminator.js')
-    const contentMain = await import(src)
-    contentMain.init()
+    terminator = new GoogleWebsiteTerminator()
   }
   else if (tbm === 'isch') {
     // images
-    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-image-terminator.js')
-    const contentMain = await import(src)
-    contentMain.init()
+    terminator = new GoogleImageTerminator()
   }
   else if (tbm === 'nws') {
     // news
-    const src = (window.browser || window.chrome).runtime.getURL('/scripts/google-news-terminator.js')
-    const contentMain = await import(src)
-    contentMain.init()
+    terminator = new GoogleNewsTerminator()
   }
-})()
+
+  if (terminator !== null) {
+    await terminator.run()
+  }
+}
+
+init()
