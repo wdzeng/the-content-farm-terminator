@@ -106,7 +106,7 @@ function addRedoHint($srItems) {
     const clzName = `cfb-${hostName.replace(/\./g, "-")}`
     // Create redo text
     let $txtRedo = $(`<div class="g s ${clzName}"></div>`)
-        .append($(`<span style="margin-right: 8px;">${__("onTerminatedMsg", hostName)}</span>`))
+        .append($(`<span style="margin-right: 8px;">${__("unTerminatedMsg", hostName)}</span>`))
     // Create redo button
     let $btnRedo = $(`<a href="#">${__("redoHint")}</a>`)
         .one("click", () => {
