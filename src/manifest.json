@@ -6,8 +6,7 @@
     "author": "hyperbola",
     "default_locale": "en",
     "permissions": [
-        "storage",
-        "unlimitedStorage"
+        "storage"
     ],
     "content_scripts": [
         {
@@ -210,7 +209,7 @@
                 "/scripts/content-script.js"
             ],
             "css": [
-                "/css/terminator.css"
+                "/css/inject.css"
             ]
         }
     ],
@@ -412,7 +411,7 @@
                 "https://www.google.ws/*"
             ],
             "resources": [
-                "/scripts/terminator.js",
+                "/scripts/inject.js",
                 "/scripts/database.js",
                 "/scripts/util.js"
             ]
