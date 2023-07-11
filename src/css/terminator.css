@@ -10,13 +10,14 @@ a.cft:hover {
     text-decoration: underline !important;
 }
 
-a.cft-hint {
-    margin-left: 4px;
+a.cft-hint, a.cft-undo-hint {
+    margin-left: 0.5em;
     color: #808080 !important;
+    font-size: small;
 }
 
-.cft-undo-hint {
-    margin-right: 8px;
+a.cft-hint:hover, a.cft-undo-hint:hover {
+    cursor:pointer
 }
 
 span+a.cft-hint {

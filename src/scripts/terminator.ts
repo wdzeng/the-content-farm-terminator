@@ -221,7 +221,7 @@ function addUndoHint(resultNode: HTMLDivElement) {
 
   // Create undo node
   const undoMsgTextNode = document.createTextNode(
-    _('unTerminatedMsg', hostname)
+    _('terminatedMsg', hostname)
   )
   const undoMsgNode = document.createElement('span')
   undoMsgNode.appendChild(undoMsgTextNode)
