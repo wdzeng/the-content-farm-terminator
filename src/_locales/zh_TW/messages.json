@@ -24,7 +24,7 @@
         "message": "封鎖內容農場"
     },
     "terminatedMsg": {
-        "message": "已封鎖網域 \"$1\""
+        "message": "已封鎖網域 \"$1\"。"
     },
     "undoHint": {
         "message": "取消封鎖"
