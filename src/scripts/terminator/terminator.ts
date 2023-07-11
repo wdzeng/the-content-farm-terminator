@@ -1,4 +1,10 @@
-import { greyInElements, greyOutElements, hideElements, once } from '../util'
+import {
+  greyInElements,
+  greyOutElements,
+  hideElements,
+  isDevMode,
+  once,
+} from '../util'
 import * as db from '../util/database'
 import { getI18nMessage as _ } from '../util/i18n'
 
@@ -24,6 +30,16 @@ export abstract class ListedTerminator extends Terminator {
     const resultNodes = this.getResultNodes()
     const farmResultNodes: HTMLElement[] = []
     const nonfarmResultNodes: HTMLElement[] = []
+
+    if (isDevMode()) {
+      if (resultNodes.length === 0) {
+        console.log('No result nodes found.')
+      } else {
+        console.log('Found following result nodes:')
+        console.log(resultNodes)
+      }
+    }
+
     for (const resultNode of resultNodes) {
       const domain = this.getSourceDomain(resultNode)
       if (farmList.has(domain)) farmResultNodes.push(resultNode)
