@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - src/**
   workflow_dispatch: ~
 
 env:
@@ -19,8 +21,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: true
       - name: Build project
-        run: pnpm install --frozen-lockfile && pnpm build:chrome
+        run: pnpm build:chrome
       - name: Save extension zip
         uses: actions/upload-artifact@v3
         with:
@@ -35,8 +39,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: true
       - name: Build project
-        run: pnpm install --frozen-lockfile && pnpm build:firefox
+        run: pnpm build:firefox
       - name: Save addon xpi
         uses: actions/upload-artifact@v3
         with:
