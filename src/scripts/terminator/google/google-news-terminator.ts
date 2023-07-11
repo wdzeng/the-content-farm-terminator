@@ -83,6 +83,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
 
     // Create undo hint message
     const undoHintNode = document.createElement('span')
+    undoHintNode.classList.add('cft-undo-hint')
     undoHintNode.textContent = undoHintText
 
     // Create undo node that contains hint and button. 
