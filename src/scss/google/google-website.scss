@@ -29,12 +29,13 @@ body[cft-search-category="google-website"] {
       display: flex;
       flex-direction: column-reverse;
 
-      // result node title
+      // result node title and subtitle
       a {
         br {
           display: none;
         }
 
+        // result node title
         h3 {
           margin-top: 0;
         }
@@ -45,14 +46,8 @@ body[cft-search-category="google-website"] {
         width: 100%;
         height: initial !important;
         position: static !important;
-        display: flex;
         flex-direction: row;
         visibility: visible !important;
-
-        // the triangle dropdown
-        .eFM0qc {
-          flex-shrink: 0;
-        }
       }
     }
   }
