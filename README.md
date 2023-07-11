@@ -1,12 +1,12 @@
 # 內容農場終結者
 
-[![release](https://img.shields.io/github/v/release/wdzeng/the-content-farm-terminator)](https://github.com/wdzeng/The-Content-Farm-Terminator/releases/latest)
+[![release](https://img.shields.io/github/v/release/wdzeng/the-content-farm-terminator)](https://github.com/wdzeng/the-content-farm-terminator/releases/latest)
 ![ci/cd](https://img.shields.io/github/workflow/status/wdzeng/the-content-farm-terminator/Publish)  
 [![edge add-ons](https://img.shields.io/badge/dynamic/json?label=edge%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fklphenilpobkhhddphhmkfedbedplpkj)](https://microsoftedge.microsoft.com/addons/detail/klphenilpobkhhddphhmkfedbedplpkj)
 [![chrome web store](https://img.shields.io/chrome-web-store/v/chhekpgdckchblnfdelceaigmlfbakgn)](https://chrome.google.com/webstore/detail/chhekpgdckchblnfdelceaigmlfbakgn)
 [![firefox add-ons](https://img.shields.io/amo/v/the-content-farm-terminator?label=firefox%20add-ons)](https://addons.mozilla.org/firefox/addon/the-content-farm-terminator/)
-![active user](https://img.shields.io/chrome-web-store/users/chhekpgdckchblnfdelceaigmlfbakgn?color=gold&label=active%20user) ![star](https://img.shields.io/github/stars/wdzeng/The-Content-Farm-Terminator?color=gold)
-![license](https://img.shields.io/github/license/wdzeng/The-Content-Farm-Terminator?color=red)
+![active user](https://img.shields.io/chrome-web-store/users/chhekpgdckchblnfdelceaigmlfbakgn?color=gold&label=active%20user) ![star](https://img.shields.io/github/stars/wdzeng/the-content-farm-terminator?color=gold)
+![license](https://img.shields.io/github/license/wdzeng/the-content-farm-terminator?color=red)
 
 [English](README_en.md) 👈
 
