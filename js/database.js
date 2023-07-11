@@ -1,5 +1,6 @@
 "use strict";
 
+const VAR_NAME = "farmList";
 var DB = {
 
     getDefaultFarmList: function () {
@@ -11,14 +12,14 @@ var DB = {
      * If the user jsut installed this extension and the database is not created, this returns undefined.
      */
     getFarmList: function (callback) {
-        chrome.storage.sync.get('farmList', data => callback && callback(data['farmList']));
+        chrome.storage.sync.get(VAR_NAME, data => callback && callback(data[VAR_NAME]));
     },
 
     /**
      * Clear currently stored farm list array and save a new array.
      */
     setFarmList: function (farmListArray, callback) {
-        chrome.storage.sync.set({ 'farmList': farmListArray }, callback);
+        chrome.storage.sync.set({ VAR_NAME: farmListArray }, callback);
     },
 
     /**
