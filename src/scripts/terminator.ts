@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 'use strict'
 
 var _ = chrome.i18n.getMessage
@@ -7,66 +5,61 @@ init()
 
 // Utilities
 
+async function tick() {
+  return new Promise(res => window.requestAnimationFrame(res))
+}
+
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> {
-  return new Promise((res) => {
+async function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> {
+  return new Promise(res => {
     if (now) {
-      els.forEach((el) => (el.style.display = 'none'))
+      els.forEach(el => el.style.display = 'none')
       res()
       return
     }
 
-    let op = 1 // initial opacity
-    const timer = setInterval(function () {
-      if (op <= 0.1) {
-        clearInterval(timer)
-        els.forEach((el) => (el.style.display = 'none'))
-        res()
-        return
-      }
-
-      els.forEach((el) => {
-        el.style.opacity = op.toString()
-        el.style.filter = 'alpha(opacity=' + op * 100 + ')'
-      })
-      op *= 0.8
-    }, 30)
+    function transitionEndHandler(event: Event) {
+      const el = event.target as HTMLElement
+      el.style.display = 'none'
+      res()
+    }
+  
+    els.forEach(el => {
+      el.addEventListener('webkitTransitionEnd', transitionEndHandler, { once: true })
+      el.style['transition-property'] = 'opacity'
+      el.style['transition-duration'] = '200ms'
+      el.style.opacity = '0'
+    })
   })
 }
-function fadeIn(els: HTMLElement[], now?: boolean): Promise<void> {
+
+async function fadeIn(els: HTMLElement[], now?: boolean): Promise<void> {
   return new Promise((res) => {
     if (now) {
       els.forEach((el) => {
-        el.style.display = 'block'
         el.style.opacity = '1'
-        el.style.filter = 'alpha(opacity=100)'
+        el.style.display = 'block'
       })
       res()
       return
     }
 
-    let op = 0.1 // initial opacity
-    els.forEach((el) => (el.style.display = 'block'))
-    const timer = setInterval(function () {
-      if (op >= 1) {
-        clearInterval(timer)
-        res()
-        return
-      }
-      els.forEach((el) => {
-        el.style.opacity = op.toString()
-        el.style.filter = `alpha(opacity=${op * 100})`
-      })
-      op *= 1.25
-    }, 30)
+    els.forEach(async el => {
+      el.style.display = 'block'
+      await tick()
+      el.addEventListener('webkitTransitionEnd', () => res(), { once: true })
+      el.style.opacity = '1'
+    })
   })
 }
+
 // https://www.w3schools.com/howto/howto_js_check_hidden.asp
 function isElementHidden(el: HTMLElement) {
   const style = window.getComputedStyle(el)
   return style.display === 'none' || style.visibility === 'hidden'
 }
-function makeInvokedOnceOnly(callback: (_: Event) => any) {
+
+function once(callback: (_: Event) => any) {
   let flag = true
   return (e: Event) => {
     if (flag) {
@@ -116,7 +109,7 @@ function setHintForSearchItem(
   if (hintNode !== null) {
     // If a hint already exists, just update this hint.
     hintNode.innerHTML = text
-    hintNode.onclick = makeInvokedOnceOnly((e) => {
+    hintNode.onclick = once((e) => {
       onClickListener(resultNode)
       e.preventDefault()
     })
@@ -130,7 +123,7 @@ function setHintForSearchItem(
   hintNode.classList.add('cft-hint')
   hintNode.appendChild(hintTextNode)
   hintNode.href = '#'
-  hintNode.onclick = makeInvokedOnceOnly((e) => {
+  hintNode.onclick = once((e) => {
     onClickListener(resultNode)
     e.preventDefault()
   })
@@ -185,14 +178,14 @@ async function onBlockHintClickedListener(blockedNode: HTMLDivElement) {
 async function addUnblockHint(resultNodes: HTMLDivElement[]) {
   setHintForSearchItem(
     resultNodes,
-    _('terminateHint'),
+    _('unTerminatedHint'),
     async (unblockedNode: HTMLDivElement) => {
       const hostName = getHostnameOf(unblockedNode)
       // Get other search items linking to same host and show them all.
       const unblockedNodes = getResultNodes(hostName)
-      // $('h3.LC20lb', unblockedNodes).removeClass('cft-farm-title')
       unblockedNodes
-        .map((n) => n.querySelector('h3.LC20lb')!)
+        .map((n) => n.querySelectorAll('h3.LC20lb')!)
+        .flatMap(els => Array.from(els))
         .forEach((h) => h.classList.remove('cft-farm-title'))
       addBlockHint(unblockedNodes)
       // Remove this host to blocking list
@@ -212,13 +205,14 @@ function addUndoHint(resultNode: HTMLDivElement) {
   const undoButtonTextNode = document.createTextNode(_('undoHint'))
   const undoButtonNode = document.createElement('a')
   undoButtonNode.appendChild(undoButtonTextNode)
-  undoButtonNode.onclick = makeInvokedOnceOnly(async (e) => {
+  undoButtonNode.onclick = once(async (e) => {
     // Remove nodes that shows 'This hostname is blocked'
     const removedNodes = document.querySelectorAll(`div.${undoNodeClassname}`)
     removedNodes.forEach((n) => n.remove())
     // Re-show 'Block this host' hint
     const unblockedNodes = getResultNodes(hostname, 'hidden')
     await fadeIn(unblockedNodes)
+    console.log('...')
     addBlockHint(unblockedNodes)
     // Remove this host from database
     farmListDatabase.removeHosts(hostname)
@@ -266,7 +260,7 @@ function addShowResultsOnceHint(nHidden: number) {
   anchorNode.href = '#'
   anchorNode.classList.add('cft')
   anchorNode.appendChild(anchorTextNode)
-  anchorNode.onclick = makeInvokedOnceOnly((e) => {
+  anchorNode.onclick = once((e) => {
     showFarmResultsOnce()
     fadeOut([hintNode])
     e.preventDefault()
@@ -292,8 +286,8 @@ function addShowResultsOnceHint(nHidden: number) {
 function showFarmResultsOnce() {
   const farmResults = getResultNodes(undefined, 'hidden')
   farmResults.forEach((fr) => {
-    const resultTitleNode = fr.querySelector('h3.LC20lb')!
-    resultTitleNode.classList.add('cft-farm-title')
+    const resultTitleNodes = fr.querySelectorAll('h3.LC20lb')
+    resultTitleNodes.forEach(el => el.classList.add('cft-farm-title') )
     addUnblockHint([fr])
   })
   fadeIn(farmResults)
@@ -306,12 +300,11 @@ function getResultNodes(
   host?: string | string[],
   visibility?: 'visible' | 'hidden'
 ): HTMLDivElement[] {
-  const resultElementClass = 'jtfYYd'
-
   function isResultNode(resultNodeCandidate: HTMLDivElement) {
     return (
-      resultNodeCandidate.classList.contains(resultElementClass) ||
-      resultNodeCandidate.querySelector('div.' + resultElementClass) !== null
+      resultNodeCandidate.classList.contains('tF2Cxc') ||
+      resultNodeCandidate.querySelector('div.tF2Cxc') !== null ||
+      resultNodeCandidate.querySelector('div.jtfYYd') !== null
     )
   }
 
