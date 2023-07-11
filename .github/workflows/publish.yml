@@ -20,7 +20,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2
         with:
           run_install: true
       - name: Build project
@@ -38,7 +38,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2
         with:
           run_install: true
       - name: Build project
