@@ -96,10 +96,18 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     undoButton.classList.add('cft-hint', 'cft-button')
     undoButton.textContent = buttonText
 
+    // For news search result, simply add an undo button. 
     if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
+      // Since the result is not removed from the page, remove the terminate
+      // button.
+      const termButton = resultNode.querySelector('.cft-button')!
+      termButton.remove()
+
       const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd')!
       wrapper.appendChild(undoButton)
     }
+
+    // For regular search result, add hint message.
     else {
       // Create undo hint message
       const undoHintNode = document.createElement('span')
