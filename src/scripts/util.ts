@@ -1,6 +1,6 @@
 export function removeDuplicates(a: string[]): string[] {
-  const set = new Set(a)
-  return a.filter(e => set.add(e))
+  const set = new Set<string>()
+  return a.filter(e => !set.has(e) && set.add(e))
 }
 
 export function subtractArray(a: string[], b: string[]): string[] {
