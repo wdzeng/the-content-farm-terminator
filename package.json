@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/wdzeng/the-content-farm-terminator.git"
   },
-  "packageManager": "pnpm@7.13.4",
+  "packageManager": "pnpm@7.29.3",
   "scripts": {
     "dev": "pnpm clean && rollup -c rollup.config.js && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json",
     "build:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json && pnpm zip:chrome",
@@ -25,20 +25,23 @@
     "zip:firefox": "cd dist && zip -FSr ../the-content-farm-terminator_firefox.zip .",
     "clean": "rm -rf lib dist the-content-farm-terminator_*.zip"
   },
-  "devDependencies": {
-    "@rollup/plugin-typescript": "^8.5.0",
-    "@types/chrome": "0.0.196",
-    "@types/firefox-webext-browser": "^94.0.1",
-    "eslint": "^8.25.0",
+  "dependencies": {
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/chrome": "0.0.225",
+    "@types/firefox-webext-browser": "^111.0.0",
+    "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.3.0",
-    "eslint-plugin-promise": "^6.0.1",
-    "rollup": "^2.79.1",
-    "sass": "^1.55.0",
-    "sucrase": "^3.28.0",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.4"
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "rollup": "^3.20.2",
+    "sass": "^1.60.0",
+    "sucrase": "^3.30.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.7"
   },
   "bugs": {
     "url": "https://github.com/wdzeng/the-content-farm-terminator/issues"
