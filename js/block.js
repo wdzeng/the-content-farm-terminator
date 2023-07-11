@@ -1,81 +1,162 @@
 "use strict";
 (function () {
 
-    removeFarmResults();
+    const fadeTime = 400;
+    run();
 
+    //Run content farm blocker
+    function run() {
+        removeFarmResults();
+    }
+
+    //Remove content farm results from google search page
     function removeFarmResults() {
 
         getFarmList(function (farmList) {
 
-            let $hidden = $('div.g').filter(function (index) {
-                let anchors = $('h3 a', this);
-                if (!anchors.length) {
-                    return false;
-                }
-                return farmList.includes(anchors[0].hostname);
-            }).hide(0);
+            //Get farm results
+            let $farmResults = getResults(farmList);
+            const nFarmResult = $farmResults.length;
 
-            const nHidden = $hidden.length;
-            if (nHidden) {
+            //IF any farm result exists
+            if (nFarmResult) {
+
+                //Hide these farm results
+                $farmResults.hide(0);
+                //Check search page's looking
                 checkMargin();
-                addShowAllHint(nHidden);
+                //Add hint that allows user to show these results temporarily
+                addShowAllHint(nFarmResult);
             }
 
-            addBlockHint();
+            //After farm results are hidden, add block hint to the remaining results
+            addBlockHint(getResults(null, 'visible'));
         })
     }
 
-    function addBlockHint() {
+    //Add or update a hint of a result
+    //Arg $results should all contain or all not contain hints
+    function addResultHint($results, text, onClick) {
 
-        let $hint = $('<a class="TbwUpd fl" href="#"></a>')
-            .html(chrome.i18n.getMessage('block'))
+        //Get the hint anchor of these results
+        let $hint = $('a.cfb-hint', $results);
+
+        //IF these hint all exist
+        if ($hint.length) {
+
+            //Reset this hint
+            $hint.off('click')
+                .html(text)
+                .one('click', function () {
+                    onClick($(this).parents('div.g'));
+                    return false;
+                });
+            return;
+        }
+
+        //IF no hint exists
+        //Create new hint
+        $hint = $('<a class="TbwUpd fl cfb-hint" href="#"></a>')
+            .html(text)
             .css({
                 'margin-left': '4px',
                 'color': '#808080'
-            }).click(onHideBtnClicked);
+            })
+            .one('click', function () {
+                onClick($(this).parents('div.g'));
+                return false;
+            });
 
-        $('cite.iUh30:visible').parent().append($hint);
+        //Add these hints to DOM tree
+        $('cite.iUh30', $results).parent().append($hint);
     }
 
-    function onHideBtnClicked() {
+    //Add block hints to results
+    function addBlockHint($results) {
 
-        const $this = $(this);
-        const host = $('h3 a', $this.parents('div.g'))[0].hostname;
+        addResultHint($results, chrome.i18n.getMessage('block'), block);
+    }
 
-        //Get blocks
-        let $resultBlocks = $('div.g:visible').filter(function (index) {
-            let $anchors = $('h3 a', this);
-            return $anchors.length && $anchors[0].hostname === host;
-        });
+    //Add redo hints to results
+    function addRedoHint($results, hostName, type = false) {
 
-        //Hide blocks
-        $resultBlocks.fadeOut(800, function () {
+        //IF this result is visible
+        if (type || $results.is(':visible')) {
+            addResultHint($results, '解除封鎖' /*TODO*/, function ($redone) {
 
-            //Replace each dot to dash
-            const clz = host.replace(/\./g, '-');
+                let hostName = getHostName($redone);
+                let $unblocked = getResults(hostName);
+                $('h3>a', $unblocked).removeClass('farm-title');
+                addBlockHint($unblocked);
+                removeHost(hostName);
+            })
+        }
 
-            let $redoText = $('<div class="g s ' + clz + '"></div>')
-                .append($('<span>' + chrome.i18n.getMessage('redoText', host) + '</span>'));
+        //IF this result has been hidden
+        else {
 
-            let $redoBtn = $('<a href="#"></a>').html(chrome.i18n.getMessage('redo'))
-                .click(function () {
-                    $('div.' + clz).hide(0);
-                    $resultBlocks.fadeIn(800);
-                    removeHost(host);
+            //Check host name
+            if (!hostName) {
+                hostName = getHostName($results);
+            }
+            const clzName = 'cfb-' + hostName.replace(/\./g, '-');
+
+            //Create redo text
+            let $redoText = $('<div class="g s ' + clzName + '"></div>')
+                .append($('<span></span>').html(chrome.i18n.getMessage('redoText', hostName)));
+
+            //Create redo button
+            let $redoBtn = $('<a href="#"></a>')
+                .html(chrome.i18n.getMessage('redo'))
+                .one('click', function () {
+                    $('div.' + clzName).remove();
+                    let $unblocked = $('div.g').filter(function () {
+                        return getHostName(this) === hostName;
+                    });
+                    addBlockHint($unblocked);
+                    $unblocked.fadeIn(fadeTime);
+                    removeHost(hostName);
                     return false;
                 });
 
+            //Add button to DOM tree
             $redoText.append($redoBtn);
-            $this.after($redoText);
+            $results.after($redoText);
+        }
+    }
+
+    //Get the host name of a result
+    function getHostName($result) {
+
+        let $anchor = $('h3 a', $result);
+        if ($anchor.length) {
+            return $anchor[0].hostname;;
+        }
+        return null;
+    }
+
+    //When block hint is clicked
+    function block($result) {
+
+        const hostName = getHostName($result);
+
+        //Get ALL results that should be hidden
+        let $blockedCandidates = getResults(hostName);
+
+        //Hide these results
+        $blockedCandidates.fadeOut(fadeTime, function () {
+            addRedoHint($blockedCandidates, hostName)
         });
 
-        addHost(host);
+        //Add to blocking list
+        addHost(hostName);
 
         return false;
     }
 
     //Remove extra margin between image box and the top bar
     function checkMargin() {
+
         let first = document.querySelector('div.g:not([style*="display: none"])');
         if (first && first.id === 'imagebox_bigimages') {
             first.firstChild.style.marginTop = '0';
@@ -84,23 +165,74 @@
         return false;
     }
 
+    //Add hint that allows user to show farm results temporarily
     function addShowAllHint(nHidden) {
 
-        let $text = $('<p></p>').css('font-style', 'italic')
+        let $div = $('<div id="tempShow"></div>');
+
+        let $text = $('<p></p>')
+            .css('font-style', 'italic')
             .html(chrome.i18n.getMessage('showAll', nHidden.toString()));
 
-        let $btn = $('<a href="#"></a>').html(chrome.i18n.getMessage('showAllHint'))
+        let $btn = $('<a href="#"></a>')
+            .html(chrome.i18n.getMessage('showAllHint'))
             .css('text-decoration', 'none')
             .click(function () {
-                $('div.g:hidden').fadeIn(400);
+                templyShowAll();
+                $div.hide(0);
                 return false;
+            })
+            .hover(function () {
+                $btn.css('text-decoration', 'underline');
+            }, function () {
+                $btn.css('text-decoration', 'none');
             });
 
-        let $div = $('<div></div>');
-
-        $text.append($btn);
-        $div.append($text);
         $('#extrares').append($div);
+        $div.append($text);
+        $text.append($btn);
+    }
+
+    //Show farm results temporarily
+    function templyShowAll() {
+
+        let $farmResults = getResults(null, 'hidden');
+        regFarmTitleClz();
+        $('h3.r>a', $farmResults).addClass('farm-title');
+        addRedoHint($farmResults, null, true);
+        $farmResults.fadeIn(fadeTime);
+    }
+
+    function getResults(host, visibility) {
+        let cssSelector = 'div.g';
+        if (visibility === 'visible') {
+            cssSelector += ':visible';
+        } else if (visibility === 'hidden') {
+            cssSelector += ':hidden';
+        }
+
+        if (!host) {
+            return $(cssSelector);
+        }
+
+        if (Array.isArray(host)) {
+            return $(cssSelector).filter(function () {
+                return host.includes(getHostName(this));
+            })
+        }
+        return $(cssSelector).filter(function () {
+            return getHostName(this) === host;
+        })
+    }
+
+    function regFarmTitleClz() {
+
+        let css = 'a.farm-title { font-style: italic; color: #CC0000; }';
+        let head = document.head;
+        let style = document.createElement('style');
+        style.type = 'text/css';
+        style.appendChild(document.createTextNode(css));
+        head.appendChild(style);
     }
 
 })();
