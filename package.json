@@ -4,7 +4,7 @@
   "private": true,
   "description": "A browser extension that blocks content farm results on Google search pages.",
   "author": {
-    "name": "hyperbola",
+    "name": "Hyperbola",
     "email": "me@hyperbola.me",
     "url": "https://github.com/wdzeng"
   },
@@ -13,9 +13,10 @@
     "type": "git",
     "url": "https://github.com/wdzeng/the-content-farm-terminator.git"
   },
+  "packageManager": "latest",
   "scripts": {
-    "build:chrome": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-chrome.json ./dist/manifest.json && yarn zip:chrome",
-    "build:firefox": "yarn clean && yarn tsc && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip:firefox",
+    "build:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json && pnpm zip:chrome",
+    "build:firefox": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-firefox.json ./dist/manifest.json && pnpm zip:firefox",
     "tsc": "rollup -c rollup.config.js && eslint --fix dist/scripts",
     "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
     "copy": "cp -r src/_locales src/images src/popup.html dist",
