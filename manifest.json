@@ -5,6 +5,7 @@
     "manifest_version": 2,
     "author": "Paraball",
     "permissions": [
+        "declarativeContent",
         "activeTab",
         "storage"
     ],
@@ -32,5 +33,15 @@
         "32": "images/icon32.png",
         "64": "images/icon64.png",
         "128": "images/icon128.png"
+    },
+    "options_page": "option/option.html",
+    "browser_action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "32": "images/icon32.png",
+            "64": "images/icon64.png",
+            "128": "images/icon128.png"
+        }
     }
 }

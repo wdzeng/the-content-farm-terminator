@@ -1,0 +1,11 @@
+textarea {
+    font-size: 22px;
+    font-family: "monospace", "Consolas", "Courier new", "sans-serif";
+    width: 30em;
+}
+
+button {
+    font-size: 16px;
+    padding: 6px 15px;
+    font-family: "sans-serif";
+}
