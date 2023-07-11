@@ -1,18 +1,22 @@
 body[cft-search-category="google-website"] {
 
+  // news result in a grid
   .cft-result.MkXWrd {
     .cft-hint {
       margin-left: 0.5em;
     }
   }
 
+  // TODO: maybe deprecated
   .cft-blocked-hint.MkXWrd {
     padding: 16px;
     font-size: small;
   }
 
+  // regular search results
   .cft-result:not(.MkXWrd) {
     .cft-hint {
+      // add a space between URL and the hint node
       margin-left: 0.5em;
     }
 
@@ -31,12 +35,15 @@ body[cft-search-category="google-website"] {
 
       // result node title and subtitle
       a {
+        // a useless <br> tag that may break the layout
         br {
           display: none;
         }
 
         // result node title
         h3 {
+          // remove the space between title and subtitle in the search result
+          // node
           margin-top: 0;
         }
       }
