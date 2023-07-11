@@ -1,5 +1,5 @@
-import * as db from './database'
-import { isValidHostname, isValidUrl, i18nMessage as _ } from './util'
+import * as db from './database.js'
+import { isValidHostname, isValidUrl, i18nMessage as _ } from './util.js'
 
 const EMOJI_PASS = '😀'
 const EMOJI_DUPLICATED = '🤨'

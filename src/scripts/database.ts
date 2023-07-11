@@ -1,6 +1,6 @@
-import { intersectArray, removeDuplicates, subtractArray } from './util'
+import { intersectArray, removeDuplicates, subtractArray } from './util.js'
 
-const storage = process.env.BROWSER === 'chrome' ? chrome.storage : browser.storage
+const storage = chrome.storage
 const KEY_FARM_LIST = 'farmList'
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
