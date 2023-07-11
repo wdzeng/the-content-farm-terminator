@@ -24,6 +24,8 @@
             ],
             "all_frames": true,
             "js": [
+                "/js/farm-list.js",
+                "/lib/jquery.js",
                 "/js/block.js"
             ]
         }
