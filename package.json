@@ -1,0 +1,26 @@
+{
+  "name": "the-content-farm-terminator",
+  "version": "3.0.0",
+  "description": "A chrome plugin for blocking content farm results on search pages.",
+  "main": "index.js",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "eslint": "^7.20.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.132"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wdzeng/The-Content-Farm-Terminator.git"
+  },
+  "author": "Hyperbola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wdzeng/The-Content-Farm-Terminator/issues"
+  },
+  "homepage": "https://github.com/wdzeng/The-Content-Farm-Terminator#readme"
+}
