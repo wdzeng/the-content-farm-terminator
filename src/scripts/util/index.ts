@@ -5,9 +5,13 @@ export async function tick() {
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function hideElements(els: HTMLElement[], fade: boolean): Promise<void> {
+export async function hideElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (elements.length === 0) {
+    return
+  }
+  
   if (!fade) {
-    els.forEach(el => { el.style.display = 'none' })
+    elements.forEach(el => { el.style.display = 'none' })
     return
   }
 
@@ -18,7 +22,7 @@ export async function hideElements(els: HTMLElement[], fade: boolean): Promise<v
       res()
     }
 
-    els.forEach(el => {
+    elements.forEach(el => {
       el.addEventListener('transitionend', transitionEndHandler, { once: true })
       el.style['transition-property'] = 'opacity'
       el.style['transition-duration'] = '200ms'
@@ -29,6 +33,10 @@ export async function hideElements(els: HTMLElement[], fade: boolean): Promise<v
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
 export async function showElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (elements.length === 0) {
+    return
+  }
+  
   if (!fade) {
     elements.forEach((element) => {
       element.style.opacity = '1'
@@ -42,6 +50,54 @@ export async function showElements(elements: HTMLElement[], fade: boolean): Prom
       el.style.display = 'block'
       await tick()
       el.addEventListener('webkitTransitionEnd', () => res(), { once: true })
+      el.style.opacity = '1'
+    })
+  })
+}
+
+export async function greyOutElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (elements.length === 0) {
+    return
+  }
+  
+  if (!fade) {
+    elements.forEach(el => {
+      el.style.filter = 'grayscale(100%)'
+      el.style.opacity = '0.2'
+    })
+    return
+  }
+
+  return new Promise(res => {
+    elements.forEach(el => {
+      el.addEventListener('transitionend', () => res(), { once: true })
+      el.style['transition-property'] = 'opacity filter'
+      el.style['transition-duration'] = '200ms'
+      el.style.filter = 'grayscale(100%)'
+      el.style.opacity = '0.2'
+    })
+  })
+}
+
+export async function greyInElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (elements.length === 0) {
+    return
+  }
+  
+  if (!fade) {
+    elements.forEach(el => {
+      el.style.filter = 'initial'
+      el.style.opacity = '1'
+    })
+    return
+  }
+
+  return new Promise(res => {
+    elements.forEach(el => {
+      el.addEventListener('transitionend', () => res(), { once: true })
+      el.style['transition-property'] = 'opacity filter'
+      el.style['transition-duration'] = '200ms'
+      el.style.filter = 'initial'
       el.style.opacity = '1'
     })
   })

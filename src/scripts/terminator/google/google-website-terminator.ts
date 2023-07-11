@@ -1,3 +1,4 @@
+import { hideElements, showElements } from '../../util'
 import { GoogleListedTerminator } from './google-listed-terminator'
 
 function isNewsResultNode(resultNode: HTMLElement): boolean {
@@ -47,7 +48,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     return a.hostname
   }
 
-  protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement {
+  protected addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -85,7 +86,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     return button
   }
 
-  protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
+  protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement | null {
     const domain = this.getSourceDomain(resultNode)
 
     // Create undo button. An attribute is added so that we can infer the
@@ -111,5 +112,13 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
 
     return undoButton
+  }
+
+  protected hideResults(elements: HTMLElement[], init: boolean): Promise<void> {
+    return hideElements(elements, !init)
+  }
+
+  protected showResults(elements: HTMLElement[]): Promise<void> {
+    return showElements(elements, true)
   }
 }

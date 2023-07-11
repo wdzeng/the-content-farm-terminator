@@ -1,14 +1,14 @@
 body[cft-search-category="google-image"] {
 
-  .cft-result, .cft-farm-result {
-    transition-property: opacity filter;
-    transition-duration: 200ms;
-  }
+  // .cft-result, .cft-farm-result {
+  //   transition-property: opacity filter;
+  //   transition-duration: 200ms;
+  // }
 
-  .cft-farm-result {
-    filter: grayscale(100%);
-    opacity: 0.2;
-  }
+  // .cft-farm-result {
+  //   filter: grayscale(100%);
+  //   opacity: 0.2;
+  // }
 
   .cft-image-temp-hint {
     padding: 0 20px;
