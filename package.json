@@ -18,7 +18,7 @@
     "transpile": "tsc --rootDir ./src/scripts",
     "sass": "sass --no-source-map ./src/css",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts -x *.scss",
-    "clean": "rm -f ./src/scripts/*.js ./The-Content-Farm-Terminator.zip"
+    "clean": "rm -f ./src/scripts/*.js ./src/css/*.css ./The-Content-Farm-Terminator.zip"
   },
   "devDependencies": {
     "@types/chrome": "0.0.177",
