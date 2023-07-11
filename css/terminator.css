@@ -27,3 +27,40 @@ span+a.cft-hint {
     font-style: italic;
     color: #CC0000;
 }
+
+.cft-titles {
+    position: static !important;
+    display: flex;
+    flex-direction: column-reverse;    
+}
+
+.cft-title br {
+    display: none;
+}
+
+.cft-title h3 {
+    padding-top: 1px;
+    /* margin-top: -0.25em; */
+}
+.cft-title .TbwUpd.NJjxre {
+    display: none;
+}
+
+.cft-subtitle {
+    width: 100%;
+    height: initial !important;
+    position: static !important;
+    display: flex;
+    flex-direction: row;
+    visibility: visible !important;
+}
+
+.cft-subtitle .eFM0qc {
+    flex-shrink: 0;
+}
+.cft-subtitle .cft-url {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+}

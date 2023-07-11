@@ -70,27 +70,36 @@ function setHintForSearchItem($srItem, text, onClick) {
             onClick($(this).parents("div.g"));
             return false;
         });
+
     // Add these hints to DOM tree
-    if (isLogin())
-        $("div.r", $srItem).find('> div').find('> div:last-child').append($hint);
-    else {
-        $("div.r", $srItem).append($hint);
-        // If the url hint is too long
-        // the layout will be broken
-        // We should limit the url length
-        $('cite.iUh30').each(function () {
-            if ($(this).width() < 340) return;
-            let url = $(this).html();
-            let dots = url.endsWith('...');
-            if (dots) url = url.substring(0, url.length - 3);
-            let slen = url.length;
-            slen -= text.length;
-            slen = Math.max(0, slen);
-            url = url.substring(0, slen);
-            url += '...';
-            $(this).html(url);
-        })
-    }
+    const $eTitles = $("div.r", $srItem);
+    const $eSubtitle = $("div.B6fmyf", $eTitles);
+    const $eTitle = $("a", $eTitles);
+    const $eUrl = $("div.TbwUpd", $eSubtitle);
+    const $eHintContainer = $("div.eFM0qc", $eSubtitle);
+
+    $eTitles.addClass("cft-titles");
+    $eTitle.addClass("cft-title");
+    $eSubtitle.addClass("cft-subtitle");
+    $eUrl.addClass("cft-url");
+    $eHintContainer.append($hint);
+
+    // If the url hint is too long
+    // the layout will be broken
+    // We should limit the url length
+    /*$('cite.iUh30').each(function () {
+        const pWidth = $(this).parent("g").width();
+        const tWidth = $(this).width();
+        if (pWidth - tWidth >= 95) return;
+        let url = $(this).html();
+        if (url.endsWith('...')) url = url.substring(0, url.length - 3);
+        let slen = url.length;
+        slen -= parseInt(text.length * 2.5);
+        slen = Math.max(0, slen);
+        url = url.substring(0, slen);
+        url += '...';
+        $(this).html(url);
+    })*/
 }
 
 /**
