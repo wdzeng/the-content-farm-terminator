@@ -19,7 +19,6 @@ function one(task) {
  * Check whether an google account is logged in.
  */
 function isLogin() {
-    console.log(`"${$('cite.iUh30').css('color')}"`);
     return !($('cite.iUh30').css('color') == 'rgb(0, 102, 33)');
 }
 
@@ -72,7 +71,8 @@ function setHintForSearchItem($srItem, text, onClick) {
         });
 
     // Add these hints to DOM tree
-    const $eTitles = $("div.r", $srItem);
+    // const $eTitles = $("div.rc", $srItem);
+    const $eTitles = $("div.yuRUbf", $srItem);
     const $eSubtitle = $("div.B6fmyf", $eTitles);
     const $eTitle = $("a", $eTitles);
     const $eUrl = $("div.TbwUpd", $eSubtitle);
@@ -160,7 +160,7 @@ function addUndoHint($srItems) {
  * Get the host a result item linking to.
  */
 function getHostName($srItem) {
-    let $anchor = $("div.r>a:first", $srItem);
+    let $anchor = $("div.yuRUbf>a:first", $srItem);
     if ($anchor.length) return $anchor[0].hostname;
     return null;
 }
