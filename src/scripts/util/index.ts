@@ -144,3 +144,12 @@ export function isValidHostname(s: string): boolean {
 export function isValidUrl(s: string): boolean {
   return /^http[s]{0,1}:\/\/.*?\/.*$/.test(s)
 }
+
+let dev : null | boolean = null
+export function isDevMode() : boolean {
+  if (dev === null) {
+    // eslint-disable-next-line no-undef
+    dev = !('update_url' in chrome.runtime.getManifest());
+  }
+  return dev
+}
