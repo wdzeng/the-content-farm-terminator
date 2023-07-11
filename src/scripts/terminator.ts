@@ -94,7 +94,7 @@ async function init() {
   // Get farm results
   const farmResultNodes = getResultNodes(farmList)
   const nFarmResult = farmResultNodes.length
-  // If any serach result of farm exists
+  // If any search result of farm exists
   if (nFarmResult) {
     // Hide these search results
     await fadeOut(farmResultNodes, true)
@@ -107,7 +107,7 @@ async function init() {
 }
 
 /**
- * Sets a hint for some search results. If the hint alreadt exists, update it. If the hint does not exists, insert a new one.
+ * Sets a hint for some search results. If the hint already exists, update it. If the hint does not exists, insert a new one.
  */
 function setHintForSearchItem(
   resultNode: HTMLDivElement | HTMLDivElement[],
@@ -154,9 +154,10 @@ function setHintForSearchItem(
   // const $eTitle = $('a', $eTitles)
   const titleNode = titlesNode.querySelector<HTMLAnchorElement>('a')!
   // const $eUrl = $('div.TbwUpd', $eSubtitle)
-  const urlNode = subtitleNode?.querySelector('div.TbwUpd')!
+  const urlNode = subtitleNode.querySelector('div.TbwUpd')!
   // const $eHintContainer = $('div.eFM0qc', $eSubtitle)
   const hintWrapperNode = subtitleNode.querySelector('div.eFM0qc')!
+  console.log(hintWrapperNode)
 
   titlesNode.classList.add('cft-titles')
   titleNode.classList.add('cft-title')
@@ -341,20 +342,20 @@ function showFarmResultsOnce() {
 }
 
 /**
- * Qeuries all result nodes which match given hostname and visibility restricts.
+ * Queries all result nodes which match given hostname and visibility restricts.
  */
 function getResultNodes(
   host?: string | string[],
   visibility?: 'visible' | 'hidden'
 ): HTMLDivElement[] {
 
-  function isResultNode(resultNodeCaididate: HTMLDivElement) {
+  function isResultNode(resultNodeCandidate: HTMLDivElement) {
     // const firstChild = resultNodeCaididate.firstChild as
     //  | HTMLDivElement
     //  | undefined
     // return firstChild && firstChild.classList.contains('tF2Cxc')
-    return resultNodeCaididate.classList.contains('tF2Cxc')
-      || resultNodeCaididate.querySelector('div.tF2Cxc') !== null
+    return resultNodeCandidate.classList.contains('tF2Cxc')
+      || resultNodeCandidate.querySelector('div.tF2Cxc') !== null
   }
 
   let candidates = Array.from(
