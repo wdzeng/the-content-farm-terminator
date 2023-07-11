@@ -17,7 +17,7 @@
         "build:firefox": "BROWSER=firefox webpack && yarn sass && yarn copy && cp ./src/manifest-firefox.json ./dist/manifest.json && yarn zip",
         "copy": "cp -r src/_locales src/images src/popup.html dist",
         "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/inject.scss:./dist/css/inject.css --style compressed",
-        "zip": "zip -r The-Content-Farm-Terminator.zip ./dist",
+        "zip": "cd dist && zip -FSr ../The-Content-Farm-Terminator.zip .",
         "clean": "rm -rf ./dist The-Content-Farm-Terminator.zip"
     },
     "devDependencies": {
