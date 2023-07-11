@@ -1,80 +1,10 @@
-'use strict'
+import * as db from './database.js'
+import { fadeIn, fadeOut, isElementHidden, once } from './util.js'
 
-var _ = chrome.i18n.getMessage
-init()
+const _ = chrome.i18n.getMessage
 
-// Utilities
-
-async function tick() {
-  return new Promise(res => window.requestAnimationFrame(res))
-}
-
-// https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-async function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> {
-  return new Promise(res => {
-    if (now) {
-      els.forEach(el => el.style.display = 'none')
-      res()
-      return
-    }
-
-    function transitionEndHandler(event: Event) {
-      const el = event.target as HTMLElement
-      el.style.display = 'none'
-      res()
-    }
-  
-    els.forEach(el => {
-      el.addEventListener('webkitTransitionEnd', transitionEndHandler, { once: true })
-      el.style['transition-property'] = 'opacity'
-      el.style['transition-duration'] = '200ms'
-      el.style.opacity = '0'
-    })
-  })
-}
-
-async function fadeIn(els: HTMLElement[], now?: boolean): Promise<void> {
-  return new Promise((res) => {
-    if (now) {
-      els.forEach((el) => {
-        el.style.opacity = '1'
-        el.style.display = 'block'
-      })
-      res()
-      return
-    }
-
-    els.forEach(async el => {
-      el.style.display = 'block'
-      await tick()
-      el.addEventListener('webkitTransitionEnd', () => res(), { once: true })
-      el.style.opacity = '1'
-    })
-  })
-}
-
-// https://www.w3schools.com/howto/howto_js_check_hidden.asp
-function isElementHidden(el: HTMLElement) {
-  const style = window.getComputedStyle(el)
-  return style.display === 'none' || style.visibility === 'hidden'
-}
-
-function once(callback: (_: Event) => any) {
-  let flag = true
-  return (e: Event) => {
-    if (flag) {
-      flag = false
-      callback(e)
-    } else {
-      e.preventDefault()
-    }
-  }
-}
-
-// Scripts
-
-async function init() {
-  const farmList = await farmListDatabase.getFarmList()
+export async function init() {
+  const farmList = await db.getFarmList()
   // Get farm results
   const farmResultNodes = getResultNodes(farmList)
   const nFarmResult = farmResultNodes.length
@@ -139,7 +69,6 @@ function setHintForSearchItem(
   const urlNode = subtitleNode.querySelector('div.TbwUpd')!
   // const $eHintContainer = $('div.eFM0qc', $eSubtitle)
   const hintWrapperNode = subtitleNode.querySelector('div.eFM0qc')!
-  console.log(hintWrapperNode)
 
   titlesNode.classList.add('cft-titles')
   titleNode.classList.add('cft-title')
@@ -163,13 +92,13 @@ function addBlockHint(resultNodes: HTMLDivElement[]) {
  * This function is called when user clicked 'block' button
  */
 async function onBlockHintClickedListener(blockedNode: HTMLDivElement) {
-  const hostName = getHostnameOf(blockedNode)
+  const hostName = getHostnameOfSearchResult(blockedNode)
   // Get other search items linking to same host and hide them all.
   const blockedCandidates = getResultNodes(hostName, 'visible')
   await fadeOut(blockedCandidates)
   blockedCandidates.forEach((n) => addUndoHint(n))
   // Add this host to blocking list
-  farmListDatabase.addHosts(hostName)
+  db.addHosts([hostName])
 }
 
 /**
@@ -180,7 +109,7 @@ async function addUnblockHint(resultNodes: HTMLDivElement[]) {
     resultNodes,
     _('determinateHint'),
     async (unblockedNode: HTMLDivElement) => {
-      const hostName = getHostnameOf(unblockedNode)
+      const hostName = getHostnameOfSearchResult(unblockedNode)
       // Get other search items linking to same host and show them all.
       const unblockedNodes = getResultNodes(hostName)
       unblockedNodes
@@ -189,7 +118,7 @@ async function addUnblockHint(resultNodes: HTMLDivElement[]) {
         .forEach((h) => h.classList.remove('cft-farm-title'))
       addBlockHint(unblockedNodes)
       // Remove this host to blocking list
-      await farmListDatabase.removeHosts(hostName)
+      await db.removeHosts([hostName])
     }
   )
 }
@@ -198,7 +127,7 @@ async function addUnblockHint(resultNodes: HTMLDivElement[]) {
  * Adds 'undo' hint to a search result
  */
 function addUndoHint(resultNode: HTMLDivElement) {
-  const hostname = getHostnameOf(resultNode)
+  const hostname = getHostnameOfSearchResult(resultNode)
   const undoNodeClass = `cft-${hostname.replace(/\./g, '-')}`
 
   // Create undo button
@@ -215,7 +144,7 @@ function addUndoHint(resultNode: HTMLDivElement) {
     await fadeIn(unblockedNodes)
     addBlockHint(unblockedNodes)
     // Remove this host from database
-    farmListDatabase.removeHosts(hostname)
+    db.removeHosts([hostname])
     e.preventDefault()
   })
 
@@ -240,10 +169,10 @@ function addUndoHint(resultNode: HTMLDivElement) {
 /**
  * Queries the hostname where a result node points to
  */
-function getHostnameOf(resultNode: HTMLDivElement): string {
+function getHostnameOfSearchResult(resultNode: HTMLDivElement): string {
   const anchorNode = resultNode.querySelector<HTMLAnchorElement>(
     'div.yuRUbf > a:first-child'
-  )!
+  ) as HTMLAnchorElement
   return anchorNode.hostname
 }
 
@@ -287,7 +216,7 @@ function showFarmResultsOnce() {
   const farmResults = getResultNodes(undefined, 'hidden')
   farmResults.forEach((fr) => {
     const resultTitleNodes = fr.querySelectorAll('h3.LC20lb')
-    resultTitleNodes.forEach(el => el.classList.add('cft-farm-title') )
+    resultTitleNodes.forEach(el => el.classList.add('cft-farm-title'))
     addUnblockHint([fr])
   })
   fadeIn(farmResults)
@@ -319,10 +248,10 @@ function getResultNodes(
   }
 
   if (typeof host === 'string') {
-    return candidates.filter((value) => getHostnameOf(value) === host)
+    return candidates.filter((value) => getHostnameOfSearchResult(value) === host)
   }
   if (Array.isArray(host)) {
-    return candidates.filter((value) => host.includes(getHostnameOf(value)))
+    return candidates.filter((value) => host.includes(getHostnameOfSearchResult(value)))
   }
   return candidates
 }

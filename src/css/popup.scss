@@ -1,52 +1,46 @@
-body {
-  margin: 0px;
-  padding: 4px;
-  font-family: sans-serif;
-  font-size: 14px;
+@import 'reset';
 
-  & > div {
-    margin: 4px;
+body {
+  padding: 0.75rem;
+  font-family: sans-serif;
+  font-size: 1rem;
+}
+
+.editor-wrapper {
+  margin-bottom: 0.5rem;
+
+  #txtArea {
+    font-family: consolas, monospace;
+    border-radius: 3px;
+    padding: 0.25rem;
+    line-height: 1.5;
   }
 }
 
-textarea {
-  font-family: consolas, sans-serif;
-  width: 40em;
-  border-radius: 3px;
-  padding: 0.5em;
-  line-height: 1.5;
-}
-
-.bar {
+.buttons-wrapper {
   display: flex;
+  flex-direction: row;
 
-  &-left {
+  .buttons-left {
     flex-grow: 1;
+    display: flex;
+    flex-direction: row;
 
     button {
-      font-family: sans-serif;
-      padding: 0 0.5em;
-      height: 24px;
+      display: block;
+      padding: 0.08rem 0.75rem 0.04rem;
 
       &:not(:last-child) {
-        margin-right: 0.5em;
+        margin-right: 0.5rem;
       }
     }
-  }
-
-  &-right {
   }
 }
 
 #hint {
-  padding-top: 8px;
-  line-height: 20px;
+  line-height: 1.5;
 
   p {
-    margin: 0;
-
-    &:not(:last-child) {
-      margin-bottom: 6px;
-    }
+    margin-top: 0.5rem;
   }
 }
