@@ -91,11 +91,11 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       ) as HTMLElement
       // const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
       const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
-      const urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
+      // urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
       titleWrapperNode.classList.add('cft-result-title-wrapper')
       // titleNode.classList.add('cft-result-title')
       subtitleNode.classList.add('cft-result-subtitle')
-      urlNode.classList.add('cft-url')
+      // urlNode.classList.add('cft-url')
 
       const hintWrapperNode = subtitleNode.querySelector(
         '.byrV5b'
