@@ -5,20 +5,20 @@
     "areaPlaceHolder": {
         "message": "輸入內容農場網域或整列網址，一行一個。例如：\nkknews.cc\nhttps://kknews.cc/health/mmm9nk2.html\n作者：雙曲線"
     },
-    "addButton": {
-        "message": "新增至清單"
+    "btnAdd": {
+        "message": "新增"
     },
-    "deleteButton": {
-        "message": "從清單刪除"
+    "btnDelete": {
+        "message": "刪除"
     },
-    "showAllButton": {
-        "message": "檢視清單項目"
+    "btnView": {
+        "message": "檢視"
     },
     "errorHostNames": {
         "message": "找不到有效網域，清單未變更。"
     },
     "oneAdded": {
-        "message": "已新增 \"$HOST$\"",
+        "message": "已新增 \"$HOST$\" 。",
         "placeholders": {
             "HOST": {
                 "content": "$1"
@@ -26,7 +26,7 @@
         }
     },
     "onlyOneAdded": {
-        "message": "有些網域已存在或無效，所以只有新增 \"$HOST$\"",
+        "message": "有些網域已存在或無效，所以只有新增 \"$HOST$\" 。",
         "placeholders": {
             "HOST": {
                 "content": "$1"
@@ -34,7 +34,7 @@
         }
     },
     "allAdded": {
-        "message": "已新增所有網域（$COUNT$ 個）",
+        "message": "已新增所有網域共 $COUNT$ 個。",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -42,7 +42,7 @@
         }
     },
     "onlySomeAdded": {
-        "message": "有些網域已存在或無效，所以只新增 $COUNT$ 個網域",
+        "message": "有些網域已存在或無效，所以只新增 $COUNT$ 個網域。",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -53,7 +53,7 @@
         "message": "沒有任何變更"
     },
     "oneRemoved": {
-        "message": "已刪除 \"$HOST$\"",
+        "message": "已刪除 \"$HOST$\" 。",
         "placeholders": {
             "HOST": {
                 "content": "$1"
@@ -61,10 +61,10 @@
         }
     },
     "onlyOneRemoved": {
-        "message": "有些網域不在清單中或無效，所以只有刪除 1 個網域。"
+        "message": "有些網域不在清單中或無效，所以只有刪除一個網域。"
     },
     "allRemoved": {
-        "message": "已刪除所有網域（$COUNT$ 個）",
+        "message": "已刪除所有網域共 $COUNT$ 個",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -72,7 +72,7 @@
         }
     },
     "onlySomeRemoved": {
-        "message": "有些網域不在清單中或無效，所以只有刪除 $COUNT$ 個網域",
+        "message": "有些網域不在清單中或無效，所以只有刪除 $COUNT$ 個網域。",
         "placeholders": {
             "COUNT": {
                 "content": "$1"
@@ -80,7 +80,7 @@
         }
     },
     "emptyList": {
-        "message": "清單中沒有任何項目"
+        "message": "清單是空的。輸入你要擋下的網站，按新增就可以囉 :)"
     },
     "block": {
         "message": "終結內容農場"
@@ -89,7 +89,7 @@
         "message": "在 Google 搜尋頁面直接終結內容農場"
     },
     "redoText": {
-        "message": "已封鎖 \"$HOST$\"。",
+        "message": "已封鎖 \"$HOST$\" 。",
         "placeholders": {
             "HOST": {
                 "content": "$1"

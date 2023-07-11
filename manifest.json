@@ -1,9 +1,9 @@
 {
     "name": "__MSG_extName__",
-    "version": "0.6.1",
+    "version": "1.0",
     "description": "__MSG_description__",
     "manifest_version": 2,
-    "author": "Paraball",
+    "author": "Hyperbola",
     "permissions": [
         "declarativeContent",
         "activeTab",
@@ -11,7 +11,7 @@
     ],
     "background": {
         "scripts": [
-            "/js/farm-list.js",
+            "/js/database.js",
             "/js/background.js"
         ],
         "persistent": false
@@ -19,14 +19,12 @@
     "content_scripts": [
         {
             "matches": [
-                "*://www.google.com/search*",
-                "*://www.google.com.tw/search*"
+                "*://www.google.com/search*"
             ],
-            "all_frames": true,
             "js": [
-                "/js/farm-list.js",
                 "/lib/jquery.js",
-                "/js/block.js"
+                "/js/database.js",
+                "/js/blocker.js"
             ]
         }
     ],
@@ -37,7 +35,7 @@
         "128": "/images/icon128.png"
     },
     "browser_action": {
-        "default_popup": "popup/popup.html",
+        "default_popup": "/popup.html",
         "default_icon": {
             "16": "/images/icon16.png",
             "32": "/images/icon32.png",
