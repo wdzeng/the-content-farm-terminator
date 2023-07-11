@@ -182,7 +182,7 @@ function updateTopMargin() {
  * @param {Number} nHidden Number of search results hidden. 
  */
 function addShowAllOnceHint(nHidden) {
-    let $div = $("<div id='cft-temp-show'></div>");
+    let $div = $("<div id='cft-temp-show' class='med'></div>");
     let $txt = $("<p></p>"); // .css("font-style", "italic");
     let $btn = $(`<a href="#" class="cft">${__("templyShowAllHint")}</a>`)
         .one("click", function () {
@@ -193,7 +193,7 @@ function addShowAllOnceHint(nHidden) {
     let hintMsg = __("templyShowAllMsg", nHidden.toString()).split("#");
     $txt.append(hintMsg[0]).append($btn).append(hintMsg[1]);
     $div.append($txt);
-    $("#extrares").append($div);
+    $("#res").after($div);
 }
 
 /**
