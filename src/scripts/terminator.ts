@@ -1,11 +1,14 @@
 import * as db from './database.js'
 import { hideElements, isElementHidden, once, showElements, getI18nMessage as _ } from './util.js'
 
-export abstract class ContentFarmTerminator {
+export abstract class ListedTerminator {
 
-  constructor() { }
+  constructor(private category: string) {
+  }
 
   async init(): Promise<void> {
+    this.markSearchCategory()
+
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
     const resultNodes = this.getResultNodes()
@@ -16,6 +19,9 @@ export abstract class ContentFarmTerminator {
       if (farmList.has(domain)) farmResultNodes.push(resultNode)
       else nonfarmResultNodes.push(resultNode)
     }
+
+    // Add class to result nodes.
+    resultNodes.forEach(resultNode => resultNode.classList.add('cft-result'))
 
     if (farmResultNodes.length > 0) {
       // Hide farm result nodes.
@@ -28,9 +34,11 @@ export abstract class ContentFarmTerminator {
 
     // Add "Terminate!" button to each search result. Already hidden farm result
     // nodes are excluded.
-    console.log('Non-farm result nodes')
-    console.log(nonfarmResultNodes)
     nonfarmResultNodes.forEach(e => this.addTerminateHint(e))
+  }
+
+  private markSearchCategory() {
+    document.body.setAttribute('cft-search-category', this.category)
   }
 
   private addShowFarmResultsOnceHint(farmCount: number): void {
@@ -58,6 +66,9 @@ export abstract class ContentFarmTerminator {
         // Add a "Determinate" hint to these results.
         const button = this.addHintNode(resultNode, determinateHintText)
 
+        // Mark the result node as shown temporarily
+        resultNode.classList.add('cft-farm-result-shown')
+
         button.onclick = once(async (e) => {
           e.preventDefault()
 
@@ -67,8 +78,7 @@ export abstract class ContentFarmTerminator {
           // Since these results are unblocked, we should re-add the
           // "Terminate!" hint to them, and set title to safe (default font).
           unblockedResultNodes.forEach(unblockedResultNode => {
-            // this.markResultTitle(unblockedResultNode, false)
-            unblockedResultNode.classList.remove('cft-farm-result')
+            unblockedResultNode.classList.remove('cft-farm-result', 'cft-farm-result-shown')
             this.addTerminateHint(unblockedResultNode)
           })
 
@@ -122,9 +132,8 @@ export abstract class ContentFarmTerminator {
       unblockedResultNodes = unblockedResultNodes.filter(isElementHidden)
       await showElements(unblockedResultNodes, true)
 
-      // No need to re-add "Terminate!" button since they are already added.
-      //// Re-add 'Terminate!' button to these nodes
-      //// unblockedResultNodes.forEach(this.addTerminateHint)
+      // Re-add 'Terminate!' button to these nodes
+      unblockedResultNodes.forEach(resultNode => this.addTerminateHint(resultNode))
 
       // Remove domain from database
       await db.removeHosts([domain])
@@ -158,4 +167,54 @@ export abstract class ContentFarmTerminator {
   // click. Do not add listener to the button. It is super class's
   // responsibility.
   protected abstract addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement
+}
+
+// Unlisted terminator is used for webpage whose search results are not a
+// static list; for example Google Images, which search results are dynamically
+// loaded blocks.
+// Unlisted terminator does not support terminate or determinate on click
+// action. Users must key in their own farm list via the popup. However this
+// terminator still allows user to show farm results once.
+
+export abstract class UnlistedTerminator {
+
+  constructor() {
+    // TODO mark result
+  }
+
+  async init(): Promise<void> {
+    const farmList = new Set(await db.getFarmList())
+
+    // Since search results are dynamically loaded, an mutation observer is
+    // needed.
+    const ma = new MutationObserver((muts) => {
+      for (const mut of muts) {
+        for (let i = 0; i < mut.addedNodes.length; i++) {
+          const addedNode = mut.addedNodes.item(i)
+          if (addedNode instanceof HTMLElement && this.isSearchResult(addedNode)) {
+            const domain = this.getSourceDomain(addedNode)
+            if (farmList.has(domain)) {
+              addedNode.classList.add('cft-farm-result', 'cft-image-farm-result')
+              hideElements([addedNode], false) // fire and forget
+            }
+          }
+        }
+      }
+    })
+
+    ma.observe(this.getSearchResultWrapper(), { childList: true })
+
+    // Hide current appeared farm results
+    const resultNodes = this.getCurrentSearchResults()
+    const farmResultNodes = resultNodes.filter(e => farmList.has(this.getSourceDomain(e)))
+    hideElements(farmResultNodes, false) // fire and forget
+  }
+
+  abstract getSearchResultWrapper(): HTMLElement
+
+  abstract isSearchResult(e: HTMLElement): boolean
+
+  abstract getCurrentSearchResults(): HTMLElement[]
+
+  abstract getSourceDomain(resultNode: HTMLElement): string
 }

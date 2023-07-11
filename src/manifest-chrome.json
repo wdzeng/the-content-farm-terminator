@@ -209,7 +209,7 @@
         "/scripts/content-script.js"
       ],
       "css": [
-        "/css/google-search.css"
+        "/css/content-script.css"
       ]
     }
   ],
@@ -428,10 +428,7 @@
         "https://www.google.ws/*"
       ],
       "resources": [
-        "/scripts/terminate-website.js",
-        "/scripts/terminate.js",
-        "/scripts/database.js",
-        "/scripts/util.js"
+        "/scripts/*.js"
       ]
     }
   ]

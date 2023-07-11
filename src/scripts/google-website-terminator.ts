@@ -1,9 +1,9 @@
-import { ContentFarmTerminator } from './terminate.js'
+import { GoogleListedTerminator } from './google-listed-terminator.js'
 
-export class GoogleWebsiteTerminator extends ContentFarmTerminator {
+export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
   constructor() {
-    super()
+    super('website')
   }
 
   protected getResultNodes(): HTMLDivElement[] {
@@ -50,31 +50,6 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     return button
   }
 
-  protected addShowFarmResultsOnceNode(msgLeft: string, buttonText: string, msgRight: string): HTMLElement {
-    const a = document.createElement('a')
-    a.href = '#'
-    a.classList.add('cft-button')
-    a.textContent = buttonText
-
-    const leftMessage = document.createTextNode(msgLeft)
-    const rightMessage = document.createTextNode(msgRight)
-    const hintMessageNode = document.createElement('p')
-    hintMessageNode.appendChild(leftMessage)
-    hintMessageNode.appendChild(a)
-    hintMessageNode.appendChild(rightMessage)
-
-    const hintNode = document.createElement('div')
-    hintNode.id = 'cft-temp-show'
-    hintNode.classList.add('cft-bottom-hint')
-    hintNode.appendChild(hintMessageNode)
-
-    // Add the hint node to the bottom of the page.
-    const botStuff = document.getElementById('botstuff') as HTMLElement
-    botStuff.prepend(hintNode)
-
-    return a
-  }
-
   protected addUndoHintNode(resultNode: HTMLElement, buttonText: string, undoHintText: string): HTMLElement {
     const domain = this.getSourceDomain(resultNode)
 
@@ -102,6 +77,8 @@ export class GoogleWebsiteTerminator extends ContentFarmTerminator {
     return undoButton
   }
 }
+
+
 
 export async function init() {
   const terminator = new GoogleWebsiteTerminator()
