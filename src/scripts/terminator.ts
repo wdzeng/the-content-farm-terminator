@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 'use strict'
 
 var _ = chrome.i18n.getMessage
@@ -78,17 +80,6 @@ function makeInvokedOnceOnly(callback: (_: Event) => any) {
 
 // Scripts
 
-/**
- * Check whether an google account is logged in.
- */
-/*
-function isLogin() {
-  const citeNode = document.querySelector('cite.iUh30')!
-  const citeNodeStyle = getComputedStyle(citeNode)
-  return citeNodeStyle.color === 'rgb(0, 102, 33)'
-}
-*/
-
 async function init() {
   const farmList = await farmListDatabase.getFarmList()
   // Get farm results
@@ -98,8 +89,6 @@ async function init() {
   if (nFarmResult) {
     // Hide these search results
     await fadeOut(farmResultNodes, true)
-    // If the first result is removed, add some margin to make the page pretty.
-    updateTopMarginIfFirstResultIsBlocked()
     // Add a hint which allows user to show these results temporarily.
     addShowResultsOnceHint(nFarmResult)
   }
@@ -164,23 +153,6 @@ function setHintForSearchItem(
   subtitleNode.classList.add('cft-subtitle')
   urlNode.classList.add('cft-url')
   hintWrapperNode.appendChild(hintNode)
-
-  // If the url hint is too long
-  // the layout will be broken
-  // We should limit the url length
-  /*$('cite.iUh30').each(function () {
-        const pWidth = $(this).parent("g").width();
-        const tWidth = $(this).width();
-        if (pWidth - tWidth >= 95) return;
-        let url = $(this).html();
-        if (url.endsWith('...')) url = url.substring(0, url.length - 3);
-        let slen = url.length;
-        slen -= parseInt(text.length * 2.5);
-        slen = Math.max(0, slen);
-        url = url.substring(0, slen);
-        url += '...';
-        $(this).html(url);
-    })*/
 }
 
 /**
@@ -282,20 +254,6 @@ function getHostnameOf(resultNode: HTMLDivElement): string {
 }
 
 /**
- * Removes extra margin between image-box and the top-bar so that the webpage looks pretty.
- */
-function updateTopMarginIfFirstResultIsBlocked() {
-  /* 
-  let first = document.querySelector('div.g:not([style*=\'display: none\'])')
-   if (first && first.id === 'imagebox_bigimages') {
-     first.firstChild.style.marginTop = '0'
-     return true
-   }
-   return false
-   */
-}
-
-/**
  * Shows hint message that allows user to show all blocker results for once
  */
 function addShowResultsOnceHint(nHidden: number) {
@@ -348,14 +306,13 @@ function getResultNodes(
   host?: string | string[],
   visibility?: 'visible' | 'hidden'
 ): HTMLDivElement[] {
+  const resultElementClass = 'jtfYYd'
 
   function isResultNode(resultNodeCandidate: HTMLDivElement) {
-    // const firstChild = resultNodeCaididate.firstChild as
-    //  | HTMLDivElement
-    //  | undefined
-    // return firstChild && firstChild.classList.contains('tF2Cxc')
-    return resultNodeCandidate.classList.contains('tF2Cxc')
-      || resultNodeCandidate.querySelector('div.tF2Cxc') !== null
+    return (
+      resultNodeCandidate.classList.contains(resultElementClass) ||
+      resultNodeCandidate.querySelector('div.' + resultElementClass) !== null
+    )
   }
 
   let candidates = Array.from(
