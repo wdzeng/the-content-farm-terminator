@@ -19,7 +19,7 @@ export async function hideElements(els: HTMLElement[], fade: boolean): Promise<v
     }
 
     els.forEach(el => {
-      el.addEventListener('webkitTransitionEnd', transitionEndHandler, { once: true })
+      el.addEventListener('transitionend', transitionEndHandler, { once: true })
       el.style['transition-property'] = 'opacity'
       el.style['transition-duration'] = '200ms'
       el.style.opacity = '0'
