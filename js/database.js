@@ -1,40 +1,80 @@
 "use strict";
 
 const VAR_NAME = "farmList";
+const SIZE_NAME = "farmListSize"
+const MAX_LIST_SIZE = 400;
+const db = chrome.storage.sync;
+const ceil = Math.ceil;
+
+function requireUniqueItems(array) {
+    return array.filter(
+        (value, index, self) => self.indexOf(value) === index
+    );
+}
+
+function getFarmListSize(cb) {
+    db.get(SIZE_NAME, data => cb && cb(data[SIZE_NAME]));
+}
+
 var DB = {
 
-    getDefaultFarmList: function () {
-        return [];
-    },
-
     /**
-     * Get the currently stored farm list array. 
-     * If the user jsut installed this extension and the database is not created, this returns undefined.
+     * Get the currently stored farm list array.
      */
-    getFarmList: function (callback) {
-        chrome.storage.sync.get(VAR_NAME, data => callback && callback(data[VAR_NAME]));
-    },
+    getFarmList: function (cb) {
 
-    /**
-     * Clear currently stored farm list array and save a new array.
-     */
-    setFarmList: function (farmListArray, callback) {
-        chrome.storage.sync.set({ VAR_NAME: farmListArray }, callback);
-    },
-
-    /**
-     * Add a host into farm list database. 
-     * @returns True if that host did not existed and has been added into the database.
-     */
-    addHost: function (host, callback) {
-        DB.getFarmList(function (data) {
-            if (!data.includes(host)) {
-                data.unshift(host);
-                DB.setFarmList(data, () => callback && callback(true));
+        function getList(listSize) {
+            if (listSize == 0) {
+                cb && cb([]);
+                return;
             }
-            else {
-                callback && callback(false);
+            let keys = [];
+            for (let i = 0; i < listSize; i++) {
+                keys.push(VAR_NAME + i);
             }
+            db.get(keys, data => {
+                let mergedList = Object.values(data).flat();
+                cb && cb(mergedList);
+            });
+        }
+
+        getFarmListSize(getList);
+    },
+
+    /**
+     * Add some hosts into farm list database. 
+     * @returns an array is passed in to the callback function containing all newly added hosts.
+     */
+    addHosts: function (hosts, cb) {
+
+        if (!Array.isArray(hosts)) {
+            // If hosts is a string, converts to array.
+            DB.addHosts([hosts], cb);
+            return;
+        }
+
+        hosts = requireUniqueItems(hosts);
+        if (hosts.length === 0) {
+            cb && cb([]);
+            return;
+        }
+
+        DB.getFarmList(function (list) {
+            let newList = requireUniqueItems(list.concat(hosts));
+            if (list.length === newList.length) {
+                cb && cb([]);
+                return;
+            }
+            let startIndex = ceil(list.length / MAX_LIST_SIZE) - 1;
+            if (startIndex < 0) startIndex = 0;
+            let endIndex = ceil(newList.length / MAX_LIST_SIZE);
+            let updated = {};
+            for (let i = startIndex; i < endIndex; i++) {
+                let index = i * MAX_LIST_SIZE;
+                updated[VAR_NAME + i] = newList.slice(index, index + MAX_LIST_SIZE)
+            }
+            updated[SIZE_NAME] = endIndex;
+            db.set(updated, () => cb && cb(hosts));
         });
     },
 
@@ -42,16 +82,37 @@ var DB = {
      * Remove a host from farm list database.
      * @returns True if that host existed and has been deleted.
      */
-    removeHost: function (host, callback) {
-        DB.getFarmList(function (data) {
-            let index = data.indexOf(host);
-            if (index !== -1) {
-                data.splice(index, 1);
-                DB.setFarmList(data, () => callback && callback(true));
+    removeHosts: function (hosts, cb) {
+
+        if (!Array.isArray(hosts)) {
+            // If hosts is a string, converts to array.
+            DB.removeHosts([hosts], cb);
+            return;
+        }
+
+        hosts = requireUniqueItems(hosts);
+        if (hosts.length === 0) {
+            cb && cb([]);
+            return;
+        }
+
+        DB.getFarmList(function (list) {
+            let newList = list.filter(e => !hosts.includes(e));
+            if (newList.length == list) {
+                cb && cb([]);
+                return;
             }
-            else {
-                callback && callback(false);
+
+            let removed = list.filter(e => hosts.includes(e));
+            // No matter what update all key-values ....
+            let obj = {};
+            let length = ceil(newList.length / MAX_LIST_SIZE);
+            for (let i = 0; i < length; i++) {
+                let index = i * MAX_LIST_SIZE;
+                obj[VAR_NAME + i] = newList.slice(index, index + MAX_LIST_SIZE);
             }
+            obj[SIZE_NAME] = length;
+            db.set(obj, () => cb && cb(removed));
         });
     }
-}
+} 

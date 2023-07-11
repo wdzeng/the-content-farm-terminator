@@ -11,7 +11,7 @@ body>div {
 
 textarea {
     font-family: consolas, sans-serif;
-    width: 30em;
+    width: 40em;
     border-radius: 3px;
     padding: 0.5em;
     line-height: 1.5;
@@ -30,6 +30,15 @@ span.space {
     margin-right: 4px;
 }
 
-#hint {
+#btnHint {
     padding-top: 8px;
+    line-height: 20px;
+}
+
+#btnHint p {
+    margin: 0;
+}
+
+#btnHint p:not(:last-child){
+    margin-bottom: 6px;
 }
