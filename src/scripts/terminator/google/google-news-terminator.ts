@@ -59,8 +59,8 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     else {
       container = resultNode.querySelector('.CEMjEf.NUnG9d')!
     }
-    const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
-    titleNode.classList.add('cft-result-title')
+    // const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
+    // titleNode.classList.add('cft-result-title')
 
     container.appendChild(button)
 
