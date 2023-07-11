@@ -1,13 +1,27 @@
 import * as db from './database.js'
 import { hideElements, isElementHidden, once, showElements, getI18nMessage as _ } from './util.js'
 
-export abstract class ListedTerminator {
+export abstract class Terminator {
 
-  constructor(private category: string) {
+  constructor(private category: string) { }
+
+  protected init(): void {
+    this.markSearchCategory()
+  }
+
+  private markSearchCategory() {
+    document.body.setAttribute('cft-search-category', this.category)
+  }
+}
+
+export abstract class ListedTerminator extends Terminator {
+
+  constructor(category: string) {
+    super(category)
   }
 
   async init(): Promise<void> {
-    this.markSearchCategory()
+    super.init()
 
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
@@ -26,7 +40,7 @@ export abstract class ListedTerminator {
     if (farmResultNodes.length > 0) {
       // Hide farm result nodes.
       farmResultNodes.forEach(resultNode => resultNode.classList.add('cft-farm-result'))
-      await hideElements(farmResultNodes, false)
+      hideElements(farmResultNodes, false) // fire and forget
       // Add a hint which allows user to show these results temporarily onto the
       // page.
       this.addShowFarmResultsOnceHint(farmResultNodes.length)
@@ -35,10 +49,6 @@ export abstract class ListedTerminator {
     // Add "Terminate!" button to each search result. Already hidden farm result
     // nodes are excluded.
     nonfarmResultNodes.forEach(e => this.addTerminateHint(e))
-  }
-
-  private markSearchCategory() {
-    document.body.setAttribute('cft-search-category', this.category)
   }
 
   private addShowFarmResultsOnceHint(farmCount: number): void {
@@ -176,13 +186,15 @@ export abstract class ListedTerminator {
 // action. Users must key in their own farm list via the popup. However this
 // terminator still allows user to show farm results once.
 
-export abstract class UnlistedTerminator {
+export abstract class UnlistedTerminator extends Terminator {
 
-  constructor() {
-    // TODO mark result
+  constructor(category: string) {
+    super(category)
   }
 
   async init(): Promise<void> {
+    super.init()
+
     const farmList = new Set(await db.getFarmList())
 
     // Since search results are dynamically loaded, an mutation observer is
@@ -192,22 +204,39 @@ export abstract class UnlistedTerminator {
         for (let i = 0; i < mut.addedNodes.length; i++) {
           const addedNode = mut.addedNodes.item(i)
           if (addedNode instanceof HTMLElement && this.isSearchResult(addedNode)) {
+            addedNode.classList.add('cft-result')
             const domain = this.getSourceDomain(addedNode)
             if (farmList.has(domain)) {
-              addedNode.classList.add('cft-farm-result', 'cft-image-farm-result')
+              addedNode.classList.add('cft-farm-result')
               hideElements([addedNode], false) // fire and forget
             }
           }
         }
       }
     })
-
-    ma.observe(this.getSearchResultWrapper(), { childList: true })
+    const resultContainer = this.getSearchResultWrapper()
+    ma.observe(resultContainer, { childList: true })
 
     // Hide current appeared farm results
     const resultNodes = this.getCurrentSearchResults()
+    resultNodes.forEach(e => e.classList.add('cft-result'))
+
     const farmResultNodes = resultNodes.filter(e => farmList.has(this.getSourceDomain(e)))
-    hideElements(farmResultNodes, false) // fire and forget
+    farmResultNodes.forEach(e => e.classList.add('cft-farm-result'))
+    // hideElements(farmResultNodes, false) // fire and forget
+
+    // Add option to allow user stops the terminator
+    const [msgLeft, buttonText, msgRight] = _('imageTerminatorRunningHint').split('#')
+    const cancelButton = this.addCancelTerminatorHint(msgLeft, buttonText, msgRight)
+    cancelButton.onclick = once(async (e) => {
+      e.preventDefault()
+      ma.disconnect()
+
+      const tempHintNode = document.getElementById('cft-temp-show') as HTMLElement
+      const hiddenFarmImageResults = Array.from(resultContainer.querySelectorAll('.cft-farm-result')) as HTMLElement[]
+      hiddenFarmImageResults.forEach(e => e.classList.remove('cft-farm-result'))
+      await hideElements([tempHintNode], true)
+    })
   }
 
   abstract getSearchResultWrapper(): HTMLElement
@@ -217,4 +246,6 @@ export abstract class UnlistedTerminator {
   abstract getCurrentSearchResults(): HTMLElement[]
 
   abstract getSourceDomain(resultNode: HTMLElement): string
+
+  abstract addCancelTerminatorHint(msgLeft: string, buttonText: string, msgRight: string): HTMLElement
 }

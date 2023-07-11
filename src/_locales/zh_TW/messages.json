@@ -58,5 +58,8 @@
     },
     "removeActionHint": {
         "message": "$1 已解除封鎖\n$2 被無視\n$3 網址不合法"
+    },
+    "imageTerminatorRunningHint": {
+        "message": "內容農場終結者會即時過濾圖片，你可以選擇#暫時停止#。"
     }
 }
