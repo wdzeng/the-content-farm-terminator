@@ -53,18 +53,20 @@ var DB = {
             return;
         }
 
-        hosts = requireUniqueItems(hosts);
         if (hosts.length === 0) {
             cb && cb([]);
             return;
         }
 
+        hosts = requireUniqueItems(hosts);
         DB.getFarmList(function (list) {
             let newList = requireUniqueItems(list.concat(hosts));
+            // No new hosts are added; hence return
             if (list.length === newList.length) {
                 cb && cb([]);
                 return;
             }
+            
             let startIndex = ceil(list.length / MAX_LIST_SIZE) - 1;
             if (startIndex < 0) startIndex = 0;
             let endIndex = ceil(newList.length / MAX_LIST_SIZE);

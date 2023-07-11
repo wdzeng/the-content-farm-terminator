@@ -21,13 +21,13 @@
         "message": "Nothing terminated 😂"
     },
     "terminateHint": {
-        "message": "Terminate this domain!"
+        "message": "Terminate!"
     },
     "unTerminatedMsg": {
         "message": "Domain \"$1\" has been terminated."
     },
-    "redoHint": {
-        "message": "Redo"
+    "undoHint": {
+        "message": "Undo"
     },
     "templyShowAllMsg": {
         "message": "The Content Farm Terminator! has hidden $1 results from this page.<br />You can choose to #."
@@ -36,7 +36,7 @@
         "message": "show these results temporarily"
     },
     "unTerminatedHint": {
-        "message": "Unterminiate"
+        "message": "Unterminate"
     },
     "nothingChanged": {
         "message": "Uhh ... Nothing changed"
