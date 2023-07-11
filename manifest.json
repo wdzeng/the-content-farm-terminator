@@ -1,0 +1,36 @@
+{
+    "name": "Content Farm Blocker",
+    "version": "1.0",
+    "description": "Block the content farms from Google Search.",
+    "manifest_version": 2,
+    "author": "Paraball",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "background": {
+        "scripts": [
+            "farm-list.js",
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.google.com/search*",
+                "*://www.google.com.tw/search*"
+            ],
+            "all_frames": true,
+            "js": [
+                "block.js"
+            ]
+        }
+    ],
+    "icons": {
+        "16": "images/icon16.png",
+        "32": "images/icon32.png",
+        "64": "images/icon64.png",
+        "128": "images/icon128.png"
+    }
+}
