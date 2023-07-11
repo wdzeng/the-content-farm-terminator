@@ -1,0 +1,80 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: ~
+
+env:
+  PATH_CHROME_ZIP: The-Content-Farm-Terminator-Chrome.zip
+  PATH_FIREFOX_XPI: The-Content-Farm-Terminator-Firefox.zip
+
+jobs:
+  build-chrome:
+    name: Build project for chrome and edge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Build project
+        run: yarn install --frozen-lockfile && yarn build:chrome
+      - name: Save extension zip
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ env.PATH_CHROME_ZIP }}
+          name: ${{ env.PATH_CHROME_ZIP }}
+  publish-chrome:
+    name: Publish extension to Chrome Web Store
+    runs-on: ubuntu-latest
+    needs:
+      - build-chrome
+    env:
+      EXTENSION_ID: chhekpgdckchblnfdelceaigmlfbakgn
+    steps:
+      - name: Download extension zip
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.PATH_CHROME_ZIP }}
+          path: .
+      - name: Retrieve web store token
+        uses: wdzeng/chrome-extension-action@v1
+        with:
+          extension-id: ${{ env.EXTENSION_ID }}
+          zip-path: ${{ env.PATH_CHROME_ZIP }}
+          tester-only: false
+          client-id: ${{ secrets.CHROME_API_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_API_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_API_REFRESH_TOKEN }}
+  build-firefox:
+    name: Build project for firefox
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Build project
+        run: yarn install --frozen-lockfile && yarn build:firefox
+      - name: Save addon xpi
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ env.PATH_FIREFOX_XPI }}
+          name: ${{ env.PATH_FIREFOX_XPI }}
+  publish-firefox:
+    name: Publish addon to Firefox Addons
+    runs-on: ubuntu-latest
+    needs:
+      - build-firefox
+    steps:
+      - name: Download addon xpi
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.PATH_FIREFOX_XPI }}
+          path: .
+      - name: Publish to Firefox Addons
+        uses: wdzeng/firefox-addons-action@v1
+        with:
+          xpi-path: ${{ env.PATH_FIREFOX_XPI }}
+          addon-guid: ${{ secrets.FIREFOX_ADDON_GUID }}
+          jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
+          
