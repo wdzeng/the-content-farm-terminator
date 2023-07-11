@@ -14,7 +14,7 @@ rules:
     - error
     - 2
   no-console:
-    - warn
+    - error
   padding-line-between-statements:
     - error
     # add blank line between function
