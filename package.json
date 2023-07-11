@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/wdzeng/the-content-farm-terminator.git"
   },
-  "packageManager": "latest",
+  "packageManager": "pnpm@7.1.7",
   "scripts": {
     "build:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json && pnpm zip:chrome",
     "build:firefox": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-firefox.json ./dist/manifest.json && pnpm zip:firefox",
