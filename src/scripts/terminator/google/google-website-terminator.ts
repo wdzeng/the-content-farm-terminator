@@ -15,6 +15,10 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     super('google-website')
   }
 
+  static isVideoResultNode(resultNode: HTMLElement): boolean {
+    return resultNode.classList.contains('dFd2Tb')
+  }
+
   protected getResultNodes(): HTMLElement[] {
     // Regular result nodes
     // div.g is regular result node
@@ -35,7 +39,9 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
         candidateNode.querySelector('.tF2Cxc') !== null ||
         // group result node that contains no div.g
         // https://github.com/wdzeng/the-content-farm-terminator/issues/16
-        candidateNode.querySelector('.kvH3mc.BToiNc.UK95Uc')
+        candidateNode.querySelector('.kvH3mc.BToiNc.UK95Uc') ||
+        // result node with a video; usually YouTube
+        GoogleWebsiteTerminator.isVideoResultNode(candidateNode)
       )
 
       // there is a little possibilities of mis-selections...
@@ -56,8 +62,14 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       return a.hostname
     }
 
-    // common result node
-    const selector = '.yuRUbf>a:first-child'
+    let selector: string
+    if (GoogleWebsiteTerminator.isVideoResultNode(resultNode)) {
+      selector = '.DhN8Cf>a:first-child'
+    } else {
+      // common result node
+      selector = '.yuRUbf>a:first-child'
+    }
+
     const a = resultNode.querySelector(selector) as HTMLAnchorElement
     return a.hostname
   }
@@ -85,10 +97,13 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd') as HTMLElement
       wrapper.appendChild(button)
     } else {
-      // common result node
-      const titleWrapperNode = resultNode.querySelector(
-        '.yuRUbf'
-      ) as HTMLElement
+      let titleWrapperNode: HTMLElement
+      if (GoogleWebsiteTerminator.isVideoResultNode(resultNode)) {
+        titleWrapperNode = resultNode.querySelector('.DhN8Cf') as HTMLElement
+      } else {
+        titleWrapperNode = resultNode.querySelector('.yuRUbf') as HTMLElement
+      }
+
       // const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
       const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
       // urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
