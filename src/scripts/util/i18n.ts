@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
-export const getI18nMessage = (browser || chrome).i18n.getMessage
+// eslint-disable-next-line no-undef, no-constant-condition
+export const getI18nMessage = ((typeof browser !== 'undefined') ? browser : chrome).i18n.getMessage
 
 function parseString(s: string | null) {
   // license: The MIT License, Copyright (c) 2016-2019 YUKI "Piro" Hiroshi
