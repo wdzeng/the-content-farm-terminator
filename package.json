@@ -15,10 +15,10 @@
   },
   "packageManager": "pnpm@7.29.3",
   "scripts": {
-    "dev": "pnpm clean && rollup -c rollup.config.js && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json",
+    "dev": "pnpm clean && NODE_ENV=DEVELOPMENT rollup -c rollup.config.js --bundleConfigAsCjs && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json",
     "build:chrome": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-chrome.json ./dist/manifest.json && pnpm zip:chrome",
     "build:firefox": "pnpm clean && pnpm tsc && pnpm sass && pnpm copy && cp ./src/manifest-firefox.json ./dist/manifest.json && pnpm zip:firefox",
-    "tsc": "rollup -c rollup.config.js && eslint --fix dist/scripts",
+    "tsc": "rollup -c rollup.config.js --bundleConfigAsCjs && eslint --fix dist/scripts",
     "sass": "sass --no-source-map ./src/scss/popup.scss:./dist/css/popup.css ./src/scss/content-script.scss:./dist/css/content-script.css",
     "copy": "cp -r src/_locales src/images src/popup.html dist",
     "zip:chrome": "cd dist && zip -FSr ../the-content-farm-terminator_chrome.zip .",
@@ -26,6 +26,7 @@
     "clean": "rm -rf lib dist the-content-farm-terminator_*.zip"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/chrome": "0.0.225",
     "@types/firefox-webext-browser": "^111.0.0",
