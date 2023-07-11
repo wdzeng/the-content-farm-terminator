@@ -32,8 +32,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   protected getResultNodes(): HTMLElement[] {
     // .v7W49e>div[data-hveid]: regular news result
     // g-scrolling-carousel: carousel news
-    const selector =
-      '.v7W49e>div[data-hveid],g-scrolling-carousel.F8yfEe .E7YbUb'
+    const selector ='.SoaBEf'
     const _resultNodes = document.querySelectorAll(selector)
     const resultNodes = Array.from(_resultNodes) as HTMLElement[]
     return resultNodes
