@@ -20,7 +20,7 @@ export abstract class Terminator {
 
 export abstract class ListedTerminator extends Terminator {
 
-  async init(): Promise<void> {
+  protected async init(): Promise<void> {
     // Get farm result nodes and non farm result nodes.
     const farmList = new Set(await db.getFarmList())
     const resultNodes = this.getResultNodes()
@@ -196,7 +196,7 @@ export abstract class ListedTerminator extends Terminator {
 // terminator still allows user to show farm results once.
 export abstract class UnlistedTerminator extends Terminator {
 
-  async init(): Promise<void> {
+  protected async init(): Promise<void> {
     const farmList = new Set(await db.getFarmList())
 
     // Since search results are dynamically loaded, an mutation observer is
