@@ -1,7 +1,7 @@
 # 內容農場終結者
 
 [![release](https://img.shields.io/github/v/release/wdzeng/the-content-farm-terminator)](https://github.com/wdzeng/the-content-farm-terminator/releases/latest)
-![ci/cd](https://img.shields.io/github/workflow/status/wdzeng/the-content-farm-terminator/Publish)  
+[![ci/cd](https://img.shields.io/github/workflow/status/wdzeng/the-content-farm-terminator/Publish)](https://github.com/wdzeng/the-content-farm-terminator/actions)  
 [![edge add-ons](https://img.shields.io/badge/dynamic/json?logo=microsoftedge&logoColor=white&label=edge%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fklphenilpobkhhddphhmkfedbedplpkj)](https://microsoftedge.microsoft.com/addons/detail/klphenilpobkhhddphhmkfedbedplpkj)
 [![chrome web store](https://img.shields.io/chrome-web-store/v/chhekpgdckchblnfdelceaigmlfbakgn?logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore/detail/chhekpgdckchblnfdelceaigmlfbakgn)
 [![firefox add-ons](https://img.shields.io/amo/v/the-content-farm-terminator?label=firefox%20add-ons&logo=firefox&logoColor=white)](https://addons.mozilla.org/firefox/addon/the-content-farm-terminator/)
