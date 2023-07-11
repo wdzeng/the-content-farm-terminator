@@ -115,7 +115,7 @@ function addUnblockHint($srItems) {
     setHintForSearchItem($srItems, __("unTerminatedHint"), $srItemUnblocked => {
         let hostName = getHostName($srItemUnblocked);
         let $unblocked = getResults(hostName);
-        $("h3.LC20lb", $unblocked).removeClass("farm-title");
+        $("h3.LC20lb", $unblocked).removeClass("cft-farm-title");
         addBlockHint($unblocked);
         DB.removeHosts(hostName);
     })
@@ -133,7 +133,7 @@ function addUndoHint($srItems) {
     let $txtUndo = $(`<div class="g s ${clzName}"></div>`)
         .append($(`<span class="cft-undo-hint">${__("unTerminatedMsg", hostName)}</span>`))
     // Create undo button
-    let $btnUndo = $(`<a href="#">${__("undoHint")}</a>`)
+    let $btnUndo = $(`<a href="#" class="cft">${__("undoHint")}</a>`)
         .one("click", () => {
             $(`div.${clzName}`).remove();
             let $unblocked = $("div.g").filter((i, e) => getHostName($(e)) === hostName);
@@ -198,7 +198,7 @@ function addShowAllOnceHint() {
  */
 function showFarmsOnce() {
     let $farmResults = getResults(null, false);
-    $farmResults.find("h3.LC20lb").addClass("farm-title");
+    $farmResults.find("h3.LC20lb").addClass("cft-farm-title");
     addUnblockHint($farmResults);
     $farmResults.fadeIn(TIME_FADING);
 }
