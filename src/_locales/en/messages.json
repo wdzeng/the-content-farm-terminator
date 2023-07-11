@@ -39,7 +39,7 @@
         "message": "Determinate"
     },
     "nothingChanged": {
-        "message": "Uhh ... Nothing changed"
+        "message": "Uhh... Nothing changed."
     },
     "allAdded": {
         "message": "All terminated successfully."
@@ -48,10 +48,10 @@
         "message": "Websites terminated: $1; still some problems remain."
     },
     "allRemoved": {
-        "message": "All unterminated successfully."
+        "message": "All determinated successfully."
     },
     "notAllRemoved": {
-        "message": "Websites unterminated: $1; still some problems remain."
+        "message": "Websites determinated: $1; still some problems remain."
     },
     "addActionHint": {
         "message": "$1 Terminated successfully<br />$2 Already terminated or duplicated in the list<br />$3 Illegal domain or URL"
