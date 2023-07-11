@@ -12,7 +12,7 @@ env:
 
 jobs:
   build-chrome:
-    name: Build project for chrome and edge
+    name: Build project for Google Chrome and Microsoft Edge
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -26,7 +26,7 @@ jobs:
           name: ${{ env.PATH_CHROME_ZIP }}
 
   build-firefox:
-    name: Build project for firefox
+    name: Build project for Mozilla Firefox
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -62,7 +62,7 @@ jobs:
           refresh-token: ${{ secrets.CHROME_API_REFRESH_TOKEN }}
 
   publish-edge:
-    name: Publish addon to Web Add-ons
+    name: Publish addon to Edge Add-ons
     runs-on: ubuntu-latest
     needs:
       - build-chrome
@@ -97,6 +97,5 @@ jobs:
         with:
           xpi-path: ${{ env.PATH_FIREFOX_XPI }}
           addon-guid: ${{ secrets.FIREFOX_ADDON_GUID }}
-          license: MIT
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
