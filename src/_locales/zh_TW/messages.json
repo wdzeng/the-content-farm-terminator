@@ -35,7 +35,7 @@
     "showFarmResultsOneHint": {
         "message": "暫時顯示"
     },
-    "unTerminatedHint": {
+    "determinateHint": {
         "message": "解除封鎖"
     },
     "nothingChanged": {
