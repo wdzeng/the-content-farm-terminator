@@ -4,9 +4,10 @@
 
 a.cft {
   text-decoration: none !important;
-}
-a.cft:hover {
-  text-decoration: underline !important;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
 
 a.cft-hint,
@@ -14,10 +15,10 @@ a.cft-undo-hint {
   margin-left: 0.5em;
   color: #808080 !important;
   font-size: small;
-}
-a.cft-hint:hover,
-a.cft-undo-hint:hover {
-  cursor: pointer;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 span + a.cft-hint {
@@ -35,14 +36,18 @@ span + a.cft-hint {
   flex-direction: column-reverse;
 }
 
-.cft-title br {
-  display: none;
-}
-.cft-title h3 {
-  padding-top: 1px;
-}
-.cft-title .TbwUpd.NJjxre {
-  display: none;
+.cft-title {
+  br {
+    display: none;
+  }
+
+  h3 {
+    padding-top: 1px;
+  }
+
+  .TbwUpd.NJjxre {
+    display: none;
+  }
 }
 
 .cft-subtitle {
@@ -52,13 +57,15 @@ span + a.cft-hint {
   display: flex;
   flex-direction: row;
   visibility: visible !important;
-}
-.cft-subtitle .eFM0qc {
-  flex-shrink: 0;
-}
-.cft-subtitle .cft-url {
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  flex-shrink: 1;
+
+  .eFM0qc {
+    flex-shrink: 0;
+  }
+
+  .cft-url {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+  }
 }

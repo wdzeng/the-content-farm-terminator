@@ -178,7 +178,7 @@ async function onBlockHintClickedListener(blockedNode: HTMLDivElement) {
 async function addUnblockHint(resultNodes: HTMLDivElement[]) {
   setHintForSearchItem(
     resultNodes,
-    _('unTerminatedHint'),
+    _('determinateHint'),
     async (unblockedNode: HTMLDivElement) => {
       const hostName = getHostnameOf(unblockedNode)
       // Get other search items linking to same host and show them all.
