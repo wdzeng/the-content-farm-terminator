@@ -4,11 +4,12 @@
   "description": "A chrome plugin for blocking content farm results on search pages.",
   "main": "index.js",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
     "eslint": "^7.20.0"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.132"
+    "@types/chrome": "0.0.132",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1"
   },
   "scripts": {
     "build": "tsc --rootDir ./src/scripts",

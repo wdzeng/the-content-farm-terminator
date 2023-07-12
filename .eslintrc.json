@@ -27,7 +27,6 @@
         "semi": [
             "warn",
             "never"
-        ],
-        "@typescript-eslint/rule-name": "error"
+        ]
     }
 }
