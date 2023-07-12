@@ -1,6 +1,6 @@
 import { intersectArray, removeDuplicates, subtractArray } from './util.js'
 
-const storage = chrome.storage
+const storage = (window.browser || window.chrome).storage
 const KEY_FARM_LIST = 'farmList'
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
