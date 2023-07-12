@@ -1,6 +1,6 @@
 {
   "name": "the-content-farm-terminator",
-  "version": "3.0.0",
+  "version": "3.1.1",
   "description": "A chrome plugin for blocking content farm results on search pages.",
   "main": "index.js",
   "dependencies": {
@@ -12,10 +12,11 @@
     "@typescript-eslint/parser": "^4.15.1"
   },
   "scripts": {
-    "build": "npm run compile && npm run zip",
-    "compile": "tsc --rootDir ./src/scripts",
+    "build": "npm run dev && npm run zip",
+    "dev": "npm run transpile",
+    "transpile": "tsc --rootDir ./src/scripts",
     "zip": "zip -r The-Content-Farm-Terminator.zip ./src -x *.ts",
-    "clean": "rm ./src/scripts/*.js && rm -f The-Content-Farm-Terminator.zip"
+    "clean": "rm -f ./src/scripts/*.js ./The-Content-Farm-Terminator.zip"
   },
   "repository": {
     "type": "git",
