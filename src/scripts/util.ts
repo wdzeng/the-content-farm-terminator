@@ -20,14 +20,13 @@ export async function tick() {
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> {
-  return new Promise(res => {
-    if (now) {
-      els.forEach(el => el.style.display = 'none')
-      res()
-      return
-    }
+export async function hideElements(els: HTMLElement[], fade: boolean): Promise<void> {
+  if (!fade) {
+    els.forEach(el => el.style.display = 'none')
+    return
+  }
 
+  return new Promise(res => {
     function transitionEndHandler(event: Event) {
       const el = event.target as HTMLElement
       el.style.display = 'none'
@@ -44,18 +43,17 @@ export async function fadeOut(els: HTMLElement[], now?: boolean): Promise<void> 
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function fadeIn(els: HTMLElement[], now?: boolean): Promise<void> {
-  return new Promise((res) => {
-    if (now) {
-      els.forEach((el) => {
-        el.style.opacity = '1'
-        el.style.display = 'block'
-      })
-      res()
-      return
-    }
+export async function showElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (!fade) {
+    elements.forEach((element) => {
+      element.style.opacity = '1'
+      element.style.display = 'block'
+    })
+    return
+  }
 
-    els.forEach(async el => {
+  return new Promise((res) => {
+    elements.forEach(async el => {
       el.style.display = 'block'
       await tick()
       el.addEventListener('webkitTransitionEnd', () => res(), { once: true })
