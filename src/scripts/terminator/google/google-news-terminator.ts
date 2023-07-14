@@ -1,10 +1,7 @@
-import {
-  greyInElements,
-  greyOutElements,
-  hideElements,
-  showElements,
-} from '../../util'
+import { assert } from '@sindresorhus/is'
+
 import { GoogleListedTerminator } from './google-listed-terminator'
+import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
 
 export class GoogleNewsTerminator extends GoogleListedTerminator {
   constructor() {
@@ -16,36 +13,35 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     return classList.contains('E7YbUb')
   }
 
-  protected async init(): Promise<void> {
+  protected override async init(): Promise<void> {
     // Since a.href in the result node changes when the user clicks it, we
     // need to preserve the hostname first.
     const resultNodes = this.getResultNodes()
-    resultNodes.forEach(resultNode => {
-      const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
+    for (const resultNode of resultNodes) {
+      const a = resultNode.querySelector<HTMLAnchorElement>('a.WlydOe')
+      assert.domElement(a)
       const domain = a.hostname
       resultNode.setAttribute('cft-hostname-preserve', domain)
-    })
+    }
 
-    super.init()
+    await super.init()
   }
 
-  protected getResultNodes(): HTMLElement[] {
+  protected override getResultNodes(): HTMLElement[] {
     // .v7W49e>div[data-hveid]: regular news result
     // g-scrolling-carousel: carousel news
-    const selector ='.SoaBEf'
-    const _resultNodes = document.querySelectorAll(selector)
-    const resultNodes = Array.from(_resultNodes) as HTMLElement[]
-    return resultNodes
+    const selector = '.SoaBEf'
+    const resultNodes = document.querySelectorAll<HTMLElement>(selector)
+    return [...resultNodes]
   }
 
-  protected getSourceDomain(resultNode: HTMLElement): string {
-    return resultNode.getAttribute('cft-hostname-preserve') as string
+  protected override getSourceDomain(resultNode: HTMLElement): string {
+    const domainAttr = resultNode.getAttribute('cft-hostname-preserve')
+    assert.nonEmptyStringAndNotWhitespace(domainAttr)
+    return domainAttr
   }
 
-  protected addHintNode(
-    resultNode: HTMLElement,
-    text: string
-  ): HTMLElement | null {
+  protected override addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -53,33 +49,29 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
       button.remove()
     }
 
-    // Create button
+    // Create button.
     button = document.createElement('a')
     button.classList.add('cft-hint', 'cft-button')
     button.textContent = text
     button.href = '#'
 
     // Add button to the result node.
-    let container: HTMLElement
-    if (GoogleNewsTerminator.isInCarousel(resultNode)) {
-      container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
-    } else {
-      container = resultNode.querySelector('.CEMjEf.NUnG9d')!
-    }
+    const container = GoogleNewsTerminator.isInCarousel(resultNode)
+      ? resultNode.querySelector('.OSrXXb.ZE0LJd')
+      : resultNode.querySelector('.CEMjEf.NUnG9d')
+    assert.domElement(container)
     container.appendChild(button)
     return button
-    // const titleNode = resultNode.querySelector('.mCBkyc.y355M') as HTMLElement
-    // titleNode.classList.add('cft-result-title')
   }
 
-  protected addUndoHintNode(
+  protected override addUndoHintNode(
     resultNode: HTMLElement,
     buttonText: string,
     undoHintText: string
   ): HTMLElement | null {
     const domain = this.getSourceDomain(resultNode)
 
-    // 4.1.0: it seems that each block hint element is now in the card
+    // 4.1.0: It seems that each block hint element is now in the card.
     // const parentNode = resultNode.parentElement as HTMLElement
     // const isInCard = !parentNode.classList.contains('v7W49e')
 
@@ -94,10 +86,12 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     if (GoogleNewsTerminator.isInCarousel(resultNode)) {
       // Since the result is not removed from the page, remove the terminate
       // button.
-      const termButton = resultNode.querySelector('.cft-button')!
+      const termButton = resultNode.querySelector('.cft-button')
+      assert.domElement(termButton)
       termButton.remove()
 
-      const container = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+      const container = resultNode.querySelector('.OSrXXb.ZE0LJd')
+      assert.domElement(container)
       container.appendChild(undoButton)
     }
 
@@ -118,39 +112,31 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
       undoDiv.appendChild(undoButton)
 
       // Insert undo node next to the (hidden) result node
-      resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+      assert.domElement(resultNode.parentNode)
+      resultNode.parentNode.insertBefore(undoDiv, resultNode.nextSibling)
     }
 
     return undoButton
   }
 
-  protected async hideResults(
-    resultNodes: HTMLElement[],
-    init: boolean
-  ): Promise<void> {
+  protected override async hideResults(resultNodes: HTMLElement[], init: boolean): Promise<void> {
     const regular: HTMLElement[] = []
     const carousel: HTMLElement[] = []
 
-    resultNodes.forEach(x => {
+    for (const x of resultNodes) {
       GoogleNewsTerminator.isInCarousel(x) ? carousel.push(x) : regular.push(x)
-    })
-    await Promise.all([
-      greyOutElements(carousel, !init),
-      hideElements(regular, !init),
-    ])
+    }
+    await Promise.all([greyOutElements(carousel, !init), hideElements(regular, !init)])
   }
 
-  protected async showResults(resultNodes: HTMLElement[]): Promise<void> {
+  protected override async showResults(resultNodes: HTMLElement[]): Promise<void> {
     const regular: HTMLElement[] = []
     const carousel: HTMLElement[] = []
 
-    resultNodes.forEach(x => {
+    for (const x of resultNodes) {
       GoogleNewsTerminator.isInCarousel(x) ? carousel.push(x) : regular.push(x)
-    })
+    }
 
-    await Promise.all([
-      greyInElements(carousel, true),
-      showElements(regular, true),
-    ])
+    await Promise.all([greyInElements(carousel, true), showElements(regular, true)])
   }
 }

@@ -1,8 +1,8 @@
 import {
   GoogleImageTerminator,
-  GoogleWebsiteTerminator,
   GoogleNewsTerminator,
-  Terminator,
+  GoogleWebsiteTerminator,
+  Terminator
 } from './terminator'
 
 // This script is executed when google.com/search page is loaded.
@@ -14,21 +14,30 @@ async function init() {
 
   // Check if user is searching website or news.
   const tbm = urlParams.get('tbm')
-  let terminator: Terminator | null = null
-  if (tbm === null) {
-    // websites
-    terminator = new GoogleWebsiteTerminator()
-  } else if (tbm === 'isch') {
-    // images
-    terminator = new GoogleImageTerminator()
-  } else if (tbm === 'nws') {
-    // news
-    terminator = new GoogleNewsTerminator()
+  let terminator: Terminator | undefined = undefined
+  switch (tbm) {
+    // eslint-disable-next-line unicorn/no-null
+    case null: {
+      // Websites
+      terminator = new GoogleWebsiteTerminator()
+      break
+    }
+    case 'isch': {
+      // Images
+      terminator = new GoogleImageTerminator()
+      break
+    }
+    case 'nws': {
+      // News
+      terminator = new GoogleNewsTerminator()
+      break
+    }
+    // No default
   }
 
-  if (terminator !== null) {
+  if (terminator) {
     await terminator.run()
   }
 }
 
-init()
+await init()

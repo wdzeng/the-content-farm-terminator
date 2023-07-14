@@ -1,120 +1,118 @@
 export * from './array'
 
-export async function tick() {
-  return new Promise(res => window.requestAnimationFrame(res))
+export function tick() {
+  return new Promise(window.requestAnimationFrame)
 }
 
-// https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function hideElements(
-  elements: HTMLElement[],
-  fade: boolean
+function waitWebkitTransactionEndEvent(
+  el: HTMLElement,
+  callback: ((el: HTMLElement) => void) | undefined
 ): Promise<void> {
-  if (elements.length === 0) {
-    return
-  }
-
-  if (!fade) {
-    elements.forEach(el => {
-      el.style.display = 'none'
-    })
-    return
-  }
-
   return new Promise(res => {
-    function transitionEndHandler(event: Event) {
-      const el = event.target as HTMLElement
-      el.style.display = 'none'
-      res()
-    }
-
-    elements.forEach(el => {
-      el.addEventListener('transitionend', transitionEndHandler, { once: true })
-      el.style['transition-property'] = 'opacity'
-      el.style['transition-duration'] = '200ms'
-      el.style.opacity = '0'
-    })
+    el.addEventListener(
+      'webkitTransitionEnd',
+      (_: Event) => {
+        callback && callback(el)
+        res()
+      },
+      { once: true }
+    )
   })
 }
 
 // https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
-export async function showElements(
-  elements: HTMLElement[],
-  fade: boolean
-): Promise<void> {
+export async function hideElements(elements: HTMLElement[], fade: boolean): Promise<void> {
   if (elements.length === 0) {
     return
   }
 
   if (!fade) {
-    elements.forEach(element => {
+    for (const el of elements) {
+      el.style.display = 'none'
+    }
+    return
+  }
+
+  const tasks = Promise.all(
+    elements.map(el => waitWebkitTransactionEndEvent(el, () => (el.style.display = 'none')))
+  )
+  for (const el of elements) {
+    el.style['transition-property'] = 'opacity'
+    el.style['transition-duration'] = '200ms'
+    el.style.opacity = '0'
+  }
+  await tasks
+}
+
+// https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
+export async function showElements(elements: HTMLElement[], fade: boolean): Promise<void> {
+  if (elements.length === 0) {
+    return
+  }
+
+  if (!fade) {
+    for (const element of elements) {
       element.style.opacity = '1'
       element.style.display = 'block'
-    })
+    }
     return
   }
 
-  return new Promise(res => {
-    elements.forEach(async el => {
-      el.style.display = 'block'
-      await tick()
-      el.addEventListener('webkitTransitionEnd', () => res(), { once: true })
-      el.style.opacity = '1'
-    })
-  })
+  for (const el of elements) {
+    el.style.display = 'block'
+  }
+  await tick()
+  const tasks = Promise.all(elements.map(el => waitWebkitTransactionEndEvent(el, undefined)))
+  for (const el of elements) {
+    el.style.opacity = '1'
+  }
+  await tasks
 }
 
-export async function greyOutElements(
-  elements: HTMLElement[],
-  fade: boolean
-): Promise<void> {
+export async function greyOutElements(elements: HTMLElement[], fade: boolean): Promise<void> {
   if (elements.length === 0) {
     return
   }
 
   if (!fade) {
-    elements.forEach(el => {
+    for (const el of elements) {
       el.style.filter = 'grayscale(100%)'
       el.style.opacity = '0.2'
-    })
+    }
     return
   }
 
-  return new Promise(res => {
-    elements.forEach(el => {
-      el.addEventListener('transitionend', () => res(), { once: true })
-      el.style['transition-property'] = 'opacity filter'
-      el.style['transition-duration'] = '200ms'
-      el.style.filter = 'grayscale(100%)'
-      el.style.opacity = '0.2'
-    })
-  })
+  const tasks = Promise.all(elements.map(el => waitWebkitTransactionEndEvent(el, undefined)))
+  for (const el of elements) {
+    el.style['transition-property'] = 'opacity filter'
+    el.style['transition-duration'] = '200ms'
+    el.style.filter = 'grayscale(100%)'
+    el.style.opacity = '0.2'
+  }
+  await tasks
 }
 
-export async function greyInElements(
-  elements: HTMLElement[],
-  fade: boolean
-): Promise<void> {
+export async function greyInElements(elements: HTMLElement[], fade: boolean): Promise<void> {
   if (elements.length === 0) {
     return
   }
 
   if (!fade) {
-    elements.forEach(el => {
+    for (const el of elements) {
       el.style.filter = 'initial'
       el.style.opacity = '1'
-    })
+    }
     return
   }
 
-  return new Promise(res => {
-    elements.forEach(el => {
-      el.addEventListener('transitionend', () => res(), { once: true })
-      el.style['transition-property'] = 'opacity filter'
-      el.style['transition-duration'] = '200ms'
-      el.style.filter = 'initial'
-      el.style.opacity = '1'
-    })
-  })
+  const tasks = Promise.all(elements.map(el => waitWebkitTransactionEndEvent(el, undefined)))
+  for (const el of elements) {
+    el.style['transition-property'] = 'opacity filter'
+    el.style['transition-duration'] = '200ms'
+    el.style.filter = 'initial'
+    el.style.opacity = '1'
+  }
+  await tasks
 }
 
 // https://www.w3schools.com/howto/howto_js_check_hidden.asp
@@ -123,29 +121,31 @@ export function isElementHidden(el: HTMLElement) {
   return style.display === 'none' || style.visibility === 'hidden'
 }
 
-export function once(callback: (_: Event) => any) {
+export function once(callback: (_: Event) => unknown): (_: Event) => void {
   let flag = true
-  return (e: Event) => {
+  return (e: Event): void => {
     if (flag) {
       flag = false
+      // The callback here may be an async function. If it is, fire and forget.
       callback(e)
-    } else {
-      e.preventDefault()
+      return
     }
+
+    e.preventDefault()
   }
 }
 
 export function isValidHostname(s: string): boolean {
-  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(
-    s
-  )
+  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(s)
 }
 
 export function isValidUrl(s: string): boolean {
   return /^http[s]{0,1}:\/\/.*?\/.*$/.test(s)
 }
 
-export function isDevMode() : boolean {
-  // @ts-ignore
+export function isDevMode(): boolean {
+  // @ts-expect-error: process.env.NODE_ENV will be replaced by rollup on
+  // bundling.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return process.env.NODE_ENV === 'DEVELOPMENT'
 }

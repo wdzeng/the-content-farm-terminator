@@ -23,19 +23,18 @@
     "copy": "cp -r src/_locales src/images src/popup.html dist",
     "zip:chrome": "cd dist && zip -FSr ../the-content-farm-terminator_chrome.zip .",
     "zip:firefox": "cd dist && zip -FSr ../the-content-farm-terminator_firefox.zip .",
-    "clean": "rm -rf lib dist the-content-farm-terminator_*.zip"
+    "clean": "rm -rf lib dist the-content-farm-terminator_*.zip",
+    "lint": "eslint --ext .ts src/scripts/ --fix"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.2",
+    "@sindresorhus/is": "^5.5.0",
     "@types/chrome": "0.0.241",
     "@types/firefox-webext-browser": "^111.0.1",
-    "eslint": "^8.36.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "prettier": "^2.8.7",
+    "eslint": "^8.45.0",
+    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.3.3",
+    "prettier": "^3.0.0",
     "rollup": "^3.26.2",
     "sass": "^1.63.6",
     "typescript": "^5.1.6"

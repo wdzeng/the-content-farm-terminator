@@ -1,34 +1,36 @@
 import { intersectArray, removeDuplicates, subtractArray } from './array.js'
 
-// eslint-disable-next-line no-undef, no-constant-condition
-const storage = (typeof browser !== 'undefined' ? browser : chrome).storage
-const KEY_FARM_LIST = 'farmList'
+const storage = (typeof browser === 'undefined' ? chrome : browser).storage
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
+
+function getFarmListPageKeyAt(page: number): string {
+  const KEY_FARM_LIST = 'farmList'
+  return `${KEY_FARM_LIST}${page}`
+}
 
 /**
  * Queries all hosts in the database.
  * @returns hosts in the database.
  */
 export async function getFarmList(): Promise<string[]> {
-  let q: { [key: string]: any }
-
   // Query segment count.
-  q = {}
-  q[KEY_FARM_LIST_SIZE] = 0
-  const res1: { [key: string]: number } = await storage.sync.get(q)
-  const segmentCount: number = res1[KEY_FARM_LIST_SIZE]
+  const segmentCountQuery: Record<string, number> = {}
+  segmentCountQuery[KEY_FARM_LIST_SIZE] = 0
+  const res1: Record<string, number> = await storage.sync.get(segmentCountQuery)
+  const segmentCount: number = res1[KEY_FARM_LIST_SIZE] ?? 0
 
   if (segmentCount === 0) {
     return []
   }
 
   // Query segments and merge into one.
-  q = {}
-  q = [...Array(segmentCount).keys()].map(i => KEY_FARM_LIST + i)
-  const res2: { [key: string]: string[] } = await storage.sync.get(q)
-  const segments = Object.values(res2)
-  return segments.flat()
+  const segmentKeysQuery: string[] = []
+  for (let i = 0; i < segmentCount; i++) {
+    segmentKeysQuery.push(getFarmListPageKeyAt(i))
+  }
+  const segmentListResponse: Record<string, string[]> = await storage.sync.get(segmentKeysQuery)
+  return Object.values(segmentListResponse).flat()
 }
 
 /**
@@ -45,7 +47,7 @@ export async function addHosts(hosts: string[]): Promise<string[]> {
 
   // Compute new list.
   const oldList = await getFarmList()
-  let newList = removeDuplicates(oldList.concat(hosts))
+  const newList = removeDuplicates([...oldList, ...hosts])
 
   if (oldList.length === newList.length) {
     // No new hosts are added so do nothing.
@@ -56,14 +58,14 @@ export async function addHosts(hosts: string[]): Promise<string[]> {
   let startIndex = Math.ceil(oldList.length / MAX_LIST_SIZE) - 1
   startIndex = Math.max(startIndex, 0)
   const endIndex = Math.ceil(newList.length / MAX_LIST_SIZE)
-  const obj: Record<string, string[] | number> = {}
+  const body: Record<string, string[] | number> = {}
   for (let i = startIndex; i < endIndex; i++) {
-    let index = i * MAX_LIST_SIZE
-    obj[KEY_FARM_LIST + i] = newList.slice(index, index + MAX_LIST_SIZE)
+    const index = i * MAX_LIST_SIZE
+    body[getFarmListPageKeyAt(i)] = newList.slice(index, index + MAX_LIST_SIZE)
   }
-  obj[KEY_FARM_LIST_SIZE] = endIndex
+  body[KEY_FARM_LIST_SIZE] = endIndex
 
-  await storage.sync.set(obj)
+  await storage.sync.set(body)
   return subtractArray(newList, oldList)
 }
 
@@ -80,21 +82,21 @@ export async function removeHosts(hosts: string[]): Promise<string[]> {
 
   // Generate the new list.
   const list = await getFarmList()
-  let newList = subtractArray(list, hosts)
+  const newList = subtractArray(list, hosts)
   if (newList.length === list.length) {
     // No hosts are removed so do nothing.
     return []
   }
 
   // Update the entire database.
-  let obj: Record<string, string[] | number> = {}
-  let segmentCount = Math.ceil(newList.length / MAX_LIST_SIZE)
+  const body: Record<string, string[] | number> = {}
+  const segmentCount = Math.ceil(newList.length / MAX_LIST_SIZE)
   for (let i = 0; i < segmentCount; i++) {
-    let index = i * MAX_LIST_SIZE
-    obj[KEY_FARM_LIST + i] = newList.slice(index, index + MAX_LIST_SIZE)
+    const index = i * MAX_LIST_SIZE
+    body[getFarmListPageKeyAt(i)] = newList.slice(index, index + MAX_LIST_SIZE)
   }
-  obj[KEY_FARM_LIST_SIZE] = segmentCount
-  await storage.sync.set(obj)
+  body[KEY_FARM_LIST_SIZE] = segmentCount
+  await storage.sync.set(body)
 
   return intersectArray(list, hosts)
 }

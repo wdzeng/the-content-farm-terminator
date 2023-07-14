@@ -1,3 +1,5 @@
+import { assert } from '@sindresorhus/is'
+
 import { UnlistedTerminator } from '../terminator'
 
 export class GoogleImageTerminator extends UnlistedTerminator {
@@ -6,7 +8,9 @@ export class GoogleImageTerminator extends UnlistedTerminator {
   }
 
   protected getSearchResultWrapper(): HTMLElement {
-    return document.querySelector('.islrc') as HTMLDivElement
+    const wrapper = document.querySelector('.islrc')
+    assert.domElement(wrapper)
+    return wrapper
   }
 
   protected isSearchResult(e: HTMLElement): boolean {
@@ -19,12 +23,15 @@ export class GoogleImageTerminator extends UnlistedTerminator {
   }
 
   protected getCurrentSearchResults(): HTMLElement[] {
-    const nodes = document.querySelectorAll('.islrc>.isv-r.PNCib.MSM1fd.BUooTd')
-    return Array.from(nodes) as HTMLElement[]
+    const nodes = document.querySelectorAll<HTMLElement>('.islrc>.isv-r.PNCib.MSM1fd.BUooTd')
+    return [...nodes]
   }
 
-  protected getSourceDomain(resultNode: HTMLElement): string {
-    return resultNode.querySelector('.fxgdke')!.textContent!
+  protected override getSourceDomain(resultNode: HTMLElement): string {
+    const domainTextElement = resultNode.querySelector('.fxgdke')
+    assert.domElement(domainTextElement)
+    assert.nonEmptyStringAndNotWhitespace(domainTextElement.textContent)
+    return domainTextElement.textContent
   }
 
   protected addCancelTerminatorHint(
@@ -38,15 +45,12 @@ export class GoogleImageTerminator extends UnlistedTerminator {
     button.textContent = buttonText
 
     const p = document.createElement('p')
-    p.append(
-      document.createTextNode(msgLeft),
-      button,
-      document.createTextNode(msgRight)
-    )
+    p.append(document.createTextNode(msgLeft), button, document.createTextNode(msgRight))
     p.id = 'cft-temp-show'
     p.classList.add('cft-image-temp-hint')
 
-    const wrapper = document.querySelector('.mJxzWe') as HTMLElement
+    const wrapper = document.querySelector('.mJxzWe')
+    assert.domElement(wrapper)
     wrapper.prepend(p)
 
     return button

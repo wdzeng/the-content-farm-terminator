@@ -1,10 +1,7 @@
-import {
-  greyInElements,
-  greyOutElements,
-  hideElements,
-  showElements,
-} from '../../util'
+import { assert } from '@sindresorhus/is'
+
 import { GoogleListedTerminator } from './google-listed-terminator'
+import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
 
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
   private static isNewsResultNode(resultNode: HTMLElement): boolean {
@@ -19,65 +16,58 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     return resultNode.classList.contains('dFd2Tb')
   }
 
-  protected getResultNodes(): HTMLElement[] {
+  protected override getResultNodes(): HTMLElement[] {
     // Regular result nodes
     // div.g is regular result node
-    let commonResultNodes: HTMLElement[] = Array.from(
-      document.querySelectorAll('div.g')
-    )
+    let commonResultNodes = [...document.querySelectorAll<HTMLDivElement>('div.g')]
     commonResultNodes = commonResultNodes.filter(candidateNode => {
       // If a div.g has parent also div.g, it is not a result node
-      let parentNode = candidateNode.parentElement
-      if (parentNode?.closest('div.g')) {
+      const parentNode = candidateNode.parentElement
+      assert.domElement(parentNode)
+      if (parentNode.closest('div.g')) {
         return false
       }
 
       return (
-        // single result node
+        // Single result node.
         candidateNode.classList.contains('tF2Cxc') ||
-        // group result node that contains another div.g
+        // Group result node that contains another `div.g`.
         candidateNode.querySelector('.tF2Cxc') !== null ||
-        // group result node that contains no div.g
+        // Group result node that contains no `div.g`.
         // https://github.com/wdzeng/the-content-farm-terminator/issues/16
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         candidateNode.querySelector('.kvH3mc.BToiNc.UK95Uc') ||
-        // result node with a video; usually YouTube
+        // Result node with a video; usually YouTube.
         GoogleWebsiteTerminator.isVideoResultNode(candidateNode)
       )
 
-      // there is a little possibilities of mis-selections...
+      // There is a little possibilities of mis-selections ...
     })
 
     // News result nodes may appear on Google Website Search
-    const newsResultNodes = Array.from(
-      document.querySelectorAll('.MkXWrd')
-    ) as HTMLElement[]
+    const newsResultNodes = [...document.querySelectorAll<HTMLElement>('.MkXWrd')]
 
-    return commonResultNodes.concat(newsResultNodes)
+    return [...commonResultNodes, ...newsResultNodes]
   }
 
-  protected getSourceDomain(resultNode: HTMLElement): string {
+  protected override getSourceDomain(resultNode: HTMLElement): string {
     if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
-      // news result node
-      const a = resultNode.querySelector('a.WlydOe') as HTMLAnchorElement
+      // News result node
+      const a = resultNode.querySelector<HTMLAnchorElement>('a.WlydOe')
+      assert.domElement(a)
       return a.hostname
     }
 
-    let selector: string
-    if (GoogleWebsiteTerminator.isVideoResultNode(resultNode)) {
-      selector = '.DhN8Cf>a:first-child'
-    } else {
-      // common result node
-      selector = '.yuRUbf>a:first-child'
-    }
+    const selector = GoogleWebsiteTerminator.isVideoResultNode(resultNode)
+      ? '.DhN8Cf>a:first-child'
+      : '.yuRUbf>a:first-child'
 
-    const a = resultNode.querySelector(selector) as HTMLAnchorElement
+    const a = resultNode.querySelector<HTMLAnchorElement>(selector)
+    assert.domElement(a)
     return a.hostname
   }
 
-  protected addHintNode(
-    resultNode: HTMLElement,
-    text: string
-  ): HTMLElement | null {
+  protected override addHintNode(resultNode: HTMLElement, text: string): HTMLElement | null {
     let button = resultNode.querySelector<HTMLAnchorElement>('a.cft-hint')
 
     // If button already exists, remove it.
@@ -85,7 +75,7 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       button.remove()
     }
 
-    // Create button
+    // Create button.
     button = document.createElement('a')
     button.classList.add('cft-hint', 'cft-button')
     button.textContent = text
@@ -93,35 +83,30 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
 
     // Add button to the result node.
     if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
-      // news result node
-      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd') as HTMLElement
+      // News result node.
+      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd')
+      assert.domElement(wrapper)
       wrapper.appendChild(button)
     } else {
-      let titleWrapperNode: HTMLElement
-      if (GoogleWebsiteTerminator.isVideoResultNode(resultNode)) {
-        titleWrapperNode = resultNode.querySelector('.DhN8Cf') as HTMLElement
-      } else {
-        titleWrapperNode = resultNode.querySelector('.yuRUbf') as HTMLElement
-      }
-
-      // const titleNode = titleWrapperNode.querySelector('a') as HTMLAnchorElement
-      const subtitleNode = resultNode.querySelector('.B6fmyf') as HTMLElement
-      // urlNode = subtitleNode.querySelector('.TbwUpd') as HTMLElement
+      const titleWrapperNode = GoogleWebsiteTerminator.isVideoResultNode(resultNode)
+        ? resultNode.querySelector('.DhN8Cf')
+        : resultNode.querySelector('.yuRUbf')
+      assert.domElement(titleWrapperNode)
       titleWrapperNode.classList.add('cft-result-title-wrapper')
-      // titleNode.classList.add('cft-result-title')
-      subtitleNode.classList.add('cft-result-subtitle')
-      // urlNode.classList.add('cft-url')
 
-      const hintWrapperNode = subtitleNode.querySelector(
-        '.byrV5b'
-      ) as HTMLElement
+      const subtitleNode = resultNode.querySelector('.B6fmyf')
+      assert.domElement(subtitleNode)
+      subtitleNode.classList.add('cft-result-subtitle')
+
+      const hintWrapperNode = subtitleNode.querySelector('.byrV5b')
+      assert.domElement(hintWrapperNode)
       hintWrapperNode.appendChild(button)
     }
 
     return button
   }
 
-  protected addUndoHintNode(
+  protected override addUndoHintNode(
     resultNode: HTMLElement,
     buttonText: string,
     undoHintText: string
@@ -139,10 +124,12 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
     if (GoogleWebsiteTerminator.isNewsResultNode(resultNode)) {
       // Since the result is not removed from the page, remove the terminate
       // button.
-      const termButton = resultNode.querySelector('.cft-button')!
+      const termButton = resultNode.querySelector('.cft-button')
+      assert.domElement(termButton)
       termButton.remove()
 
-      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd')!
+      const wrapper = resultNode.querySelector('.OSrXXb.ZE0LJd')
+      assert.domElement(wrapper)
       wrapper.appendChild(undoButton)
     }
 
@@ -155,45 +142,36 @@ export class GoogleWebsiteTerminator extends GoogleListedTerminator {
       // Create undo node that contains hint and button.
       const undoDiv = document.createElement('div')
       undoDiv.classList.add('cft-blocked-hint')
-      undoDiv.classList.add(
-        GoogleWebsiteTerminator.isNewsResultNode(resultNode) ? 'MkXWrd' : 'g'
-      )
+      undoDiv.classList.add(GoogleWebsiteTerminator.isNewsResultNode(resultNode) ? 'MkXWrd' : 'g')
       undoDiv.setAttribute('cft-domain', domain)
       undoDiv.appendChild(undoHintNode)
       undoDiv.appendChild(undoButton)
 
-      // Insert undo node next to the (hidden) result node
-      resultNode.parentNode!.insertBefore(undoDiv, resultNode.nextSibling)
+      // Insert undo node next to the (hidden) result node.
+      assert.domElement(resultNode.parentNode)
+      resultNode.parentNode.insertBefore(undoDiv, resultNode.nextSibling)
     }
 
     return undoButton
   }
 
-  protected async hideResults(
-    elements: HTMLElement[],
-    init: boolean
-  ): Promise<void> {
+  protected override async hideResults(elements: HTMLElement[], init: boolean): Promise<void> {
     const regular: HTMLElement[] = []
     const news: HTMLElement[] = []
-    elements.forEach(x =>
-      GoogleWebsiteTerminator.isNewsResultNode(x)
-        ? news.push(x)
-        : regular.push(x)
-    )
-    await Promise.all([
-      greyOutElements(news, !init),
-      hideElements(regular, !init),
-    ])
+    for (const x of elements) {
+      GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x)
+    }
+
+    await Promise.all([greyOutElements(news, !init), hideElements(regular, !init)])
   }
 
-  protected async showResults(elements: HTMLElement[]): Promise<void> {
+  protected override async showResults(elements: HTMLElement[]): Promise<void> {
     const regular: HTMLElement[] = []
     const news: HTMLElement[] = []
-    elements.forEach(x =>
-      GoogleWebsiteTerminator.isNewsResultNode(x)
-        ? news.push(x)
-        : regular.push(x)
-    )
+    for (const x of elements) {
+      GoogleWebsiteTerminator.isNewsResultNode(x) ? news.push(x) : regular.push(x)
+    }
+
     await Promise.all([greyInElements(news, true), showElements(regular, true)])
   }
 }

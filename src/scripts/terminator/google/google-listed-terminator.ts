@@ -1,7 +1,9 @@
+import { assert } from '@sindresorhus/is'
+
 import { ListedTerminator } from '../terminator'
 
 export abstract class GoogleListedTerminator extends ListedTerminator {
-  protected addShowFarmResultsOnceNode(
+  protected override addShowFarmResultsOnceNode(
     msgLeft: string,
     buttonText: string,
     msgRight: string
@@ -24,7 +26,8 @@ export abstract class GoogleListedTerminator extends ListedTerminator {
     hintNode.appendChild(hintMessageNode)
 
     // Add the hint node to the bottom of the page.
-    const botStuff = document.getElementById('botstuff') as HTMLElement
+    const botStuff = document.getElementById('botstuff')
+    assert.domElement(botStuff)
     botStuff.prepend(hintNode)
 
     return a
