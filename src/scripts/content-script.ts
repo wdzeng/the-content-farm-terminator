@@ -40,4 +40,6 @@ async function init() {
   }
 }
 
-await init()
+// We cannot use await at top level for extension background script.
+// eslint-disable-next-line unicorn/prefer-top-level-await
+void init()

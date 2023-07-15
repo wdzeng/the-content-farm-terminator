@@ -1,4 +1,7 @@
-export const getI18nMessage = (typeof browser === 'undefined' ? chrome : browser).i18n.getMessage
+// @ts-expect-error: __i18n__ will be replaced by rollup on bundling.
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const i18n: typeof chrome.i18n | typeof browser.i18n = __i18n__
+export const getI18nMessage = i18n.getMessage
 
 // License: The MIT License, Copyright (c) 2016-2019 YUKI "Piro" Hiroshi
 // Original: http://github.com/piroor/webextensions-lib-l10n

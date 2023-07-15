@@ -1,6 +1,8 @@
 import { intersectArray, removeDuplicates, subtractArray } from './array.js'
 
-const storage = (typeof browser === 'undefined' ? chrome : browser).storage
+// @ts-expect-error: __storage__ will be replaced by rollup on bundling.
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const storage: typeof chrome.storage | typeof browser.storage = __storage__
 const KEY_FARM_LIST_SIZE = 'farmListSize'
 const MAX_LIST_SIZE = 400
 

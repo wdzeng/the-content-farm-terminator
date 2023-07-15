@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_description__",
-  "version": "4.2.0",
+  "version": "__VERSION__",
   "author": "Hyperbola",
   "default_locale": "en",
   "permissions": [

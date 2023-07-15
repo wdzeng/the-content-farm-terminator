@@ -128,9 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# custom
-lib
-src/scripts/*.js
-src/css/*.css
-the-content-farm-terminator_*.zip
