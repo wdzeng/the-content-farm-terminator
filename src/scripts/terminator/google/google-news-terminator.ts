@@ -62,7 +62,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
     // Add button to the result node.
     const container = GoogleNewsTerminator.isInCarousel(resultNode)
       ? resultNode.querySelector('.OSrXXb.ZE0LJd')
-      : resultNode.querySelector('.CEMjEf.NUnG9d')
+      : resultNode.querySelector('.MgUUmf.NUnG9d')
     assert.domElement(container)
     container.appendChild(button)
     return button
