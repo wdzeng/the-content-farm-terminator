@@ -2,11 +2,11 @@
   "name": "the-content-farm-terminator",
   "version": "4.2.0",
   "private": true,
-  "description": "A browser extension that blocks content farm results on Google search pages.",
+  "description": "🚫 Remove farm results from search pages 🚫",
   "author": {
-    "name": "Hyperbola",
+    "name": "hyperbola",
     "email": "me@hyperbola.me",
-    "url": "https://github.com/wdzeng"
+    "url": "https://blog.hyperbola.me"
   },
   "homepage": "https://github.com/wdzeng/the-content-farm-terminator",
   "repository": {
