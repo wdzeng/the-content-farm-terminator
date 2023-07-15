@@ -17,4 +17,4 @@ fi
 
 mkdir -p out
 cd dist
-zip -FSr ../out/the-content-farm-terminator_chrome.zip .
+zip -FSr ../out/the-content-farm-terminator.zip .

@@ -9,8 +9,7 @@ on:
   workflow_dispatch: ~
 
 env:
-  PATH_CHROME_ZIP: the-content-farm-terminator_chrome.zip
-  PATH_FIREFOX_XPI: the-content-farm-terminator_firefox.zip
+  PATH_EXTENSION_ZIP: out/the-content-farm-terminator.zip
 
 jobs:
   build-chrome:
@@ -32,8 +31,8 @@ jobs:
       - name: Save extension zip
         uses: actions/upload-artifact@v3
         with:
-          path: ${{ env.PATH_CHROME_ZIP }}
-          name: ${{ env.PATH_CHROME_ZIP }}
+          name: the-content-farm-terminator_chrome.zip
+          path: ${{ env.PATH_EXTENSION_ZIP }}
 
   build-firefox:
     name: Build project for Mozilla Firefox
@@ -54,8 +53,8 @@ jobs:
       - name: Save addon xpi
         uses: actions/upload-artifact@v3
         with:
-          path: ${{ env.PATH_FIREFOX_XPI }}
-          name: ${{ env.PATH_FIREFOX_XPI }}
+          name: the-content-farm-terminator_firefox.zip
+          path: ${{ env.PATH_EXTENSION_ZIP }}
 
   publish-chrome:
     name: Publish extension to Chrome Web Store
@@ -68,13 +67,13 @@ jobs:
       - name: Download extension zip
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.PATH_CHROME_ZIP }}
+          name: the-content-farm-terminator_chrome.zip
           path: .
       - name: Publish to Chrome Web Store
         uses: wdzeng/chrome-extension@v1
         with:
           extension-id: ${{ env.EXTENSION_ID }}
-          zip-path: ${{ env.PATH_CHROME_ZIP }}
+          zip-path: the-content-farm-terminator.zip
           client-id: ${{ secrets.CHROME_API_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_API_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_API_REFRESH_TOKEN }}
@@ -88,13 +87,13 @@ jobs:
       - name: Download addon zip
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.PATH_CHROME_ZIP }}
+          name: the-content-farm-terminator_chrome.zip
           path: .
       - name: Publish to Edge Add-ons
         uses: wdzeng/edge-addon@v1
         with:
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          zip-path: ${{ env.PATH_CHROME_ZIP }}
+          zip-path: the-content-farm-terminator.zip
           client-id: ${{ secrets.EDGE_API_CLIENT_ID }}
           client-secret: ${{ secrets.EDGE_API_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_API_ACCESS_TOKEN_URL }}
@@ -108,12 +107,12 @@ jobs:
       - name: Download addon xpi
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.PATH_FIREFOX_XPI }}
+          name: the-content-farm-terminator_firefox.zip
           path: .
       - name: Publish to Firefox Addons
         uses: wdzeng/firefox-addon@v1
         with:
-          xpi-path: ${{ env.PATH_FIREFOX_XPI }}
+          xpi-path: the-content-farm-terminator.zip
           addon-guid: ${{ secrets.FIREFOX_ADDON_GUID }}
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
