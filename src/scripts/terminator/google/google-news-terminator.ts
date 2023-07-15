@@ -14,8 +14,7 @@ export class GoogleNewsTerminator extends GoogleListedTerminator {
   }
 
   private static isInCarousel(resultNode: HTMLElement): boolean {
-    const classList = resultNode.classList
-    return classList.contains('E7YbUb')
+    return resultNode.classList.contains('E7YbUb')
   }
 
   protected override async init(): Promise<void> {
