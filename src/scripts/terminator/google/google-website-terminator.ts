@@ -1,7 +1,12 @@
 import { assert } from '@sindresorhus/is'
 
 import { GoogleListedTerminator } from './google-listed-terminator'
-import { greyInElements, greyOutElements, hideElements, showElements } from '../../utils'
+import {
+  greyInElements,
+  greyOutElements,
+  hideElements,
+  showElements
+} from 'src/scripts/utils/animation'
 
 export class GoogleWebsiteTerminator extends GoogleListedTerminator {
   private static isNewsResultNode(resultNode: HTMLElement): boolean {

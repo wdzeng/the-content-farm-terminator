@@ -1,5 +1,3 @@
-export * from './array'
-
 export function tick() {
   return new Promise(window.requestAnimationFrame)
 }
@@ -119,33 +117,4 @@ export async function greyInElements(elements: HTMLElement[], fade: boolean): Pr
 export function isElementHidden(el: HTMLElement) {
   const style = window.getComputedStyle(el)
   return style.display === 'none' || style.visibility === 'hidden'
-}
-
-export function once(callback: (_: Event) => unknown): (_: Event) => void {
-  let flag = true
-  return (e: Event): void => {
-    if (flag) {
-      flag = false
-      // The callback here may be an async function. If it is, fire and forget.
-      callback(e)
-      return
-    }
-
-    e.preventDefault()
-  }
-}
-
-export function isValidHostname(s: string): boolean {
-  return /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/.test(s)
-}
-
-export function isValidUrl(s: string): boolean {
-  return /^http[s]{0,1}:\/\/.*?\/.*$/.test(s)
-}
-
-export function isDevMode(): boolean {
-  // @ts-expect-error: process.env.NODE_ENV will be replaced by rollup on
-  // bundling.
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return process.env.NODE_ENV === 'development'
 }

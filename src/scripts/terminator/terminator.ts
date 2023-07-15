@@ -1,7 +1,9 @@
 import is, { assert } from '@sindresorhus/is'
 
-import { greyInElements, greyOutElements, hideElements, isDevMode, once } from '../utils'
+import { greyInElements, greyOutElements, hideElements } from '../utils/animation'
 import * as db from '../utils/database'
+import { isDevMode } from '../utils/debug'
+import { once } from '../utils/function'
 import { getI18nMessage as _ } from '../utils/i18n'
 
 export abstract class Terminator {
