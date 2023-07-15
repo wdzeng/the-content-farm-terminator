@@ -1,8 +1,8 @@
 import is from '@sindresorhus/is'
 
-import { isValidHostname, isValidUrl } from './util'
-import * as db from './util/database'
-import { getI18nMessage as _, parseDocument } from './util/i18n'
+import { isValidHostname, isValidUrl } from './utils'
+import * as db from './utils/database'
+import { getI18nMessage as _, parseDocument } from './utils/i18n'
 
 const EMOJI_PASS = '😀'
 const EMOJI_DUPLICATED = '🤨'

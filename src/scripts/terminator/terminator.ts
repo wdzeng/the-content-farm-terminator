@@ -1,8 +1,8 @@
 import is, { assert } from '@sindresorhus/is'
 
-import { greyInElements, greyOutElements, hideElements, isDevMode, once } from '../util'
-import * as db from '../util/database'
-import { getI18nMessage as _ } from '../util/i18n'
+import { greyInElements, greyOutElements, hideElements, isDevMode, once } from '../utils'
+import * as db from '../utils/database'
+import { getI18nMessage as _ } from '../utils/i18n'
 
 export abstract class Terminator {
   constructor(private category: string) {

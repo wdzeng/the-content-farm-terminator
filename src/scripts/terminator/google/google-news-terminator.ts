@@ -1,7 +1,7 @@
 import { assert } from '@sindresorhus/is'
 
 import { GoogleListedTerminator } from './google-listed-terminator'
-import { greyInElements, greyOutElements, hideElements, showElements } from '../../util'
+import { greyInElements, greyOutElements, hideElements, showElements } from '../../utils'
 
 export class GoogleNewsTerminator extends GoogleListedTerminator {
   constructor() {
