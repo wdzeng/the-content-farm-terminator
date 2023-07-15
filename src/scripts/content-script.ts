@@ -4,10 +4,11 @@ import {
   GoogleWebsiteTerminator,
   Terminator
 } from './terminator'
+import * as debug from './utils/debug'
 
 // This script is executed when google.com/search page is loaded.
 
-async function init() {
+async function main() {
   // https://www.sitepoint.com/get-url-parameters-with-javascript/
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
@@ -36,10 +37,14 @@ async function init() {
   }
 
   if (terminator) {
-    await terminator.run()
+    try {
+      await terminator.run()
+    } catch (e) {
+      debug.error(e)
+    }
   }
 }
 
 // We cannot use await at top level for extension background script.
 // eslint-disable-next-line unicorn/prefer-top-level-await
-void init()
+void main()

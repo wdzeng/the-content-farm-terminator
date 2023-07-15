@@ -2,7 +2,7 @@ import is, { assert } from '@sindresorhus/is'
 
 import { greyInElements, greyOutElements, hideElements } from '../utils/animation'
 import * as db from '../utils/database'
-import { isDevMode } from '../utils/debug'
+import * as debug from '../utils/debug'
 import { once } from '../utils/function'
 import { getI18nMessage as _ } from '../utils/i18n'
 
@@ -31,13 +31,11 @@ export abstract class ListedTerminator extends Terminator {
     const farmResultNodes: HTMLElement[] = []
     const nonfarmResultNodes: HTMLElement[] = []
 
-    if (isDevMode()) {
-      if (resultNodes.length === 0) {
-        console.log('No result nodes found.')
-      } else {
-        console.log('Found following result nodes:')
-        console.log(resultNodes)
-      }
+    if (resultNodes.length === 0) {
+      debug.info('No result nodes found.')
+    } else {
+      debug.info('Found following result nodes:')
+      debug.info(resultNodes)
     }
 
     for (const resultNode of resultNodes) {
@@ -276,6 +274,13 @@ export abstract class UnlistedTerminator extends Terminator {
 
     // Hide currently appeared farm results
     const resultNodes = this.getCurrentSearchResults()
+    if (resultNodes.length === 0) {
+      debug.info('No result nodes found.')
+    } else {
+      debug.info('Found following result nodes:')
+      debug.info(resultNodes)
+    }
+
     for (const e of resultNodes) {
       e.classList.add('cft-result')
     }
