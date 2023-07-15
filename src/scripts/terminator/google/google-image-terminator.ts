@@ -28,10 +28,10 @@ export class GoogleImageTerminator extends UnlistedTerminator {
   }
 
   protected override getSourceDomain(resultNode: HTMLElement): string {
-    const domainTextElement = resultNode.querySelector('.fxgdke')
-    assert.domElement(domainTextElement)
-    assert.nonEmptyStringAndNotWhitespace(domainTextElement.textContent)
-    return domainTextElement.textContent
+    const a = resultNode.querySelector<HTMLAnchorElement>('a.iGVLpd.kGQAp.BqKtob.lNHeqe')
+    assert.domElement(a)
+    assert.nonEmptyStringAndNotWhitespace(a.href)
+    return a.href
   }
 
   protected addCancelTerminatorHint(
