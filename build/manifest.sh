@@ -21,5 +21,7 @@ else
   version="\"$VERSION\""
 fi
 
+author=$(jq '.author.name' package.json)
 
-jq ".version = $version" "$SRC_MANIFEST" > ./dist/manifest.json
+
+jq ".version = $version | .author = $author" "$SRC_MANIFEST" > ./dist/manifest.json
