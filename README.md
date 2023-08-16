@@ -10,6 +10,9 @@
 
 [English](README_en.md) 👈
 
+> [!WARNING]  
+> Google 三不五時改 CSS、排版變來變去。懶得維護了。
+
 ## 簡介
 
 這個酷東西可以幫你把 Google 搜尋頁面上的內容農場搜尋結果移除。

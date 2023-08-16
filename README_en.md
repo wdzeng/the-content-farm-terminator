@@ -10,6 +10,9 @@
 
 [中文](README.md) 👈
 
+> [!WARNING]  
+> This plugin is no longer maintained.
+
 ## Introduction
 
 This extension removes content farm results from Google search pages.
